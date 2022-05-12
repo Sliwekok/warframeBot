@@ -1,0 +1,30 @@
+nav#mainNav{
+    padding: 3vh;
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: baseline;
+    font-size: 1.2rem;
+    position: absolute;
+    z-index: 10;
+    background-color: rgba(0,0,0,0.4);
+
+    .logo a{
+        &:hover{
+            color: $font-color;
+            text-decoration: none;
+        }
+    }
+
+    .search{
+        input{
+            padding: 0.5rem;
+            border-radius:3px;
+        }
+    }
+
+    .menu-items{
+        display: inline-flex;
+        flex-wrap: wrap;
+    }
+
+}
