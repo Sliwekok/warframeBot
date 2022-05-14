@@ -133,3 +133,17 @@ $(document).on("change", "#platformChangeUser", function(){
         }
     });
 })
+
+$(document).on("submit", "#searchItems", function(e){
+    e.preventDefault();
+    var search = $(this).find(".itemNameinput").val();
+    location.replace(search);
+});
+
+
+// enable popovers for bootstrap
+// also select to copy text to allow paste it to game
+$('.showPopover').popover().on("click", function(){ 
+    $(".popover-body").selectText();
+});
+

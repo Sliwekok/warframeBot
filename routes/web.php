@@ -18,6 +18,7 @@ Auth::routes();
 Route::get('/', 'HomeController@index');    
 Route::get('/watched', 'ItemsController@index')->middleware('auth');    
 Route::get('/account', 'UserController@index')->middleware('auth');    
+Route::get('{item}', 'ItemsController@searchItem');
 Route::post('/add', 'ItemsController@addToWatch')->middleware('auth');
 Route::post('/changePlatform', "UserController@changePlatform")->middleware('auth');
 

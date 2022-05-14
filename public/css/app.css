@@ -1,11 +1,11 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@font-face {
   font-family: 'fontello';
-  src: url(/fonts/fontello.eot?835127c52dce8f5b81d4bb3b2e674226);
-  src: url(/fonts/fontello.eot?835127c52dce8f5b81d4bb3b2e674226#iefix) format('embedded-opentype'),
-       url(/fonts/fontello.woff2?13e8940ee79f74e85e3bfd33f91eb8bf) format('woff2'),
-       url(/fonts/fontello.woff?3eb63ca06d9a2a08e63da17240da1b74) format('woff'),
-       url(/fonts/fontello.ttf?2b6fbba16c0af10e7456a5a0692ae979) format('truetype'),
-       url(/fonts/fontello.svg?74b908b3cb1c9a68574aa88f07b040b0#fontello) format('svg');
+  src: url(/fonts/fontello.eot?fe89844ff2e49a32c6b0517901956e28);
+  src: url(/fonts/fontello.eot?fe89844ff2e49a32c6b0517901956e28#iefix) format('embedded-opentype'),
+       url(/fonts/fontello.woff2?9f63075aa7afd632fadc93e1bff3676a) format('woff2'),
+       url(/fonts/fontello.woff?4b00b1498ac04f0cd0210cfe02c23f64) format('woff'),
+       url(/fonts/fontello.ttf?b9510240e5b8c75f7d467385c903bdfe) format('truetype'),
+       url(/fonts/fontello.svg?31b50cb37c46b1b0d5c492a6c315fbf4#fontello) format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'fontello';
-    src: url('../font/fontello.svg?67139137#fontello') format('svg');
+    src: url('../font/fontello.svg?23118846#fontello') format('svg');
   }
 }
 */
@@ -55,6 +55,8 @@
 }
 
 .icon-cancel:before { content: '\E800'; } /* '' */
+.icon-thumbs-up:before { content: '\E801'; } /* '' */
+.icon-handshake-o:before { content: '\F2B5'; } /* '' */
 @charset "UTF-8";
 
 /*!
@@ -11028,6 +11030,10 @@ body {
   font-size: 1rem;
   padding: 0px;
   margin: 0px;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("http://warframe.test/storage/warframe.webp");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 a {
@@ -11040,33 +11046,9 @@ a.special {
 
 .main {
   height: 94vh;
-}
-
-.main #image {
-  position: absolute;
-  height: 100vh;
-  width: 100vw;
-  z-index: 3;
-  -webkit-user-select: none !important;
-     -moz-user-select: none !important;
-      -ms-user-select: none !important;
-          user-select: none !important;
-}
-
-.main #image img {
-  height: 100%;
-  width: 100%;
-  -webkit-user-select: none !important;
-     -moz-user-select: none !important;
-      -ms-user-select: none !important;
-          user-select: none !important;
-}
-
-.main .text {
   position: absolute;
   height: 100vh;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
   z-index: 5;
   justify-content: center;
   padding-top: 20vh;
@@ -11172,14 +11154,53 @@ nav#mainNav .menu-items {
   flex-wrap: wrap;
 }
 
-#watched {
+#watched,
+#searched {
   display: inline-flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-#watched .mainText {
+#watched .mainText,
+#searched .mainText {
   text-align: center;
+}
+
+#searched .sellerPanel {
+  display: inline-flex;
+  flex-wrap: wrap;
+  background-color: rgba(30, 30, 30, 0.85);
+  margin-top: 0.5vh;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+#searched .sellerPanel div,
+#searched .sellerPanel div p {
+  align-items: center;
+  display: inline-flex;
+  height: 100%;
+}
+
+#searched .sellerPanel button.buyButton {
+  background-color: transparent;
+  border: 2px solid rgba(0, 190, 127, 0.75);
+  color: rgba(219, 219, 219, 0.85);
+  transition: all ease 0.2s;
+  font-size: 0.9rem;
+  font-style: italic;
+  width: 100%;
+}
+
+#searched .sellerPanel button.buyButton:hover {
+  border: 2px solid rgb(0, 190, 127);
+  color: #dbdbdb;
+}
+
+#searched #sellerLegend {
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 #account {

@@ -27,7 +27,7 @@
                                             <select class="platform" id="platformChangeUser" name="platform">
                                                 <option value="PC" @if($platform == "pc") selected @endif>PC</option>
                                                 <option value="XBOX" @if($platform == "xbox") selected @endif>XBOX</option>
-                                                <option value="PS" @if($platform == "ps") selected @endif>PS</option>
+                                                <option value="PS4" @if($platform == "ps4") selected @endif>PS4</option>
                                                 <option value="Switch" @if($platform == "switch") selected @endif>Switch</option>
                                             </select>
                                         </div>

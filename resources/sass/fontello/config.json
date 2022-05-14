@@ -11,6 +11,18 @@
       "css": "cancel",
       "code": 59392,
       "src": "fontawesome"
+    },
+    {
+      "uid": "7ad4d2306ebda8452e5e3eff3cd8241c",
+      "css": "thumbs-up",
+      "code": 59393,
+      "src": "entypo"
+    },
+    {
+      "uid": "9fecfcfe680a469caedeeb40641a479f",
+      "css": "handshake-o",
+      "code": 62133,
+      "src": "fontawesome"
     }
   ]
 }

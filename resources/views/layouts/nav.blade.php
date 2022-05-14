@@ -3,9 +3,9 @@
         <a href="{{url('/')}}"><h2>WarframeBot</h1></a>
     </div>
     <div class="col-4 search">
-        <form class="form-search col-12">
+        <form class="form-search col-12" method="get" id="searchItems">
             @csrf
-            <input list="itemsList" type="text" class="col-12 itemNameinput" placeholder="Search for desired item">
+            <input list="itemsList" type="text" value="{{$itemName ?? ''}}" class="col-12 itemNameinput" placeholder="Search for desired item">
         </form>
     </div>
     <div class="col-5 menu-items">
