@@ -21,5 +21,6 @@ Route::get('/account', 'UserController@index')->middleware('auth');
 Route::get('{item}', 'ItemsController@searchItem');
 Route::post('/add', 'ItemsController@addToWatch')->middleware('auth');
 Route::post('/changePlatform', "UserController@changePlatform")->middleware('auth');
-
+Route::post('/delete', 'ItemsController@delete')->middleware('auth');
+Route::post('/update', 'ItemsController@update')->middleware('auth');
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');

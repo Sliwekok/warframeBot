@@ -1,11 +1,11 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@font-face {
   font-family: 'fontello';
-  src: url(/fonts/fontello.eot?fe89844ff2e49a32c6b0517901956e28);
-  src: url(/fonts/fontello.eot?fe89844ff2e49a32c6b0517901956e28#iefix) format('embedded-opentype'),
-       url(/fonts/fontello.woff2?9f63075aa7afd632fadc93e1bff3676a) format('woff2'),
-       url(/fonts/fontello.woff?4b00b1498ac04f0cd0210cfe02c23f64) format('woff'),
-       url(/fonts/fontello.ttf?b9510240e5b8c75f7d467385c903bdfe) format('truetype'),
-       url(/fonts/fontello.svg?31b50cb37c46b1b0d5c492a6c315fbf4#fontello) format('svg');
+  src: url(/fonts/fontello.eot?47488f7e3a2df1d002e654877bf71b5c);
+  src: url(/fonts/fontello.eot?47488f7e3a2df1d002e654877bf71b5c#iefix) format('embedded-opentype'),
+       url(/fonts/fontello.woff2?0a5f306ec9c4e92bd035c2324f4266b9) format('woff2'),
+       url(/fonts/fontello.woff?1b197b825271369f26e3052a47a2a76b) format('woff'),
+       url(/fonts/fontello.ttf?9903dad2661b184d78e315d0acd7dff1) format('truetype'),
+       url(/fonts/fontello.svg?91373bf37af2bd9aef0092560134e526#fontello) format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'fontello';
-    src: url('../font/fontello.svg?23118846#fontello') format('svg');
+    src: url('../font/fontello.svg?49680929#fontello') format('svg');
   }
 }
 */
@@ -56,6 +56,7 @@
 
 .icon-cancel:before { content: '\E800'; } /* '' */
 .icon-thumbs-up:before { content: '\E801'; } /* '' */
+.icon-pencil:before { content: '\E802'; } /* '' */
 .icon-handshake-o:before { content: '\F2B5'; } /* '' */
 @charset "UTF-8";
 
@@ -11100,6 +11101,7 @@ a.special {
   display: inline-flex;
   flex-direction: row;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .modal .wrapper #buttons {
@@ -11183,7 +11185,7 @@ nav#mainNav .menu-items {
   height: 100%;
 }
 
-#searched .sellerPanel button.buyButton {
+#searched .sellerPanel .buyButton {
   background-color: transparent;
   border: 2px solid rgba(0, 190, 127, 0.75);
   color: rgba(219, 219, 219, 0.85);
@@ -11193,14 +11195,52 @@ nav#mainNav .menu-items {
   width: 100%;
 }
 
-#searched .sellerPanel button.buyButton:hover {
+#searched .sellerPanel .buyButton:hover {
   border: 2px solid rgb(0, 190, 127);
   color: #dbdbdb;
+  text-decoration: none;
 }
 
 #searched #sellerLegend {
   font-size: 1.2rem;
   font-weight: 600;
+}
+
+#watched .orderPanel {
+  background-color: rgba(30, 30, 30, 0.85);
+  padding-top: 15px;
+  margin: 10px;
+}
+
+#watched .orderPanel .itemname {
+  font-size: 1.25rem;
+}
+
+#watched .orderPanel .added {
+  font-size: 0.85rem;
+  color: #b5b5b5;
+  text-align: right;
+}
+
+#watched .orderPanel .orderMenagment {
+  position: absolute;
+  top: 7.5px;
+  right: 7.5px;
+  display: inline-flex !important;
+}
+
+#watched .orderPanel .orderMenagment .editOrder {
+  background-color: #1e1e1e;
+  cursor: pointer;
+}
+
+#watched .orderPanel .orderMenagment .editOrder.delete {
+  color: rgba(220, 53, 69, 0.85);
+  transition: color 0.2s ease;
+}
+
+#watched .orderPanel .orderMenagment .editOrder.delete:hover {
+  color: #dc3545;
 }
 
 #account {

@@ -21,6 +21,9 @@
             <div class="col-2 text-center">
                 <p class="text-center col-12">Amount</p>
             </div>
+            <div class="col-1 text-center">
+                <button class="btn btn-outline-primary col-12" id="addNewItem" data-itemname="{{$itemName}}">Watch</button>
+            </div>
         </div>
         @foreach($items as $order)
             <div class="col-10 sellerPanel">
@@ -40,7 +43,7 @@
                     <p class="text-center col-12">{{$order['quantity']}}</p>
                 </div>
                 <div class="col-1 text-center">
-                    <a tabindex="0" class="showPopover text-center buyButton" data-bs-container="body" data-bs-trigger="focus" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="/w {{$order['user']['ingame_name']}} Hi! Want to buy: {{$itemName}} for {{$order['platinum']}} platinum."><i class="demo-icon icon-handshake-o"></i> Buy</a>
+                    <a tabindex="0" class="showPopover text-center buyButton" role="button" data-bs-container="body" data-bs-trigger="focus" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="/w {{$order['user']['ingame_name']}} Hi! Want to buy: {{$itemName}} for {{$order['platinum']}} platinum."><i class="demo-icon icon-handshake-o"></i> Buy</a>
                 </div>
             </div>
         @endforeach

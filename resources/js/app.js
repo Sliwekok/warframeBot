@@ -2,3 +2,4 @@
 $('[data-toggle="tooltip"]').tooltip();
 
 require('./main.js');
+require('./watched.js');

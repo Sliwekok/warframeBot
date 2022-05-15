@@ -17,6 +17,7 @@ class Followed extends Migration
             $table->id();
             $table->string('name');
             $table->string('user');
+            $table->integer('price');
             $table->string('platform')->default("pc");
             $table->timestamps();
         });

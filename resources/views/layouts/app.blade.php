@@ -40,7 +40,7 @@
             </div>
         </main>
 
-        @include('layouts.followNew')
+        @auth @include('layouts.followNew') @endauth
 
         <datalist id="itemsList"></datalist>
 

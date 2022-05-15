@@ -875,6 +875,8 @@ $('[data-toggle="tooltip"]').tooltip();
 
 __webpack_require__(/*! ./main.js */ "./resources/js/main.js");
 
+__webpack_require__(/*! ./watched.js */ "./resources/js/watched.js");
+
 /***/ }),
 
 /***/ "./resources/js/assets.js":
@@ -1018,20 +1020,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 $(document).on("click", "#addFollow", function () {
   var div = $('#follow');
-  _assets_js__WEBPACK_IMPORTED_MODULE_1__["showModal"](div); // hide tooltip that is generated on hover
+  _assets_js__WEBPACK_IMPORTED_MODULE_1__["showModal"](div); // hide tooltip that is generated on hover on button element
 
   $('[data-toggle="tooltip"]').tooltip('hide');
 }); // show suggestions to search results
 
 (function () {
-  var input = $(".itemNameinput"),
-      datalist = $("#itemsList");
-  var maxItems = 5; // max number of suggestions
+  $(".itemNameinput").on("keyup", function () {
+    searchTrigger($(this).val());
+  });
 
-  input.on("keyup", function () {
+  function searchTrigger(query) {
+    var datalist = $("#itemsList"),
+        maxItems = 5; // max number of suggestions
     // delete all suggestions
-    datalist.html('');
-    var query = input.val(); // check if query is not empty
+
+    datalist.html(''); // check if query is not empty
 
     if (query.length == 0) return; // call all 3 API methods to fill datalist, priority is: warframe, weapon, mod, item
     // api below is nod required since mods are already in items     
@@ -1048,7 +1052,7 @@ $(document).on("click", "#addFollow", function () {
 
     function FetchData(_x) {
       return _FetchData.apply(this, arguments);
-    } // fill template function with data
+    } // append option to datalist
 
 
     function _FetchData() {
@@ -1077,6 +1081,25 @@ $(document).on("click", "#addFollow", function () {
       }));
       return _FetchData.apply(this, arguments);
     }
+
+    function appendOption(itemName) {
+      var option = '<option option="' + itemName + '">' + itemName + '</option>';
+      datalist.append(option);
+    } // function to check if item exists in datalist
+
+
+    function itemExists(item) {
+      // set var to count failures
+      var errors = 0; // go through each item in datalist 
+
+      datalist.children().each(function () {
+        if ($(this).val().toLowerCase() == item.toLowerCase()) errors++;
+      }); // if more than 1 error - return true, because item already exists in datalist
+
+      if (errors > 0) return true;
+      return false;
+    } // fill template function with data
+
 
     function fillTemplate(data) {
       $(data).each(function () {
@@ -1116,28 +1139,10 @@ $(document).on("click", "#addFollow", function () {
         } // if item is not tradable - skip it
         else return;
       });
-    } // append option to datalist
-
-
-    function appendOption(itemName) {
-      var option = '<option option="' + itemName + '">' + itemName + '</option>';
-      datalist.append(option);
-    } // function to check if item exists in datalist
-
-
-    function itemExists(item) {
-      // set var to count failures
-      var errors = 0; // go through each item in datalist 
-
-      datalist.children().each(function () {
-        if ($(this).val().toLowerCase() == item.toLowerCase()) errors++;
-      }); // if more than 1 error - return true, because item already exists in datalist
-
-      if (errors > 0) return true;
-      return false;
     }
-  });
-})();
+  }
+})(); // change user deafult platform 
+
 
 $(document).on("change", "#platformChangeUser", function () {
   var selectedPlatform = $(this).val().toLowerCase();
@@ -1162,7 +1167,8 @@ $(document).on("change", "#platformChangeUser", function () {
       } else return true;
     }
   });
-});
+}); // on submiting main nav search query replace page 
+
 $(document).on("submit", "#searchItems", function (e) {
   e.preventDefault();
   var search = $(this).find(".itemNameinput").val();
@@ -1172,6 +1178,85 @@ $(document).on("submit", "#searchItems", function (e) {
 
 $('.showPopover').popover().on("click", function () {
   $(".popover-body").selectText();
+}); // on click on div addNewItem on wearch.blade show modal with form filled with item name
+
+$(document).on("click", "#addNewItem", function () {
+  var div = $('#follow');
+  _assets_js__WEBPACK_IMPORTED_MODULE_1__["showModal"](div);
+  $("#itemNameinput").val($(this).data("itemname"));
+});
+
+/***/ }),
+
+/***/ "./resources/js/watched.js":
+/*!*********************************!*\
+  !*** ./resources/js/watched.js ***!
+  \*********************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _assets_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./assets.js */ "./resources/js/assets.js");
+ // on delete from watched click show confirmation
+
+$(document).on('click', '.delete', function () {
+  var text = "Are you sure you want to delete item from you watchlist?",
+      div = $(this).closest('.orderPanel'); // if confirmed delete - send ajax request
+
+  if (confirm(text) == true) {
+    var item = $(this).data('item'),
+        platform = $(this).data('platform');
+    $.ajax({
+      url: "delete",
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      method: 'post',
+      data: {
+        platform: platform,
+        item: item
+      },
+      error: function error(_error) {
+        console.log(_error);
+        _assets_js__WEBPACK_IMPORTED_MODULE_0__["showAlert"](_error);
+        return false;
+      },
+      success: function success(data) {
+        // if platform is not the same as it was - skip alert
+        if (data !== 0) {
+          _assets_js__WEBPACK_IMPORTED_MODULE_0__["showAlert"](data);
+          div.fadeOut(50).delay(50).remove(); // hide bugged toolitp
+
+          $('[data-toggle="tooltip"]').tooltip('hide'); // decrease the counter of watched items
+
+          var current = $("#countWatchedItems").text();
+          $("#countWatchedItems").text(parseInt(current) - 1);
+          return true;
+        } else return true;
+      }
+    });
+  } else {
+    return;
+  }
+});
+$(document).on('click', '.edit', function () {
+  var item = $(this).data('item'),
+      price = $(this).data('price'),
+      platform = $(this).data('platform');
+  _assets_js__WEBPACK_IMPORTED_MODULE_0__["showModal"]($("#follow")); // hide tooltip that is generated on hover on button element
+
+  $('[data-toggle="tooltip"]').tooltip('hide'); // edit follow div data and disable some inputs
+
+  $("#itemNameinput").val(item).prop("disabled", true);
+  $("#itemPrice").val(price);
+  $("#platformChangeUser").val(platform).prop("disabled", true); //change url of form to send req to the right url
+  // also enable buttons to send all data to server
+
+  $("#formFollow").attr('action', 'update').on("submit", function () {
+    $("#platformChangeUser").prop("disabled", false);
+    $("#itemNameinput").prop("disabled", false);
+  });
 });
 
 /***/ }),

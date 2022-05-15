@@ -3,19 +3,21 @@ import * as Assets from './assets.js';
 $(document).on("click", "#addFollow", function(){
     var div = $('#follow');
     Assets.showModal(div);
-    // hide tooltip that is generated on hover
+    // hide tooltip that is generated on hover on button element
     $('[data-toggle="tooltip"]').tooltip('hide');
 });
 
 // show suggestions to search results
 (() => {
-    const   input = $(".itemNameinput"),
-            datalist = $("#itemsList");
-    var maxItems = 5; // max number of suggestions
-    input.on("keyup", function(){
+    $(".itemNameinput").on("keyup", function(){
+        searchTrigger($(this).val());
+    });
+
+    function searchTrigger(query){
+        var datalist = $("#itemsList"),
+            maxItems = 5; // max number of suggestions
         // delete all suggestions
         datalist.html('');
-        var query = input.val();
         
         // check if query is not empty
         if(query.length == 0) return;
@@ -41,6 +43,28 @@ $(document).on("click", "#addFollow", function(){
                 .then(res => { return res.json()})
                 .then(data => fillTemplate(data));
         }
+        
+
+        // append option to datalist
+        function appendOption(itemName){
+            var option = '<option option="'+itemName+'">'+itemName+'</option>';
+            datalist.append(option);
+        } 
+
+
+        // function to check if item exists in datalist
+        function itemExists(item){
+            // set var to count failures
+            var errors = 0;
+            // go through each item in datalist 
+            datalist.children().each(function(){
+                if($(this).val().toLowerCase() == item.toLowerCase()) errors++;
+            });
+            // if more than 1 error - return true, because item already exists in datalist
+            if(errors > 0) return true;
+            return false;
+        }
+
         // fill template function with data
         function fillTemplate(data){
             $(data).each(function(){
@@ -86,30 +110,11 @@ $(document).on("click", "#addFollow", function(){
                 else return;
             })
         }
-
-        // append option to datalist
-        function appendOption(itemName){
-            var option = '<option option="'+itemName+'">'+itemName+'</option>';
-            datalist.append(option);
-        } 
-
-
-        // function to check if item exists in datalist
-        function itemExists(item){
-            // set var to count failures
-            var errors = 0;
-            // go through each item in datalist 
-            datalist.children().each(function(){
-                if($(this).val().toLowerCase() == item.toLowerCase()) errors++;
-            });
-            // if more than 1 error - return true, because item already exists in datalist
-            if(errors > 0) return true;
-            return false;
-        }
-    });
+    }
 })();
 
 
+// change user deafult platform 
 $(document).on("change", "#platformChangeUser", function(){
     var selectedPlatform = $(this).val().toLowerCase();
     $.ajax({
@@ -134,6 +139,7 @@ $(document).on("change", "#platformChangeUser", function(){
     });
 })
 
+// on submiting main nav search query replace page 
 $(document).on("submit", "#searchItems", function(e){
     e.preventDefault();
     var search = $(this).find(".itemNameinput").val();
@@ -147,3 +153,9 @@ $('.showPopover').popover().on("click", function(){
     $(".popover-body").selectText();
 });
 
+// on click on div addNewItem on wearch.blade show modal with form filled with item name
+$(document).on("click", "#addNewItem", function(){
+    var div = $('#follow');
+    Assets.showModal(div);
+    $("#itemNameinput").val($(this).data("itemname"));
+});

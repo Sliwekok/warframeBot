@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="title">
+<div class="col-12 text-center">
     <p>
         <h2>A <a class="special" href="https://warframe.market">Warframe.market</a> live tracker</h2> 
         <p>That allows you to follow item prices with notifications</p>
