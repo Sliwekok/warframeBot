@@ -78,6 +78,9 @@ export function showModal(div){
     div.fadeIn(100)
         .siblings().hide(0);
     closeModal(div);
+    // enable inputs in case they were closed from edit form
+    $("#platformChangeUser").prop("disabled", false);
+    $("#itemNameinput").prop("disabled", false)
     return;
 }
 

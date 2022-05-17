@@ -11,6 +11,6 @@
     <div class="col-5 menu-items">
         <div class="col-4" data-toggle="tooltip" data-bs-placement="bottom" title="Add new item to follow prices"><button class="btn btn-outline-primary col-12" id="addFollow">Follow new</button></div>
         <div class="col-4"><a href="{{url('watched')}}"><button class="btn btn-outline-primary col-12">Show current</button></a></div>
-        <div class="col-4"><a href="{{url('account')}}"><button class="btn btn-outline-primary col-12">Account</button></a></div>
+        <div class="col-4"><a href="{{url('account')}}"><button class="btn btn-outline-primary col-12">Account <span id="notificationCounter"></span></button></a></div>
     </div>
 </nav>
