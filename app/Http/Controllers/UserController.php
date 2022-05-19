@@ -14,7 +14,7 @@ class UserController extends Controller
         $user = Auth::user();
         // note all notifications as read
         $user->notifications->markAsRead();
-        $notifications = $user->notifications->sortByDesc('created_at');
+        $notifications = $user->notifications->take(15)->sortByDesc('created_at');
         return view('account', [
             'notifications' => $notifications,
             'platform' => $platform,
