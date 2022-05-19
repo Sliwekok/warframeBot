@@ -5,13 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Items;
 
 class UserController extends Controller
 {
     public function index(){   
         $platform = DB::table('users')->where('name',  Auth::user()->name)->first()->platform;
+        $user = Auth::user();
+        // note all notifications as read
+        $user->notifications->markAsRead();
+        $notifications = $user->notifications->sortByDesc('created_at');
         return view('account', [
-            'platform' => $platform
+            'notifications' => $notifications,
+            'platform' => $platform,
+            'user'  => $user->name
         ]);
     }
 
@@ -30,6 +37,25 @@ class UserController extends Controller
         return;
     }
 
+
+    // mark user notifications as read
+    public function setNotificationsAsRead($notifId){
+        $user = Auth::user();
+        $notification = $user->notifications->find($notifId);
+        $notification->markAsRead();
+        // redirect to sellers page 
+        $data = $notification->data['item'];
+        return redirect("/search/$data");
+    }
+
+    // delete notification
+    public function deleteNotification($notifId){
+        $user = Auth::user();
+        $notification = $user->notifications->find($notifId);
+        $notification->markAsRead();
+        $notification->delete();
+        return true;
+    }
     // return message for user
     // extends blade layout alert and js showAlert()
     private function alertMessage($status, $header, $message){

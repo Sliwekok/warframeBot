@@ -25,6 +25,8 @@
     },
     "dependencies": {
         "fs": "^0.0.1-security",
+        "laravel-echo": "^1.11.7",
+        "pusher-js": "^7.1.0-beta",
         "warframe-items": "^1.1253.477"
     }
 }

@@ -52,26 +52,28 @@
         .itemname{
             font-size: 1.25rem;
         }
-        .added{
-            font-size: 0.85rem;
-            color: darken($font-color, 15%);
-            text-align: right;
-        }
-        .orderMenagment{
-            position: absolute;
-            top: 7.5px;
-            right: 7.5px;
-            display: inline-flex !important;
-            .editOrder{
-                background-color: rgba(darken($body-bg, 15%), 1);
-                cursor: pointer;
-                &.delete{
-                    color: rgba($danger, .85);
-                    transition: color 0.2s ease;
-                    &:hover{
-                        color: $danger;
-                    }
-                }
+        
+        
+    }
+}
+.added{
+    font-size: 0.85rem;
+    color: darken($font-color, 15%);
+    text-align: right;
+}
+.orderMenagment{
+    position: absolute;
+    top: 7.5px;
+    right: 7.5px;
+    display: inline-flex !important;
+    .editOrder{
+        background-color: rgba(darken($body-bg, 15%), 1);
+        cursor: pointer;
+        &.delete{
+            color: rgba($danger, .85);
+            transition: color 0.2s ease;
+            &:hover{
+                color: $danger;
             }
         }
     }

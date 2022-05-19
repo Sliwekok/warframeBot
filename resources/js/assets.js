@@ -105,3 +105,26 @@ jQuery.fn.selectText = function(){
         selection.addRange(range);
     }
 };
+// upon webstocket have data - add bell to navbar and add div to account in notification box
+export function showNotification(){
+    const icon = "<i class='icon icon-bell-alt'></i>";
+    $(".notificationCounter").html(icon);
+    console.log(icon);
+    RefreshNotificationDiv("/account");
+}
+
+export function RefreshNotificationDiv(url){
+    $.ajax({
+        url: url,
+        method: 'get',
+        error: function(error){
+            console.log("=========");
+            console.log(error); 
+            return false;
+        },
+        success: function(){
+            $("#userNotifications").load(url+" #userNotifications");
+            return true;
+        }
+    });
+}

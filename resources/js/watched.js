@@ -1,6 +1,6 @@
 import * as Assets from './assets.js';
 // on delete from watched click show confirmation
-$(document).on('click', '.delete', function(){
+$(document).on('click', '.deleteWatched', function(){
     const   text = "Are you sure you want to delete item from you watchlist?",
             div = $(this).closest('.orderPanel');
     // if confirmed delete - send ajax request

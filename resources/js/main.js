@@ -143,7 +143,7 @@ $(document).on("change", "#platformChangeUser", function(){
 $(document).on("submit", "#searchItems", function(e){
     e.preventDefault();
     var search = $(this).find(".itemNameinput").val();
-    location.replace(search);
+    location.replace('/search/'+search);
 });
 
 

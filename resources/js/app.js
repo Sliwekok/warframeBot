@@ -3,3 +3,5 @@ $('[data-toggle="tooltip"]').tooltip();
 
 require('./main.js');
 require('./watched.js');
+require('./bootstrap.js');
+require('./account.js');
