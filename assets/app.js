@@ -1,3 +1,6 @@
+// import scss
+import './styles/app.scss';
+
 // enable bootstrap tooltips
 $('[data-toggle="tooltip"]').tooltip();
 

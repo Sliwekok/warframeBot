@@ -18,6 +18,7 @@ framework:
     php_errors:
         log: true
 
+    csrf_protection: ~
 when@test:
     framework:
         test: true
