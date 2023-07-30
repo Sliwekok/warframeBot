@@ -1,0 +1,80 @@
+#watched, #searched{
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .mainText{
+        text-align: center;
+    }
+}
+
+#searched{
+    .sellerPanel{
+        display: inline-flex;
+        flex-wrap: wrap;
+        background-color: rgba(darken($body-bg, 15%), .85);
+        margin-top: 0.5vh;
+        align-items: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        div, div p{
+            align-items: center;
+            display: inline-flex;
+            height: 100%;
+        }
+        .buyButton{
+            background-color: transparent;
+            border: 2px solid rgba(0, 190, 127, 0.75);
+            color: rgba($font-color, 0.85);
+            transition: all ease 0.2s;
+            font-size: 0.9rem;
+            font-style: italic;
+            width: 100%;
+
+            &:hover{
+                border: 2px solid rgba(0, 190, 127, 1);
+                color: rgba($font-color, 1);
+                text-decoration: none;
+            }
+        }
+    }
+    #sellerLegend{
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+}
+
+#watched{
+    .orderPanel{
+        background-color: rgba(darken($body-bg, 15%), .85);
+        padding-top: 15px;
+        margin: 10px;
+        .itemname{
+            font-size: 1.25rem;
+        }
+        
+        
+    }
+}
+.added{
+    font-size: 0.85rem;
+    color: darken($font-color, 15%);
+    text-align: right;
+}
+.orderMenagment{
+    position: absolute;
+    top: 7.5px;
+    right: 7.5px;
+    display: inline-flex !important;
+    .editOrder{
+        background-color: rgba(darken($body-bg, 15%), 1);
+        cursor: pointer;
+        &.delete{
+            color: rgba($error, .85);
+            transition: color 0.2s ease;
+            &:hover{
+                color: $error;
+            }
+        }
+    }
+}

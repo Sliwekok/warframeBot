@@ -1,0 +1,18 @@
+{% extends('layouts/app.html.twig') %}
+
+{% block content %}
+
+    <div class="col-12 text-center">
+        <p>
+            <h2>A <a class="special" href="https://warframe.market">Warframe.market</a> live tracker</h2>
+        <p>That allows you to follow item prices with notifications</p>
+
+        <p>
+            <span>To begin with just</span>
+            <a href="{{ url('register') }}"><button class="btn btn-primary">Register</button></a>
+            or
+            <a href="{{ url('login') }}"><button class="btn btn-secondary">Sign in</button></a>
+        </p>
+    </div>
+
+{% endblock %}

@@ -13,7 +13,6 @@
         "leaseweb/doctrine-pdo-dblib": "^1.1",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.23",
-        "symfony/asset": "6.3.*",
         "symfony/console": "6.3.*",
         "symfony/doctrine-messenger": "6.3.*",
         "symfony/dotenv": "6.3.*",

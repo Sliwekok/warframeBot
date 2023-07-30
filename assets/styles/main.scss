@@ -1,0 +1,102 @@
+// default styles for most of the views
+html, body{
+    overflow-x: hidden;
+    background-color: $body-bg;
+    color: $font-color;
+    font-family: $font-family-sans-serif;
+    font-size: $font-size-base;
+    padding: 0px;
+    margin: 0px;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://cdn.wccftech.com/wp-content/uploads/2017/10/Warframe-Plains-of-Eidolon.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+a{
+    color: $font-color;
+}
+a.special{
+    text-decoration: underline;
+}
+
+.main{
+    height: 94vh;
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+    z-index: 5;
+    justify-content: center;
+    padding-top: 20vh;
+    margin: 0px;
+}
+
+.modal{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    margin: 0px;
+    display: none;
+    background-color: darken(rgba($body-bg, .95), 10);
+    visibility: none;
+
+
+    .wrapper{
+        $darked: darken(rgba($body-bg, 1), 15);
+        margin-top: 10vh;
+        background-color: darken(rgba($body-bg, 1), 15);
+        position: relative;
+        border-radius: 1.5%;
+        visibility: none;
+        display: none;
+        padding: 3.5vh;
+
+        .title{
+            background-color: $darked;
+            display: inline-flex;
+            color: $font-color;
+            border-bottom: 1px white solid;
+
+            .smallExit{
+                cursor: pointer;
+                color: $error;
+                text-align: center;
+            }
+        }
+
+        #content{
+            margin-top: 3.5vh;
+            display: inline-flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+
+            #formFollow{
+                display: inline-flex;
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+        }
+        #buttons{
+            display: inline-flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+    }
+}
+.card, .card-header, .card-body, .card form{
+    color: darken($font-color, 50%) !important;
+}
+
+.alert{
+    position: absolute;
+    top: 15vh;
+    display: none;
+    z-index: 100;
+    .btn-close{
+        color: red;
+        background-color: transparent;
+        border: 0px;
+    }
+}

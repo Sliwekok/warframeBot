@@ -1,3 +1,12 @@
-body {
-    background-color: lightgray;
-}
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+@import 'main';
+@import 'nav';
+@import 'watched';
+@import 'account';
+
+@import 'fontello/css/fontello.css';

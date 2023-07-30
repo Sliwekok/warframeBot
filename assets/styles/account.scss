@@ -1,0 +1,31 @@
+#wrapper{
+    display: inline-flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    #account{
+        div{
+            margin-top: 2.5vh;
+            text-align: right;
+            p{
+                font-size: 1.2rem;
+            }
+        }
+    }
+    #notifications{
+        text-align: center;
+        .notification{
+            text-align: left;
+            background-color: rgba(darken($body-bg, 15%), .85);
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin-top: 0.5vh;
+            .itemname{
+                font-size: 1.2rem;
+            }
+        }
+        #userNotifications{
+            width: 100%;
+        }
+    }
+    
+}

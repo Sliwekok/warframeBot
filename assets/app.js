@@ -1,9 +1,7 @@
-/*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (app.html.twig).
- */
+// enable bootstrap tooltips
+$('[data-toggle="tooltip"]').tooltip();
 
-// any CSS you import will output into a single css file (app.scss in this case)
-import './styles/app.scss';
+require('./main.js');
+require('./watched.js');
+require('./bootstrap.js');
+require('./account.js');
