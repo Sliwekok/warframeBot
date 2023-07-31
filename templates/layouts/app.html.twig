@@ -28,8 +28,8 @@
 <div id="container-fluid">
     {% if app.user %}
         <div class="row-fluid">
-            {{ include('layouts/nav.twig') }}
-            <input type="hidden" id="currentLoggedPusherUser" value="@auth{!! Auth::user()->name !!}@else{none}@endauth">
+            {{ include('layouts/nav.html.twig') }}
+            <input type="hidden" id="currentLoggedPusherUser" value="test">
         </div>
     {% endif %}
 
@@ -44,7 +44,7 @@
     </main>
 
     {% if app.user %}
-        {{ include('layouts.followNew') }}
+        {{ include('layouts/followNew.html.twig') }}
     {% endif %}
     <datalist id="itemsList"></datalist>
 

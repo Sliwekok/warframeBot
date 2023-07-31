@@ -21,7 +21,7 @@ class Login implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $username = null;
 
     #[ORM\Column]
-    private array $roles = [];
+    private array $roles = ['default'];
 
     #[ORM\Column]
     private ?string $email = null;

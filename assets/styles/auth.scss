@@ -1,14 +1,6 @@
-#loginForm{
-
-  #inputUsername{
+#loginForm, #registerForm{
+  .form-control{
     margin-bottom: 1vh;
   }
-
-  button{
-    margin-top: 2vh;
-  }
-}
-
-#registerForm{
 
 }

@@ -305,11 +305,8 @@ nav#mainNav .ringAnimated {
   width: 100%;
 }
 
-#loginForm #inputUsername {
+#loginForm .form-control, #registerForm .form-control {
   margin-bottom: 1vh;
-}
-#loginForm button {
-  margin-top: 2vh;
 }
 
 /*# sourceMappingURL=app.css.map */
