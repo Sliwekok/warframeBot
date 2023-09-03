@@ -87,7 +87,7 @@ a.special {
 
 .alert {
   position: absolute;
-  top: 15vh;
+  top: 5vh;
   display: none;
   z-index: 100;
 }

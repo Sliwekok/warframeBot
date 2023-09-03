@@ -6,9 +6,10 @@
     <div id="registerForm" class="col-6 offset-3">
         <h1>Register</h1>
 
-        {{ form_errors(registrationForm) }}
+        {{ form_errors(registration_form) }}
 
-        {{ form_start(registrationForm) }}
-        {{ form_end(registrationForm) }}
+        {{ form_start(registration_form) }}
+            {{ form_widget(registration_form) }}
+        {{ form_end(registration_form) }}
     </div>
 {% endblock %}

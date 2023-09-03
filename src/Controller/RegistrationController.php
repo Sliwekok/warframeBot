@@ -12,12 +12,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(
+    public function register
+    (
         Request                     $request,
         UserPasswordHasherInterface $userPasswordHasher,
         UserAuthenticatorInterface  $userAuthenticator,
@@ -53,8 +53,8 @@ class RegistrationController extends AbstractController
             );
         }
 
-        return $this->render('register.html.twig', [
-            'registrationForm' => $form->createView(),
+        return $this->render('auth/register.html.twig', [
+            'registration_form' => $form->createView(),
         ]);
     }
 }

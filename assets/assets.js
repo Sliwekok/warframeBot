@@ -1,17 +1,14 @@
 // show alert with return message from server
-export function showAlert(data){
-    var state    = data['status'],
-        msg      = data['message'],
-        header   = data['header'],
-        className= (state == 'error') ? "danger" : "success";
+export function showAlert(status, message, header = 'Error occurred'){
+    let className = (status === 'error') ? "danger" : "success";
 
     $(".alert").addClass('alert-'+className).fadeIn(50);
     $("#alertHeader").text(header);
-    $("#alertContent").text(msg);
+    $("#alertContent").text(message);
     
     // hide alert by hand, because by default (bootstrap), it's getting deleted
     (() => {
-        var div = $(".alert");
+        let div = $(".alert");
         
         function hideMethod(){
             div.fadeOut(100);
@@ -23,17 +20,14 @@ export function showAlert(data){
         // on click on alert close button
         $(document).on('click', ".btn-close", function(){
             hideMethod();
-            return;
         });
         
         // after 10sec hide it automatically
         setTimeout(function(){
             hideMethod();
-            return;
         }, 10000)
         
     })();
-    return;
 }
 
 // add ways to exit modal
@@ -43,7 +37,6 @@ export function closeModal(container){
     $(document).on('click', '.closeButton', function(e){
         e.preventDefault();
         forceCloseModal(container);
-        return;
     });
     // on clicking esc leave upload form
     document.onkeydown = function(e) {
@@ -51,16 +44,13 @@ export function closeModal(container){
         if(e.keyCode == 27){
             forceCloseModal(container);
         }
-        return;
     }
     // on clicking outside of upload form - exit
     container.mouseup(function(e){
         if(!$(".wrapper").is(e.target) && $(".wrapper").has(e.target).length === 0){
             forceCloseModal(container);
         }
-        return;
     });
-    return;
 }
 // add animation to closing modal
 export function forceCloseModal(div){
@@ -81,7 +71,6 @@ export function showModal(div){
     // enable inputs in case they were closed from edit form
     $("#platformChangeUser").prop("disabled", false);
     $("#itemNameinput").prop("disabled", false)
-    return;
 }
 
 // allow copying text in div

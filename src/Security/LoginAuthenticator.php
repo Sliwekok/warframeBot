@@ -36,7 +36,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
             new UserBadge($username),
             new PasswordCredentials($request->request->get('password', '')),
             [
-                new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
+                new CsrfTokenBadge('login_form', $request->request->get('_csrf_token')),
                 new RememberMeBadge(),
             ]
         );
@@ -49,7 +49,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         // For example:
-         return new RedirectResponse($this->urlGenerator->generate('/login'));
+         return new RedirectResponse($this->urlGenerator->generate(self::LOGIN_ROUTE));
     }
 
     protected function getLoginUrl(Request $request): string

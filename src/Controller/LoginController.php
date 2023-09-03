@@ -2,14 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Login;
 use App\Form\LoginFormType;
+use App\Repository\LoginRepository;
 use App\Security\LoginAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use App\Repository\LoginRepository;
+use Symfony\Component\HttpFoundation\Request;
 
 class LoginController extends AbstractController
 {
@@ -19,6 +21,7 @@ class LoginController extends AbstractController
         UserAuthenticatorInterface  $userAuthenticator,
         LoginAuthenticator          $authenticator,
         LoginRepository             $loginRepository,
+        AuthenticationUtils         $authenticationUtils
     ): Response
     {
         if ($this->getUser()) {
@@ -26,8 +29,10 @@ class LoginController extends AbstractController
             return $this->redirectToRoute('index');
         }
 
-        $form = $this->createForm(LoginFormType::class);
-        $form->handleRequest($request);
+        $form = $this
+            ->createForm(LoginFormType::class)
+            ->handleRequest($request)
+        ;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $loginRepository->findOneBy([
@@ -45,14 +50,17 @@ class LoginController extends AbstractController
             return $this->redirectToRoute('index');
         }
 
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+
         return $this->render('auth/login.html.twig', [
-            'loginForm' => $form->createView(),
+            'login_form'    => $form->createView(),
+            'error'         => $error,
         ]);
     }
 
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 }
