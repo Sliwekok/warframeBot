@@ -159,3 +159,9 @@ $(document).on("click", "#addNewItem", function(){
     Assets.showModal(div);
     $("#itemNameinput").val($(this).data("itemname"));
 });
+// check if error message is filled
+$(document).ready(function() {
+    if ($('#errorMessage').val().length !== 0) {
+        Assets.showAlert('error', $('#errorMessage').val())
+    }
+});
