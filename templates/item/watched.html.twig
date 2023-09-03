@@ -1,0 +1,13 @@
+{% extends('layouts/app.html.twig') %}
+
+{% block content %}
+
+    {% if items_watched|length > 0 %}
+        itemy
+    {% else %}
+        <div class="col-6 offset-3 text-center">
+            <p><h2>Add items to watch-list to start!</h2></p>
+        </div>
+    {% endif %}
+
+{% endblock %}

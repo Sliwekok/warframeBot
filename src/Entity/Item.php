@@ -25,6 +25,9 @@ class Item
     #[ORM\Column]
     private ?int $platform_id = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $name_curl = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +77,18 @@ class Item
     public function setPlatformId(int $platform_id): static
     {
         $this->platform_id = $platform_id;
+
+        return $this;
+    }
+
+    public function getNameCurl(): ?string
+    {
+        return $this->name_curl;
+    }
+
+    public function setNameCurl(string $name_curl): static
+    {
+        $this->name_curl = $name_curl;
 
         return $this;
     }
