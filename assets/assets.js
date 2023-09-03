@@ -55,7 +55,7 @@ export function closeModal(container){
 // add animation to closing modal
 export function forceCloseModal(div){
     // clear data before exiting
-    document.querySelector("#formFollow").reset();
+    $('#formFollow').reset();
     div.fadeOut(100)
         .parents(".modal").fadeOut(100);
 }

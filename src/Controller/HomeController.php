@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,9 +14,9 @@ class HomeController extends AbstractController
     public function index(): Response
     {
         if ($this->getUser()) {
-            return $this->render('welcome.html.twig');
+            return $this->redirectToRoute('item_watched');
         } else {
-            return $this->render('index.html.twig');
+            return $this->redirectToRoute('app_login');
         }
     }
 }
