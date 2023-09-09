@@ -55,16 +55,18 @@ export function closeModal(container){
 // add animation to closing modal
 export function forceCloseModal(div){
     // clear data before exiting
-    $('#formFollow').reset();
+    // add index since it's jquery selector
+    document.getElementById("formFollow").reset();
     div.fadeOut(100)
         .parents(".modal").fadeOut(100);
 }
+
 // show modal background color and div on call
 export function showModal(div){
     // get parent div to show background as in background
     var background = div.parents(".modal");
     background.fadeIn(100);
-    // hide other modals nad show only 1 specified
+    // hide other modals and show only 1 specified
     div.fadeIn(100)
         .siblings().hide(0);
     closeModal(div);
@@ -74,7 +76,7 @@ export function showModal(div){
 }
 
 // allow copying text in div
-jQuery.fn.selectText = function(){
+$.fn.selectText = function(){
     this.find('input').each(function() {
         if($(this).prev().length == 0 || !$(this).prev().hasClass('p_copy')) { 
             $('<p class="p_copy" style="position: absolute; z-index: -1;"></p>').insertBefore($(this));
@@ -98,7 +100,6 @@ jQuery.fn.selectText = function(){
 export function showNotification(){
     const icon = "<i class='icon icon-bell-alt'></i>";
     $(".notificationCounter").html(icon);
-    console.log(icon);
     RefreshNotificationDiv("/account");
 }
 
