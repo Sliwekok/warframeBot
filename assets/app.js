@@ -1,9 +1,11 @@
 // import scss
 import './styles/app.scss';
 
-// enable bootstrap tooltips
-$('[data-toggle="tooltip"]').tooltip();
+// create global $ and jQuery variables
+const $ = require('jquery');
+global.$ = global.jQuery = $;
 
+// require('./tooltips');
 require('./main.js');
 require('./watched.js');
 require('./bootstrap.js');

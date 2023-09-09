@@ -3,8 +3,6 @@ import * as Assets from './assets.js';
 $(document).on("click", "#addFollow", function(){
     var div = $('#follow');
     Assets.showModal(div);
-    // hide tooltip that is generated on hover on button element
-    $('[data-toggle="tooltip"]').tooltip('hide');
 });
 
 // show suggestions to search results
@@ -18,13 +16,11 @@ $(document).on("click", "#addFollow", function(){
             maxItems = 5; // max number of suggestions
         // delete all suggestions
         datalist.html('');
-        
+
         // check if query is not empty
         if(query.length == 0) return;
-        
+
         // call all 3 API methods to fill datalist, priority is: warframe, weapon, mod, item
-        // api below is nod required since mods are already in items     
-        // "https://api.warframestat.us/mods/search/" 
         FetchData("https://api.warframestat.us/warframes/search/");
         FetchData("https://api.warframestat.us/weapons/search/");
         FetchData("https://api.warframestat.us/items/search/");
@@ -43,20 +39,19 @@ $(document).on("click", "#addFollow", function(){
                 .then(res => { return res.json()})
                 .then(data => fillTemplate(data));
         }
-        
+
 
         // append option to datalist
         function appendOption(itemName){
             var option = '<option option="'+itemName+'">'+itemName+'</option>';
             datalist.append(option);
-        } 
-
+        }
 
         // function to check if item exists in datalist
         function itemExists(item){
             // set var to count failures
             var errors = 0;
-            // go through each item in datalist 
+            // go through each item in datalist
             datalist.children().each(function(){
                 if($(this).val().toLowerCase() == item.toLowerCase()) errors++;
             });
@@ -102,7 +97,7 @@ $(document).on("click", "#addFollow", function(){
                         isSetAvaible = true;
                         appendOption(fullname);
                     });
-                        
+
                     // add set to allow buying all parts at once
                     if(isSetAvaible) appendOption(item['name'] + " Set");
                 }
@@ -146,13 +141,6 @@ $(document).on("submit", "#searchItems", function(e){
     location.replace('/search/'+search);
 });
 
-
-// enable popovers for bootstrap
-// also select to copy text to allow paste it to game
-$('.showPopover').popover().on("click", function(){ 
-    $(".popover-body").selectText();
-});
-
 // on click on div addNewItem on wearch.blade show modal with form filled with item name
 $(document).on("click", "#addNewItem", function(){
     var div = $('#follow');
@@ -161,7 +149,7 @@ $(document).on("click", "#addNewItem", function(){
 });
 // check if error message is filled
 $(document).ready(function() {
-    if ($('#errorMessage').val().length !== 0) {
+    if ($('#errorMessage').length !== 0) {
         Assets.showAlert('error', $('#errorMessage').val())
     }
-});
+})
