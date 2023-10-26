@@ -28,6 +28,12 @@ class Item
     #[ORM\Column(length: 255)]
     private ?string $name_curl = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $wiki_url = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $type = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +95,30 @@ class Item
     public function setNameCurl(string $name_curl): static
     {
         $this->name_curl = $name_curl;
+
+        return $this;
+    }
+
+    public function getWikiUrl(): ?string
+    {
+        return $this->wiki_url;
+    }
+
+    public function setWikiUrl(string $wiki_url): static
+    {
+        $this->wiki_url = $wiki_url;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }
