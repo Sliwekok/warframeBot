@@ -35,8 +35,8 @@ function searchTrigger(query) {
 
 
     // append option to datalist
-    function appendOption(itemName) {
-        let option = '<option value="'+itemName+'">'+itemName+'</option>';
+    function appendOption(itemName, type) {
+        let option = '<option label="'+type+'" value="'+itemName+'">'+itemName+'</option>';
         datalist.append(option);
     }
 
@@ -46,7 +46,7 @@ function searchTrigger(query) {
         let errors = 0;
         // go through each item in datalist
         datalist.children().each(function() {
-            if($(this).val().toLowerCase() === item.toLowerCase()) errors++;
+            if ($(this).val().toLowerCase() === item.toLowerCase()) errors++;
         });
 
         // if more than 1 error - return true, because item already exists in datalist
@@ -67,7 +67,7 @@ function searchTrigger(query) {
                 // check if item already exists in datalist
                 if (itemExists(item['name']) === true) return;
 
-                appendOption(item['name']);
+                appendOption(item['name'], item['type']);
             }
             // if item has components to build - check them
             else if (item.hasOwnProperty('components')){
@@ -88,11 +88,13 @@ function searchTrigger(query) {
                     if ("Orokin Cell" === partName || "Nitain Extract" === partName) return;
 
                     isSetAvaible = true;
-                    appendOption(fullname);
+                    appendOption(fullname, item['type']);
                 });
 
                 // add set to allow buying all parts at once
-                if (isSetAvaible) appendOption(item['name'] + " Set");
+                if (isSetAvaible) {
+                    appendOption(item['name'] + " Set", item['type']);
+                }
             }
         });
     }
