@@ -32,7 +32,7 @@ class ItemService
             ->setNameCurl(strtolower(preg_replace('/\s+/', '_', $data[ItemInterface::FORM_NAME])))
         ;
         $this->entityManager->persist($item);
-//        $this->entityManager->flush();
+        $this->entityManager->flush();
     }
 
     public function checkIfAlreadyWatched
