@@ -19,7 +19,7 @@ use App\UniqueNameInterface\JsonResponseInterface;
 class ItemController extends AbstractController
 {
     #[Route('/watched', name: 'item_watched')]
-    public function index(
+    public function watched(
         ItemRepository  $itemRepository,
         UserInterface   $login
     ): Response
@@ -39,15 +39,18 @@ class ItemController extends AbstractController
     {
         $loginId = $this->getUser()->getId();
         $data = $request->request->all();
+        $statusCode = 200;
         if ($itemService->checkIfAlreadyWatched($loginId, (int)$data[ItemInterface::FORM_PLATFORMID], $data[ItemInterface::ENTITY_NAME])) {
             $msg = [
                 JsonResponseInterface::MESSAGE => 'Item already on watch-list. Update price if you want to make your chances higher!'
             ];
+            $statusCode = 400;
         }
         elseif (!$itemService->itemExistsInApi($data[ItemInterface::FORM_NAME])) {
             $msg = [
                 JsonResponseInterface::MESSAGE => 'Something wrong with name of searched item'
             ];
+            $statusCode = 400;
         }
         else {
             $itemService->addItemToWatchlist($data, $loginId);
@@ -56,6 +59,6 @@ class ItemController extends AbstractController
             ];
         }
 
-        return new JsonResponse($msg);
+        return new JsonResponse($msg, $statusCode);
     }
 }

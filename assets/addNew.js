@@ -18,18 +18,23 @@ $(document).on('submit', '#formFollow', function(e){
             'price': price,
             'platformId': platformid
         },
-        error: function(error){
+        error: function(message){
+            Assets.forceCloseModal($("#formFollow"))
             Assets.showAlert(
                 'error',
-                error.message
+                message.responseJSON.message
             );
+
             return false;
         },
         success: function(message){
+            Assets.forceCloseModal($("#formFollow"))
             Assets.showAlert(
                 'success',
-                message.message
+                message.message,
+                'Added item'
             );
+
             return true;
         }
     })
