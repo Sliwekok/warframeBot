@@ -44,22 +44,13 @@
     }
 }
 
-#watched{
-    .orderPanel{
-        background-color: rgba(darken($body-bg, 15%), .85);
-        padding-top: 15px;
-        margin: 10px;
-        .itemname{
-            font-size: 1.25rem;
-        }
-        
-        
-    }
-}
 .added{
     font-size: 0.85rem;
     color: darken($font-color, 15%);
     text-align: right;
+}
+.orderPanel{
+
 }
 .orderMenagment{
     position: absolute;
@@ -68,6 +59,7 @@
     display: inline-flex !important;
     .editOrder{
         background-color: rgba(darken($body-bg, 15%), 1);
+        height: 100%;
         cursor: pointer;
         &.delete{
             color: rgba($error, .85);
