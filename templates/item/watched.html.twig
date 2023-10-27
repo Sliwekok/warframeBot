@@ -6,10 +6,10 @@
         {% for item in items_watched %}
             <div class="col-3 orderPanel">
                 <div class="col-3 offset-9 orderMenagment">
-                    <div class="col-6"><span class="editOrder edit tooltipButton" data-price='{{item.price}}' data-item='{{item.name}}' data-platform='{{item.platformid}}' data-tooltip-placement="top" data-title="Delete from watchlist"><i class="icon icon-pencil"></i></span></div>
-                    <div class="col-6"><span class="editOrder delete deleteWatched tooltipButton" data-item='{{item.name}}' data-platform='{{item.platformid}}' data-tooltip-placement="top" data-title="Edit price of order"><i class="icon icon-cancel"></i></span></div>
+                    <div class="col-6"><span class="editOrder edit tooltipButton" data-price='{{item.price}}' data-item='{{item.name}}' data-platform='{{item.platformid}}' data-tooltip-placement="top" data-title="Edit price of order"><i class="icon icon-pencil"></i></span></div>
+                    <div class="col-6"><span class="editOrder delete deleteWatched tooltipButton" data-item='{{item.name}}' data-platform='{{item.platformid}}' data-tooltip-placement="top" data-title="Delete from watchlist"><i class="icon icon-cancel"></i></span></div>
                 </div>
-                <div class="col-12"><p class="itemname"><a href="https://warframe.fandom.com/wiki/{{ item.wikiurl }}">{{item.name}}</a></p></div>
+                <div class="col-12"><p class="itemname"><a href="https://warframe.fandom.com/wiki/{{ item.wikiurl }}" class="tooltipButton" data-tooltip-placement="top" data-title="Go to Warframe wiki">{{item.name}}</a></p></div>
                 <div class="col-12"><p class="price">Price: {{item.price}} platinum</p></div>
             </div>
         {% endfor %}

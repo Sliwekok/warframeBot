@@ -56,7 +56,7 @@ export function closeModal(container){
 export function forceCloseModal(div){
     // clear data before exiting
     // add index since it's jquery selector
-    document.getElementById("formFollow").reset();
+    document.querySelector("#formFollow").reset();
     div.fadeOut(100)
         .parents(".modal").fadeOut(100);
 }

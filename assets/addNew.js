@@ -3,7 +3,7 @@ import * as Assets from './assets.js';
 /**
  * make ajax call
  */
-$(document).on('submit', '#formFollow', function(e){
+$(document).on('submit', '#formFollow', function(e) {
     e.preventDefault();
 
     let form = $(this),
@@ -21,8 +21,8 @@ $(document).on('submit', '#formFollow', function(e){
             'platformId': platformid,
             'type': type
         },
-        error: function(message){
-            Assets.forceCloseModal($("#formFollow"))
+        error: function(message) {
+            Assets.forceCloseModal(form)
             Assets.showAlert(
                 'error',
                 message.responseJSON.message
@@ -30,8 +30,8 @@ $(document).on('submit', '#formFollow', function(e){
 
             return false;
         },
-        success: function(message){
-            Assets.forceCloseModal($("#formFollow"))
+        success: function(message) {
+            Assets.forceCloseModal(form)
             Assets.showAlert(
                 'success',
                 message.message,
