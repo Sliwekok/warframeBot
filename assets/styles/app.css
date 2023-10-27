@@ -309,4 +309,19 @@ nav#mainNav .ringAnimated {
   margin-bottom: 1vh;
 }
 
+.tooltipBox {
+  position: absolute;
+  display: none;
+  z-index: 1000;
+  border: 2px rgb(104, 180, 255);
+  border-radius: 15px;
+  padding: 2vh;
+  background-color: rgba(68, 68, 68, 0.55);
+  color: rgba(219, 219, 219, 0.95);
+  font-size: 80%;
+}
+.tooltipBox span {
+  cursor: default;
+}
+
 /*# sourceMappingURL=app.css.map */

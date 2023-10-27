@@ -1,0 +1,15 @@
+.tooltipBox{
+  position: absolute;
+  display: none;
+  z-index: 1000;
+  border: 2px $info;
+  border-radius: 15px;
+  padding: 2vh;
+  background-color: rgba(darken($body-bg, 0.15), 0.55);
+  color: rgba(darken($font-color, 0.15), 0.95);
+  font-size: 80%;
+
+  span{
+    cursor: default;
+  }
+}

@@ -20,7 +20,7 @@ final class Version20230730103527 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->addSql(<<<SQL
-if object_id('dbo.item', 'U') is not null begin
+if object_id('dbo.item', 'U') is null begin
     CREATE TABLE dbo.item
         (
         id int IDENTITY(1,1) PRIMARY KEY,
