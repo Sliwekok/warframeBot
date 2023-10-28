@@ -48,35 +48,30 @@ function getPositionFixed(clickedElement) {
 
     switch (placement) {
         case "top":
-            console.log('top');
             positionFixed = {
-                top: positionElement.top - (elementHeight * 2) - 15,
+                top: positionElement.top - elementHeight - 15,
                 left: positionElement.left
             }
             break;
         case "bottom":
-            console.log('bottom');
             positionFixed = {
                 top: positionElement.top + elementHeight + 15,
                 left: positionElement.left
             }
             break;
         case "right":
-            console.log('right');
             positionFixed = {
                 top: positionElement.top,
                 left: positionElement.left + elementWidth + 15
             }
             break;
         case "left":
-            console.log('left');
             positionFixed = {
                 top: positionElement.top,
                 left: positionElement.left - elementWidth - 15
             }
             break;
         default:
-            console.log('def');
             positionFixed = {
                 top: positionElement.top,
                 left: positionElement.left

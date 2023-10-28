@@ -5,7 +5,7 @@ import './styles/app.scss';
 const $ = require('jquery');
 global.$ = global.jQuery = $;
 
-// require('./tooltips');
+require('./tooltips');
 require('./main.js');
 require('./watched.js');
 require('./bootstrap.js');

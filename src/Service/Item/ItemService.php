@@ -48,6 +48,8 @@ class ItemService
     ): void {
         $item = new Item();
         $itemCurlName = strtolower(preg_replace('/\s+/', '_', $data[ItemInterface::FORM_NAME]));
+        $itemWikiUrl = $this->getWikiUrl($itemCurlName, $data[ItemInterface::FORM_TYPE]);
+        $itemImageUrl = $this->getImageUlr($itemCurlName);
         $item
             ->setLoginId($loginId)
             ->setName($data[ItemInterface::FORM_NAME])
@@ -55,7 +57,8 @@ class ItemService
             ->setPrice((int)$data[ItemInterface::FORM_PRICE])
             ->setType((string)$data[ItemInterface::FORM_TYPE])
             ->setNameCurl($itemCurlName)
-            ->setWikiUrl($this->checkWikiUrl($itemCurlName, $data[ItemInterface::FORM_TYPE]))
+            ->setWikiUrl($itemWikiUrl)
+            ->setImageUrl($itemImageUrl)
         ;
         $this->entityManager->persist($item);
         $this->entityManager->flush();
@@ -80,7 +83,7 @@ class ItemService
         return $this->warframeMarketApi->itemExists($name);
     }
 
-    private function checkWikiUrl(string $name, string $type): string {
+    private function getWikiUrl(string $name, string $type): string {
         if (str_ends_with($name, ItemInterface::ITEM_NAME_PRIME)) {
 
             return $name;
@@ -96,5 +99,16 @@ class ItemService
         }
 
         return $newUrl;
+    }
+
+    private function getImageUlr(string $name): string {
+        if (str_ends_with($name, ItemInterface::ITEM_NAME_PRIME)) {
+
+            return $name;
+        }
+        $exploded = explode('_', $name);
+        unset($exploded[count($exploded) - 1]);
+
+        return implode('-', $exploded). '.png';
     }
 }

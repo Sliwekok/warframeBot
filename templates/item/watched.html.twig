@@ -4,13 +4,18 @@
 
     {% if items_watched|length > 0 %}
         {% for item in items_watched %}
-            <div class="col-3 orderPanel">
-                <div class="col-3 offset-9 orderMenagment">
-                    <div class="col-6"><span class="editOrder edit tooltipButton" data-price='{{item.price}}' data-item='{{item.name}}' data-platform='{{item.platformid}}' data-tooltip-placement="top" data-title="Edit price of order"><i class="icon icon-pencil"></i></span></div>
-                    <div class="col-6"><span class="editOrder delete deleteWatched tooltipButton" data-item='{{item.name}}' data-platform='{{item.platformid}}' data-tooltip-placement="top" data-title="Delete from watchlist"><i class="icon icon-cancel"></i></span></div>
+            <div class="orderPanel">
+                <div class="col-7 description">
+                    <div class="col-12"><p class="itemname"><a href="https://warframe.fandom.com/wiki/{{ item.wikiurl }}" class="tooltipButton" data-tooltip-placement="top" data-title="Go to Warframe wiki">{{item.name}}</a></p></div>
+                    <div class="col-12"><p class="price">Price: {{item.price}} platinum</p></div>
+                    <div class="col-12 orderMenagment">
+                        <div><span class="col-3 editOrder edit tooltipButton" data-price='{{item.price}}' data-item='{{item.name}}' data-platform='{{item.platformid}}' data-tooltip-placement="bottom" data-title="Edit price of order"><i class="icon icon-pencil"></i></span></div>
+                        <div><span class="col-3 offset-4 editOrder delete deleteWatched tooltipButton" data-item='{{item.name}}' data-platform='{{item.platformid}}' data-tooltip-placement="bottom" data-title="Delete from watchlist"><i class="icon icon-cancel"></i></span></div>
+                    </div>
                 </div>
-                <div class="col-12"><p class="itemname"><a href="https://warframe.fandom.com/wiki/{{ item.wikiurl }}" class="tooltipButton" data-tooltip-placement="top" data-title="Go to Warframe wiki">{{item.name}}</a></p></div>
-                <div class="col-12"><p class="price">Price: {{item.price}} platinum</p></div>
+                <div class="col-5 picture">
+                    <img src="https://raw.githubusercontent.com/wfcd/warframe-items/master/data/img/{{ item.imageUrl }}" alt {{ item.name }}>
+                </div>
             </div>
         {% endfor %}
     {% else %}
