@@ -100,10 +100,10 @@ $.fn.selectText = function(){
 export function showNotification(){
     const icon = "<i class='icon icon-bell-alt'></i>";
     $(".notificationCounter").html(icon);
-    RefreshNotificationDiv("/account");
+    refreshContainerContent("/account", 'userNotifications');
 }
 
-export function RefreshNotificationDiv(url){
+export function refreshContainerContent(url, div){
     $.ajax({
         url: url,
         method: 'get',
@@ -114,7 +114,9 @@ export function RefreshNotificationDiv(url){
         },
 
         success: function(){
-            $("#userNotifications").load(url+" #userNotifications");
+            $(`#${div}`)
+                .html('')
+                .load(url+" #"+div);
             return true;
         }
     });

@@ -12,6 +12,7 @@ $(document).on('submit', '#formFollow', function(e) {
         platformid = form.find('#platformChangeUser').val(),
         type = getItemType(item)
     ;
+    console.log(type);
     $.ajax({
         url: '/item/add',
         type: "POST",
@@ -27,6 +28,7 @@ $(document).on('submit', '#formFollow', function(e) {
                 'error',
                 message.responseJSON.message
             );
+            form.show(200);
 
             return false;
         },
@@ -37,6 +39,8 @@ $(document).on('submit', '#formFollow', function(e) {
                 message.message,
                 'Added item'
             );
+            Assets.refreshContainerContent('/item/watched', 'watched');
+            form.show(200);
 
             return true;
         }
