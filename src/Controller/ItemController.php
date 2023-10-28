@@ -15,7 +15,7 @@ use App\Service\Item\ItemService;
 use App\UniqueNameInterface\JsonResponseInterface;
 use App\Service\WarframeMarket\MarketService;
 use App\UniqueNameInterface\ItemInterface;
-use App\UniqueNameInterface\WarframeApi;
+use App\UniqueNameInterface\WarframeApiInterface;
 
 #[Route('/item')]
 class ItemController extends AbstractController
@@ -76,7 +76,7 @@ class ItemController extends AbstractController
         MarketService   $marketService
     ): Response {
         $items = $marketService->getWarframeMarketData($name);
-        usort($items, function ($a, $b) {return $a[WarframeApi::MARKET_PLATINUM] > $b[WarframeApi::MARKET_PLATINUM];});
+        usort($items, function ($a, $b) {return $a[WarframeApiInterface::MARKET_PLATINUM] > $b[WarframeApiInterface::MARKET_PLATINUM];});
 
         return $this->render('item/searchMarket.html.twig', [
             'items'     => array_slice($items, 0, 20),

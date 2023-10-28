@@ -7,7 +7,7 @@ html, body{
     font-size: $font-size-base;
     padding: 0px;
     margin: 0px;
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://cdn.wccftech.com/wp-content/uploads/2017/10/Warframe-Plains-of-Eidolon.png");
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images7.alphacoders.com/133/1330549.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -99,4 +99,8 @@ a.special{
         background-color: transparent;
         border: 0px;
     }
+}
+
+.icon{
+    cursor: pointer;
 }

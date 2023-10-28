@@ -3,6 +3,7 @@
         "@babel/core": "^7.17.0",
         "@babel/preset-env": "^7.16.0",
         "@symfony/webpack-encore": "^4.0.0",
+        "@types/node": "^20.8.9",
         "core-js": "^3.23.0",
         "regenerator-runtime": "^0.13.9",
         "webpack": "^5.74.0",
@@ -20,7 +21,6 @@
     "dependencies": {
         "jquery": "^3.7.1",
         "sass": "^1.64.1",
-        "sass-loader": "^13.3.2",
-        "warframe-items": "^1.1260.155"
+        "sass-loader": "^13.3.2"
     }
 }

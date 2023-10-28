@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\UniqueNameInterface;
 
-class WarframeApi
+class WarframeApiInterface
 {
     public const URL = 'https://api.warframe.market/v1/';
     public const URL_ITEMS = 'items/';

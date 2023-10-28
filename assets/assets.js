@@ -112,6 +112,7 @@ export function RefreshNotificationDiv(url){
             console.log(error); 
             return false;
         },
+
         success: function(){
             $("#userNotifications").load(url+" #userNotifications");
             return true;
