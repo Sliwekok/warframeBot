@@ -35,7 +35,7 @@ $(document).on("change", "#platformChangeUser", function(){
 $(document).on("submit", "#searchItems", function(e){
     e.preventDefault();
     var search = $(this).find(".itemNameinput").val();
-    location.replace('/search/'+search);
+    location.replace('/item/search_market/'+search);
 });
 
 // allow editing item on watchlist

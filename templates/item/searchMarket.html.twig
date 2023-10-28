@@ -1,0 +1,30 @@
+{% extends('layouts/app.html.twig') %}
+
+{% block content %}
+
+    {% if items|length > 0 %}
+            <div class="col-8 offset-2 searchedItems">
+                <div class="col-7">
+                    {% for item in items %}
+                        <div class="col-12 itemRow">
+                            {{ item.user.ingame_name }} &nbsp {{ item.platinum }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="col-4 offset-1">
+                    <div class="col-12 picture">
+                        pic
+                    </div>
+                    <div class="col-12 description">
+                        desc
+                    </div>
+                </div>
+            </div>
+
+    {% else %}
+        <div class="col-6 offset-3 text-center">
+            <p><h2>Apparently there are no active offers of {{ item_name }}</h2></p>
+        </div>
+    {% endif %}
+
+{% endblock %}

@@ -19,6 +19,29 @@ class ItemService
         private EntityManagerInterface  $entityManager
     ) {}
 
+    public function validateData(
+        array $data
+    ): array {
+        $msg = [];
+
+        foreach ($data as $key => $value) {
+            switch ($key) {
+                case ItemInterface::FORM_NAME:
+                    if (!is_string($value) && 3 >= strlen($value)) {
+                        $msg += ['Name cannot be null'];
+                    }
+                    break;
+                case ItemInterface::FORM_PRICE:
+                    if (!is_numeric($value) && 1 >= (int)$value) {
+                        $msg += ['Value must be bigger than 1 plat'];
+                    }
+                    break;
+            }
+        }
+
+        return $msg;
+    }
+
     public function addItemToWatchlist(
         array   $data,
         int     $loginId

@@ -22,6 +22,6 @@ class WarframeMarketApi
         $item = strtolower(preg_replace('/\s+/', '_', $name));
         $url = WarframeApi::URL . WarframeApi::URL_ITEMS . $item . WarframeApi::URL_ORDER;
 
-        return json_decode(file_get_contents($url, true))[WarframeApi::FETCHED_PAYLOAD][WarframeApi::FETCHED_ORDERS];
+        return json_decode(file_get_contents($url, true), true)[WarframeApi::FETCHED_PAYLOAD][WarframeApi::FETCHED_ORDERS];
     }
 }
