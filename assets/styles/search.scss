@@ -1,0 +1,9 @@
+.searchedItems{
+  display: inline-flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+
+  .itemRow{
+    padding: 0.5vh;
+  }
+}

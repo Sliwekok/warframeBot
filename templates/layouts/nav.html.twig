@@ -1,11 +1,11 @@
 <nav class="nav col-12" id="mainNav">
     <div class="logo col-3">
-        <a href="{{url('index')}}"><h2>WarframeBot</h2></a>
+        <a href="{{ url('index') }}"><h2>WarframeBot</h2></a>
     </div>
     {% if app.user %}
         <div class="col-4 search">
-            <form class="form-search col-12" method="get" id="searchItems">
-                <input list="itemsList" type="text" value="{{itemName ?? ''}}" class="col-12 itemNameinput" placeholder="Search for desired item">
+            <form class="form-search col-12" id="searchItems">
+                <input list="itemsList" name="name" type="text" value="{{item_name ?? ''}}" class="col-12 itemNameinput" placeholder="Search for desired item">
             </form>
         </div>
         <div class="col-5 menu-items">

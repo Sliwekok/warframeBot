@@ -12,4 +12,6 @@ class WarframeApi
 
     public const FETCHED_PAYLOAD = 'payload';
     public const FETCHED_ORDERS = 'orders';
+
+    public const MARKET_PLATINUM = 'platinum';
 }

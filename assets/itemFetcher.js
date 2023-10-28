@@ -1,5 +1,5 @@
 // show suggestions to search results
-$("#itemNameinput").on("keydown", function() {
+$(".itemNameinput").on("keydown", function() {
     searchTrigger($(this).val());
 });
 
