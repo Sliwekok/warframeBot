@@ -83,4 +83,19 @@ class ItemController extends AbstractController
             'item_name' => $name,
         ]);
     }
+
+    #[Route('/delete', name: 'item_delete', methods: 'DELETE')]
+    public function delete(
+        Request     $request,
+        ItemService $itemService
+    ): JsonResponse {
+        $data = $request->request->all();
+        $statusCode = 200;
+        $itemService->deleteItem($this->getUser(), $data);
+        $msg = [
+            JsonResponseInterface::MESSAGE => 'Successfully added item to watch-list'
+        ];
+
+        return new JsonResponse($msg, $statusCode);
+    }
 }

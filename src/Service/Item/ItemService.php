@@ -9,6 +9,7 @@ use App\Repository\ItemRepository;
 use App\Util\Helper\WarframeMarketApi;
 use App\Entity\Item;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class ItemService
 {
@@ -110,5 +111,19 @@ class ItemService
         unset($exploded[count($exploded) - 1]);
 
         return implode('-', $exploded). '.png';
+    }
+
+    public function deleteItem(
+        UserInterface $user,
+        array $data
+    ): void {
+        $item = $this->itemRepository->findOneBy([
+            ItemInterface::ENTITY_LOGINID => $user->getId(),
+            ItemInterface::ENTITY_PLATFORMID => (int)$data[ItemInterface::FORM_PLATFORMID],
+            ItemInterface::ENTITY_NAME => $data[ItemInterface::FORM_NAME]
+        ]);
+
+        $this->entityManager->remove($item);
+        $this->entityManager->flush();
     }
 }
