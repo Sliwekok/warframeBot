@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +22,7 @@ use App\UniqueNameInterface\WarframeApiInterface;
 class ItemController extends AbstractController
 {
     #[Route('/watched', name: 'item_watched')]
-    public function watched(
+    public function watched (
         ItemRepository  $itemRepository,
         UserInterface   $login
     ): Response
@@ -34,10 +35,10 @@ class ItemController extends AbstractController
     }
 
     #[Route('/add', name: 'item_add')]
-    public function add(
+    public function add (
         Request         $request,
         ItemService     $itemService
-    ): JsonResponse
+    ): JsonResponse|RedirectResponse
     {
         $loginId = $this->getUser()->getId();
         $data = $request->request->all();
@@ -45,10 +46,7 @@ class ItemController extends AbstractController
         $validator = $itemService->validateData($data);
 
         if ($itemService->checkIfAlreadyWatched($loginId, (int)$data[ItemInterface::FORM_PLATFORMID], $data[ItemInterface::ENTITY_NAME])) {
-            $msg = [
-                JsonResponseInterface::MESSAGE => 'Item already on watch-list. Update price if you want to make your chances higher!'
-            ];
-            $statusCode = 400;
+            return $this->redirectToRoute('item_edit', $data);
         }
         elseif (!$itemService->itemExistsInApi($data[ItemInterface::FORM_NAME])) {
             $msg = [
@@ -71,7 +69,7 @@ class ItemController extends AbstractController
     }
 
     #[Route('/search_market/{name}', name: 'item_search_market', methods: ['GET'])]
-    public function searchMarket(
+    public function searchMarket (
         string          $name,
         MarketService   $marketService
     ): Response {
@@ -85,7 +83,7 @@ class ItemController extends AbstractController
     }
 
     #[Route('/delete', name: 'item_delete', methods: 'DELETE')]
-    public function delete(
+    public function delete (
         Request     $request,
         ItemService $itemService
     ): JsonResponse {
@@ -93,9 +91,29 @@ class ItemController extends AbstractController
         $statusCode = 200;
         $itemService->deleteItem($this->getUser(), $data);
         $msg = [
-            JsonResponseInterface::MESSAGE => 'Successfully added item to watch-list'
+            JsonResponseInterface::MESSAGE => 'Successfully deleted item from watch-list'
         ];
 
+        return new JsonResponse($msg, $statusCode);
+    }
+
+    #[Route('/edit', name: 'item_edit')]
+    public function edit (
+        Request     $request,
+        ItemService $itemService
+    ): JsonResponse {
+        $data = $request->query->all();
+        $statusCode = 200;
+        $validator = $itemService->validateData($data);
+        if (0 !== count($validator)) {
+            $msg = $validator[0]; // show first error only
+            $statusCode = 400;
+        } else {
+            $itemService->editItem($this->getUser(), $data);
+            $msg = [
+                JsonResponseInterface::MESSAGE => 'You have edited price of: ' . $data[ItemInterface::FORM_NAME]
+            ];
+        }
         return new JsonResponse($msg, $statusCode);
     }
 }

@@ -114,8 +114,8 @@ class ItemService
     }
 
     public function deleteItem(
-        UserInterface $user,
-        array $data
+        UserInterface   $user,
+        array           $data
     ): void {
         $item = $this->itemRepository->findOneBy([
             ItemInterface::ENTITY_LOGINID => $user->getId(),
@@ -124,6 +124,20 @@ class ItemService
         ]);
 
         $this->entityManager->remove($item);
+        $this->entityManager->flush();
+    }
+
+    public function editItem(
+        UserInterface $user,
+        array         $data
+    ): void {
+        $item = $this->itemRepository->findOneBy([
+            ItemInterface::ENTITY_LOGINID => $user->getId(),
+            ItemInterface::ENTITY_PLATFORMID => (int)$data[ItemInterface::FORM_PLATFORMID],
+            ItemInterface::ENTITY_NAME => $data[ItemInterface::FORM_NAME]
+        ]);
+
+        $item->setPrice((int)$data[ItemInterface::FORM_PRICE]);
         $this->entityManager->flush();
     }
 }

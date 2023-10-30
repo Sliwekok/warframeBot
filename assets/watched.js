@@ -40,13 +40,11 @@ $(document).on('click', '.edit', function(){
         price = $(this).data('price'), 
         platform = $(this).data('platform');
     Assets.showModal($("#follow"));
-    // hide tooltip that is generated on hover on button element
-    $('[data-toggle="tooltip"]').tooltip('hide');
     // edit follow div data and disable some inputs
     $("#itemNameinput").val(item).prop("disabled", true);   
     $("#itemPrice").val(price);   
     $("#platformChangeUser").val(platform).prop("disabled", true);
-    //change url of form to send req to the right url
+    // change url of form to send req to the right url
     // also enable buttons to send all data to server
     $("#formFollow").attr('action', 'update')
         .on("submit", function(){
