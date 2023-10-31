@@ -6,26 +6,31 @@ $(document).on("click", "#addFollow", function(){
 });
 
 // change user deafult platform 
-$(document).on("change", "#platformChangeUser", function(){
-    var selectedPlatform = $(this).val().toLowerCase();
+$(document).on("change", "#platformChangeGlobalUser", function(){
+    var selectedPlatform = $(this).val();
     $.ajax({
-        url: "changePlatform",
+        url: "/user/change_platform",
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         method: 'post',
-        data: {platform: selectedPlatform},
-        error: function(error){
-            Assets.showAlert(error);
+        data: {platformId: selectedPlatform},
+        error: function(message) {
+            Assets.showAlert(
+                'error',
+                message.responseJSON.message
+            );
+
             return false;
         },
-        success: function(data){
-            // if platform is not the same as it was - skip alert
-            if(data !== 0){
-                Assets.showAlert(data);
-                return true;
-            }
-            else return true;
+        success: function(message) {
+            Assets.showAlert(
+                'success',
+                message.message,
+                'Changed platform'
+            );
+
+            return true;
         }
     });
 })
