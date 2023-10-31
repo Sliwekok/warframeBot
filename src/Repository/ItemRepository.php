@@ -22,17 +22,20 @@ class ItemRepository extends ServiceEntityRepository
         parent::__construct($registry, Item::class);
     }
 
-    public function findAllForUser(int $loginId, int $platformId): array
-    {
-        return $this->createQueryBuilder('i')
-            ->where('i.login_id = :login_id')
-            ->andWhere('i.platform_id = :platform_id')
-            ->setParameters([
-                'login_id' => $loginId,
-                'platform_id' => $platformId
-            ])
-            ->getQuery()
-            ->getResult()
-        ;
-    }
+//    public function findAllForUser(int $loginId): array {
+//        $t = $this->createQueryBuilder('i')
+//            ->select('i.name')
+//            ->addSelect('i.price')
+////            ->addSelect('p.name')
+//            ->where('i.login_id = :platform_id')
+//            ->setParameters([
+//                'login_id' => $loginId,
+//            ])
+//            ->join('i.platform_id', 'p')
+//            ->getQuery()
+//            ->getResult()
+//        ;
+//        return $t
+//            ;
+//    }
 }
