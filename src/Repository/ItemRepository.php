@@ -21,18 +21,4 @@ class ItemRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Item::class);
     }
-
-    public function findAllForUser(int $loginId, int $platformId): array
-    {
-        return $this->createQueryBuilder('i')
-            ->where('i.login_id = :login_id')
-            ->andWhere('i.platform_id = :platform_id')
-            ->setParameters([
-                'login_id' => $loginId,
-                'platform_id' => $platformId
-            ])
-            ->getQuery()
-            ->getResult()
-        ;
-    }
 }
