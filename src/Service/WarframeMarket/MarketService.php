@@ -4,21 +4,35 @@ declare(strict_types=1);
 
 namespace App\Service\WarframeMarket;
 
-use App\UniqueNameInterface\ItemInterface;
 use App\Util\Helper\WarframeMarketApi;
+use App\Repository\ItemRepository;
+use App\UniqueNameInterface\WarframeApiInterface;
 
 class MarketService
 {
 
     public function __construct(
         private WarframeMarketApi       $warframeMarketApi,
+        private ItemRepository          $itemRepository
     ) {}
-
 
     public function getWarframeMarketData (
         string $itemName
     ): array {
 
         return $this->warframeMarketApi->fetchList($itemName);
+    }
+
+    public function scanMarket(): array {
+        $items = $this->itemRepository->findAll();
+        foreach ($items as $item) {
+            $name = $item->getName();
+            // we want only first array key since we seek for lowest price
+            $scannedMarket = $this->getWarframeMarketData($name)[0];
+
+            if ($scannedMarket[WarframeApiInterface::MARKET_PLATINUM] <= $item->getPrice()) {
+
+            }
+        }
     }
 }
