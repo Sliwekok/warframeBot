@@ -50,7 +50,7 @@ class ItemService
         $item = new Item();
         $itemCurlName = strtolower(preg_replace('/\s+/', '_', $data[ItemInterface::FORM_NAME]));
         $itemWikiUrl = $this->getWikiUrl($itemCurlName, $data[ItemInterface::FORM_TYPE]);
-        $itemImageUrl = $this->getImageUlr($itemCurlName);
+        $itemImageUrl = $this->getImageUrl($itemCurlName);
         $item
             ->setLoginId($loginId)
             ->setName($data[ItemInterface::FORM_NAME])
@@ -84,7 +84,7 @@ class ItemService
         return $this->warframeMarketApi->itemExists($name);
     }
 
-    private function getWikiUrl(string $name, string $type): string {
+    public function getWikiUrl(string $name, string $type): string {
         if (str_ends_with($name, ItemInterface::ITEM_NAME_PRIME)) {
 
             return $name;
@@ -102,7 +102,7 @@ class ItemService
         return $newUrl;
     }
 
-    private function getImageUlr(string $name): string {
+    public function getImageUrl(string $name): string {
         if (str_ends_with($name, ItemInterface::ITEM_NAME_PRIME)) {
 
             return $name;

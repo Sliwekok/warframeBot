@@ -11,7 +11,7 @@ class WarframeApiInterface
     public const URL_ORDER = '/orders?include=item';
 
     public const FETCHED_PAYLOAD = 'payload';
-    public const FETCHED_ORDERS = 'orders';
+    public const FETCHED_PAYLOAD_ORDERS = 'orders';
 
     public const MARKET_PLATINUM = 'platinum';
 }

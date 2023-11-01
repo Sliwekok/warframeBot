@@ -14,7 +14,7 @@ class WarframeMarketApi
         $data = file_get_contents($url);
         $dataArr = json_decode($data, true);
 
-        return (null === $dataArr[WarframeApiInterface::FETCHED_PAYLOAD][WarframeApiInterface::FETCHED_ORDERS]) ? false : true;
+        return (null === $dataArr[WarframeApiInterface::FETCHED_PAYLOAD][WarframeApiInterface::FETCHED_PAYLOAD_ORDERS]) ? false : true;
     }
 
     public function fetchList(string $name): array
@@ -22,6 +22,6 @@ class WarframeMarketApi
         $item = strtolower(preg_replace('/\s+/', '_', $name));
         $url = WarframeApiInterface::URL . WarframeApiInterface::URL_ITEMS . $item . WarframeApiInterface::URL_ORDER;
 
-        return json_decode(file_get_contents($url, true), true)[WarframeApiInterface::FETCHED_PAYLOAD][WarframeApiInterface::FETCHED_ORDERS];
+        return json_decode(file_get_contents($url, true), true)[WarframeApiInterface::FETCHED_PAYLOAD][WarframeApiInterface::FETCHED_PAYLOAD_ORDERS];
     }
 }

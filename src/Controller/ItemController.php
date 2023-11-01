@@ -72,14 +72,19 @@ class ItemController extends AbstractController
     #[Route('/search_market/{name}', name: 'item_search_market', methods: ['GET'])]
     public function searchMarket (
         string          $name,
-        MarketService   $marketService
+        MarketService   $marketService,
+        ItemService     $itemService,
     ): Response {
         $items = $marketService->getWarframeMarketData($name);
         usort($items, function ($a, $b) {return $a[WarframeApiInterface::MARKET_PLATINUM] > $b[WarframeApiInterface::MARKET_PLATINUM];});
+        $wikiUrl = $itemService->getImageUrl(
+            strtolower(preg_replace('/\s+/', '_', $name))
+        );
 
         return $this->render('item/searchMarket.html.twig', [
             'items'     => array_slice($items, 0, 20),
             'item_name' => $name,
+            'wiki_url'  => $wikiUrl
         ]);
     }
 
