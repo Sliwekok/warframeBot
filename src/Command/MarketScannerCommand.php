@@ -1,37 +1,45 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Command;
 
+use App\Service\Notification\NotificationService;
+use App\Service\WarframeMarket\MarketService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'app:scan_market')]
+#[AsCommand(
+    name: 'notification:scan_market',
+    description: 'Scans warframe market and add notification to user if matched requirements',
+    aliases: ['notification:scan-market'],
+    hidden: false
+)]
 class MarketScannerCommand extends Command
 {
     protected static $defaultDescription = 'Scans warframe market and add notification to user if matched requirements';
 
+    public function __construct(
+        private NotificationService $notificationService,
+        private MarketService       $marketService
+    ) {
+        parent::__construct();
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        // ... put here the code to create the user
+        $output->writeln("Started scanning warframe market");
+        $avaibleItems = $this->marketService->scanMarket();
+        if (0 === count($avaibleItems)) {
+            $output->writeln("No items matched requirements");
+        } else {
+            $output->writeln("Found ". count($avaibleItems). " matched items for users");
+            $createdNotifications = $this->notificationService->handleData($avaibleItems);
+            $output->writeln("Created $createdNotifications notifications");
+        }
+        $output->writeln("Ended scanning market");
 
-        // this method must return an integer number with the "exit status code"
-        // of the command. You can also use these constants to make code more readable
-
-        // return this if there was no problem running the command
-        // (it's equivalent to returning int(0))
-        return Command::SUCCESS;
-
-        // or return this if some error happened during the execution
-        // (it's equivalent to returning int(1))
-        // return Command::FAILURE;
-
-        // or return this to indicate incorrect command usage; e.g. invalid options
-        // or missing arguments (it's equivalent to returning int(2))
-        // return Command::INVALID
+        return OutputInterface::OUTPUT_NORMAL;
     }
 
     protected function configure(): void

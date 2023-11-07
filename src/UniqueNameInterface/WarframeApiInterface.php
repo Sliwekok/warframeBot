@@ -14,4 +14,7 @@ class WarframeApiInterface
     public const FETCHED_PAYLOAD_ORDERS = 'orders';
 
     public const MARKET_PLATINUM = 'platinum';
+    public const MARKET_USER = 'user';
+    public const MARKET_USER_INGAMENAME = 'ingame_name';
+    public const MARKET_USER_STATUS = 'status';
 }

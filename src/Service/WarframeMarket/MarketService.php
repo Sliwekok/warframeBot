@@ -7,6 +7,7 @@ namespace App\Service\WarframeMarket;
 use App\Util\Helper\WarframeMarketApi;
 use App\Repository\ItemRepository;
 use App\UniqueNameInterface\WarframeApiInterface;
+use App\UniqueNameInterface\ItemInterface;
 
 class MarketService
 {
@@ -25,14 +26,19 @@ class MarketService
 
     public function scanMarket(): array {
         $items = $this->itemRepository->findAll();
+        $matched = [];
         foreach ($items as $item) {
-            $name = $item->getName();
             // we want only first array key since we seek for lowest price
-            $scannedMarket = $this->getWarframeMarketData($name)[0];
+            $scannedMarket = $this->getWarframeMarketData($item->getName())[0];
 
             if ($scannedMarket[WarframeApiInterface::MARKET_PLATINUM] <= $item->getPrice()) {
-
+                $matched[$item->getId()] = $scannedMarket;
+                $matched[$item->getId()][ItemInterface::ENTITY_LOGINID] = $item->getLoginId();
             }
         }
+
+        usort($matched, function ($a, $b) {return $a[WarframeApiInterface::MARKET_PLATINUM] > $b[WarframeApiInterface::MARKET_PLATINUM];});
+
+        return $matched;
     }
 }

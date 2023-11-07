@@ -24,12 +24,12 @@ if object_id('dbo.notifications', 'U') is null begin
     CREATE TABLE dbo.notifications
         (
             id int IDENTITY(1,1) PRIMARY KEY,
-            is_read smallint default 0,
+            is_read smallint,
             login_id int,
             item_id int, 
             seller nvarchar(255),
             price int,
-            date datetime2 default GETDATE()
+            date datetime2
         )  ON [PRIMARY]
 end
 if not exists (
