@@ -50,7 +50,7 @@ class ItemService
         $item = new Item();
         $itemCurlName = strtolower(preg_replace('/\s+/', '_', $data[ItemInterface::FORM_NAME]));
         $itemWikiUrl = $this->getWikiUrl($itemCurlName, $data[ItemInterface::FORM_TYPE]);
-        $itemImageUrl = $this->getImageUrl($itemCurlName);
+        $itemImageUrl = $this->getImageUrl($itemCurlName, (string)$data[ItemInterface::FORM_TYPE]);
         $item
             ->setLoginId($loginId)
             ->setName($data[ItemInterface::FORM_NAME])
@@ -85,7 +85,10 @@ class ItemService
     }
 
     public function getWikiUrl(string $name, string $type): string {
-        if (str_ends_with($name, ItemInterface::ITEM_NAME_PRIME)) {
+        if (
+            str_ends_with($name, ItemInterface::ITEM_NAME_PRIME) ||
+            str_ends_with(strtolower($type), ItemInterface::ITEM_TYPE_MOD)
+        ) {
 
             return $name;
         }
@@ -102,10 +105,13 @@ class ItemService
         return $newUrl;
     }
 
-    public function getImageUrl(string $name): string {
-        if (str_ends_with($name, ItemInterface::ITEM_NAME_PRIME)) {
+    public function getImageUrl(string $name, string $type = null): string {
+        if (
+            str_ends_with($name, ItemInterface::ITEM_NAME_PRIME) ||
+            str_ends_with(strtolower($type), ItemInterface::ITEM_TYPE_MOD)
+        ) {
 
-            return $name;
+            return str_replace('_', '-', $name. '.jpg');
         }
         $exploded = explode('_', $name);
         unset($exploded[count($exploded) - 1]);
@@ -114,14 +120,9 @@ class ItemService
     }
 
     public function deleteItem(
-        UserInterface   $user,
-        array           $data
+        int $id
     ): void {
-        $item = $this->itemRepository->findOneBy([
-            ItemInterface::ENTITY_LOGINID => $user->getId(),
-            ItemInterface::ENTITY_PLATFORMID => (int)$data[ItemInterface::FORM_PLATFORMID],
-            ItemInterface::ENTITY_NAME => $data[ItemInterface::FORM_NAME]
-        ]);
+        $item = $this->itemRepository->find($id);
 
         $this->entityManager->remove($item);
         $this->entityManager->flush();
