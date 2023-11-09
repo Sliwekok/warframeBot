@@ -17,4 +17,6 @@ class WarframeApiInterface
     public const MARKET_USER = 'user';
     public const MARKET_USER_INGAMENAME = 'ingame_name';
     public const MARKET_USER_STATUS = 'status';
+    public const MARKET_USER_STATUS_ONLINE = 'online';
+    public const MARKET_USER_STATUS_OFFLINE = 'offline';
 }
