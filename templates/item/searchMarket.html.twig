@@ -12,20 +12,23 @@
                         <div class="status col-3">
                             <span>In-game status</span>
                         </div>
-                        <div class="price col-3">
+                        <div class="price col-2">
                             <span>Price</span>
                         </div>
                     </div>
                     {% for item in items %}
                         <div class="col-12 itemRow">
-                            <div class="username col-8">
+                            <div class="username col-4">
                                 <span>{{ item.user.ingame_name }}</span>
                             </div>
                             <div class="status col-3">
                                 <span>{{ item.user.status }}</span>
                             </div>
-                            <div class="price col-3 offset-1">
+                            <div class="price col-2">
                                 <span>{{ item.platinum }}</span>
+                            </div>
+                            <div class="action col-3">
+                                <button type="button">Text user</button>
                             </div>
                         </div>
                     {% endfor %}
