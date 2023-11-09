@@ -1,0 +1,17 @@
+{% extends('layouts/app.html.twig') %}
+
+{% block content %}
+
+    <div id="exception" class="col-10 offset-1">
+        <div class="col-12" id="title">
+            <p>Exception during handling request</p>
+        </div>
+        <div class="col-12">
+            <p>"Look at them, they come to this place when they know they are not pure." ~ Captain Vor</p>
+            <p>In fact this shouldn't happen. But if it does constantly contact administrators and tell them the problem is:</p>
+            <p>{{ status_text }}</p>
+            <p>You can always return to <i><a href="{{ url('index') }}">Homepage</a></i> or go to <i><a id="createUrlToPreviousPage" href="{{ app.request.headers.get('referer') }}">previous page</a></i></p>
+        </div>
+    </div>
+
+{% endblock %}
