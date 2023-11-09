@@ -5,9 +5,28 @@
     {% if items|length > 0 %}
             <div class="col-8 offset-2 searchedItems">
                 <div class="col-7">
+                    <div class="col-12 itemRow">
+                        <div class="col-4">
+                            <span>Username</span>
+                        </div>
+                        <div class="status col-3">
+                            <span>In-game status</span>
+                        </div>
+                        <div class="price col-3">
+                            <span>Price</span>
+                        </div>
+                    </div>
                     {% for item in items %}
                         <div class="col-12 itemRow">
-                            {{ item.user.ingame_name }} &nbsp {{ item.platinum }}
+                            <div class="username col-8">
+                                <span>{{ item.user.ingame_name }}</span>
+                            </div>
+                            <div class="status col-3">
+                                <span>{{ item.user.status }}</span>
+                            </div>
+                            <div class="price col-3 offset-1">
+                                <span>{{ item.platinum }}</span>
+                            </div>
                         </div>
                     {% endfor %}
                 </div>

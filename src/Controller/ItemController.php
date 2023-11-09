@@ -81,7 +81,7 @@ class ItemController extends AbstractController
         );
 
         return $this->render('item/searchMarket.html.twig', [
-            'items'     => array_slice($items, 0, 20),
+            'items'     => array_slice($items, 0, 13),
             'item_name' => $name,
             'wiki_url'  => $wikiUrl
         ]);

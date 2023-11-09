@@ -4,6 +4,19 @@
   flex-direction: row;
 
   .itemRow{
-    padding: 0.5vh;
+    padding: 1.5vh;
+    display: inline-flex;
+
+    &:nth-child(1){
+      font-weight: bold;
+    }
+
+    &:nth-child(odd){
+      background-color: rgba(darken($body-bg, 0.15), 0.65);
+    }
+
+    .price{
+      text-align: right;
+    }
   }
 }
