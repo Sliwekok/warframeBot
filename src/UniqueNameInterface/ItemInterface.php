@@ -10,6 +10,7 @@ class ItemInterface
     public const FORM_PRICE = 'price';
     public const FORM_PLATFORMID = 'platformId';
     public const FORM_TYPE = 'type';
+    public const FORM_ID = 'id';
 
     public const ENTITY_NAME = 'name';
     public const ENTITY_NAMECURL = 'nameCurl';
