@@ -75,9 +75,6 @@ class ItemController extends AbstractController
         MarketService   $marketService,
         ItemService     $itemService,
     ): Response {
-        /**
-         TODO - add platform select (basic - user default)
-        */
         $items = $marketService->getWarframeMarketData($name);
         $wikiUrl = $itemService->getImageUrl(
             strtolower(preg_replace('/\s+/', '_', $name))
