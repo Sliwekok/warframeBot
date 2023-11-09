@@ -76,7 +76,6 @@ class ItemController extends AbstractController
         ItemService     $itemService,
     ): Response {
         $items = $marketService->getWarframeMarketData($name);
-        usort($items, function ($a, $b) {return $a[WarframeApiInterface::MARKET_PLATINUM] > $b[WarframeApiInterface::MARKET_PLATINUM];});
         $wikiUrl = $itemService->getImageUrl(
             strtolower(preg_replace('/\s+/', '_', $name))
         );
