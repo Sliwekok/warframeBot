@@ -102,15 +102,15 @@ class ItemService
         return $newUrl;
     }
 
-    public function getImageUrl(string $name): string {
+    public function getImageUrl(string $name, int $explodeValue = 1): string {
         if (str_ends_with($name, ItemInterface::ITEM_NAME_PRIME)) {
 
             return $name;
         }
         $exploded = explode('_', $name);
-        unset($exploded[count($exploded) - 1]);
+        unset($exploded[count($exploded) - $explodeValue]);
 
-        return implode('-', $exploded). '.png';
+        return implode('-', $exploded). '.jpg';
     }
 
     public function deleteItem(

@@ -37,12 +37,13 @@
                         </div>
                     {% endfor %}
                 </div>
-                <div class="col-3">
+                <div class="col-3" id="itemDescription">
+                    <div class="col-12 title">{{ item_name }}</div>
                     <div class="col-12 picture">
                         <img src="https://raw.githubusercontent.com/wfcd/warframe-items/master/data/img/{{ wiki_url }}" alt="{{ item_name }}">
                     </div>
                     <div class="col-12 description">
-                        desc
+                        {{ item_description }}
                     </div>
                 </div>
             </div>

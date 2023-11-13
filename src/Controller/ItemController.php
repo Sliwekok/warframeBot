@@ -77,13 +77,23 @@ class ItemController extends AbstractController
     ): Response {
         $items = $marketService->getWarframeMarketData($name);
         $wikiUrl = $itemService->getImageUrl(
-            strtolower(preg_replace('/\s+/', '_', $name))
+            strtolower(preg_replace('/\s+/', '_', $name)),
+            0
         );
+        $itemData = $marketService->getItemData($name);
+        // it's awfully nested array, charming api huh?
+        $itemDescription = $itemData[WarframeApiInterface::INCLUDE_ITEM]
+            [WarframeApiInterface::INCLUDE_ITEM_ITEMSINSET]
+            [WarframeApiInterface::INCLUDE_ITEM_ITEMSINSET_FIRSTKEY]
+            [WarframeApiInterface::INCLUDE_ITEM_ITEMSINSET_FIRSTKEY_LANG_EN]
+            [WarframeApiInterface::INCLUDE_ITEM_ITEMSINSET_FIRSTKEY_LANG_EN_DESCRIPTION]
+        ;
 
         return $this->render('item/searchMarket.html.twig', [
-            'items'     => array_slice($items, 0, 13),
-            'item_name' => $name,
-            'wiki_url'  => $wikiUrl
+            'items'             => array_slice($items, 0, 13),
+            'item_name'         => $name,
+            'wiki_url'          => $wikiUrl,
+            'item_description'  => $itemDescription
         ]);
     }
 

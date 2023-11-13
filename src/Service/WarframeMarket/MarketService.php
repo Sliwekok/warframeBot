@@ -45,4 +45,8 @@ class MarketService
 
         return $matched;
     }
+
+    public function getItemData(string $itemName): array {
+        return $this->warframeMarketApi->fetchItemData($itemName);
+    }
 }
