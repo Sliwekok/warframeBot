@@ -4,8 +4,7 @@ $(document).on('click', '.deleteWatched', function(){
     const   text = "Are you sure you want to delete item from you watchlist?";
     // if confirmed delete - send ajax request
     if(confirm(text) === true){
-        var item = $(this).data('item'),
-            platform = $(this).data('platform');
+        var id = $(this).data('id');
         $.ajax({
             url: "delete",
             headers: {
@@ -13,8 +12,7 @@ $(document).on('click', '.deleteWatched', function(){
             },
             method: 'delete',
             data: {
-                platformId: platform,
-                name: item
+                id: id
             },
             error: function(message){
                 Assets.showAlert(

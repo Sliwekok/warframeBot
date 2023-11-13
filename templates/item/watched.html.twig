@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <div id="watched">
+    <div id="watched" class="col-12">
         {% if items_watched|length > 0 %}
             {% for item in items_watched %}
                 <div class="orderPanel">
@@ -12,7 +12,7 @@
                         <div class="col-12"><p class="platform">Platform: {{item.platformName}}</p></div>
                         <div class="col-12 orderMenagment">
                             <div><span class="col-3 editOrder edit tooltipButton" data-price='{{item.price}}' data-item='{{item.name}}' data-platform='{{item.platformName}}' data-tooltip-placement="bottom" data-title="Edit price of order"><i class="icon icon-pencil"></i></span></div>
-                            <div><span class="col-3 offset-4 editOrder delete deleteWatched tooltipButton" data-item='{{item.name}}' data-platform='{{item.platformName}}' data-tooltip-placement="bottom" data-title="Delete from watchlist"><i class="icon icon-cancel"></i></span></div>
+                            <div><span class="col-3 offset-4 editOrder delete deleteWatched tooltipButton" data-id='{{item.id}}' data-tooltip-placement="bottom" data-title="Delete from watchlist"><i class="icon icon-cancel"></i></span></div>
                         </div>
                     </div>
                     <div class="col-5 picture">

@@ -104,7 +104,7 @@ class ItemController extends AbstractController
     ): JsonResponse {
         $data = $request->request->all();
         $statusCode = 200;
-        $itemService->deleteItem($this->getUser(), $data);
+        $itemService->deleteItem((int)$data[ItemInterface::FORM_ID]);
         $msg = [
             JsonResponseInterface::MESSAGE => 'Successfully deleted item from watch-list'
         ];
