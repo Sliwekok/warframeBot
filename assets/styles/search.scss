@@ -1,0 +1,42 @@
+.searchedItems{
+  display: inline-flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+
+  .itemRow{
+    padding: 1.5vh;
+    display: inline-flex;
+    text-align: center;
+
+    &:nth-child(1){
+      font-weight: bold;
+    }
+
+    &:nth-child(odd){
+      background-color: rgba(darken($body-bg, 0.15), 0.65);
+    }
+
+    .dmSellerInput{
+      display: none;
+      position: absolute;
+      z-index: 100;
+      text-align: left;
+
+      input{
+        background-color: rgba(darken($body-bg, 0.25), 1);
+        color: white;
+        outline: none;
+      }
+    }
+
+  }
+
+  #itemDescription{
+    text-align: center;
+    .title{
+      font-weight: bold;
+      font-size: 1.15rem;
+    }
+
+  }
+}

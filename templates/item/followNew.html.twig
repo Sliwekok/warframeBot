@@ -8,12 +8,13 @@
                             <div class="row">
                                 <div class="col-12 title">
                                     <div class="col-11"><p>Add item to watch</p></div>
-                                    <div class="col-1 closeButton smallExit" title="Close form"><i class="icon icon-cancel"></i></div>
+                                    <div class="col-1 closeButton smallExit" data-title="Close form"><i class="icon icon-cancel"></i></div>
                                 </div>
                             </div>
                             <div class="row col-12" id="content">
                                 <div class="col-12">
-                                    <form action="{{ url('item/add') }}" method="post" id="formFollow" class="col-12" autocomplete="off">
+                                    {# it's called as ajax request #}
+                                    <form action="{{ url('item_add') }}" method="post" id="formFollow" class="col-12" autocomplete="off">
 {#TODO: ADD CSRF#}
                                         <div class="form-group col-12">
                                             <span><label for="itemNameinput">Search for item part</label></span><br>
@@ -25,19 +26,19 @@
                                         </div>
                                         <div class="form-group col-12">
                                             <span><label for="platformChangeUser">Platform</label></span><br>
-                                            <select class="platform" id="platformChangeUser" name="platform">
-                                                <option value="pc" {% if(platform_id === 1) %} selected {% endif %}>PC</option>
-                                                <option value="xbox" {% if(platform_id === 2) %} selected {% endif %}>XBOX</option>
-                                                <option value="ps" {% if(platform_id === 3) %} selected {% endif %}>PS</option>
-                                                <option value="switch" {% if(platform_id === 4) %} selected {% endif %}>Switch</option>
+                                            <select class="platform" id="platformChangeUser" name="platformId">
+                                                <option value="1" {% if app.user.platformid is same as 1 %} selected {% endif %}>PC</option>
+                                                <option value="2" {% if app.user.platformid is same as 2 %} selected {% endif %}>XBOX</option>
+                                                <option value="3" {% if app.user.platformid is same as 3 %} selected {% endif %}>PS</option>
+                                                <option value="4" {% if app.user.platformid is same as 4 %} selected {% endif %}>Switch</option>
                                             </select>
                                         </div>
                                         <div class="col-12" id="buttons">
                                             <div class="col-4">
-                                                <button class="btn btn-outline-secondary closeButton" title="Close uploader">Cancel</button>
+                                                <button class="btn btn-outline-secondary closeButton" data-title="Close uploader">Cancel</button>
                                             </div>
                                             <div class="col-2 offset-6">
-                                                <button type="submit" class="btn btn-outline-primary submit" title="Rename file">Create</button>
+                                                <button type="submit" class="btn btn-outline-primary submit" data-title="Rename file">Create</button>
                                             </div>
                                         </div>
                                     </form>

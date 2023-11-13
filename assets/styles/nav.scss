@@ -6,7 +6,7 @@ nav#mainNav{
     font-size: 1.2rem;
     position: absolute;
     z-index: 10;
-    background-color: rgba(0,0,0,0.4);
+    background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.5) 75%, rgba(0,0,0,0) 100%);
 
     .logo a{
         &:hover{

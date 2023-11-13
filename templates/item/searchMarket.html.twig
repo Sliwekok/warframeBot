@@ -1,0 +1,57 @@
+{% extends('layouts/app.html.twig') %}
+
+{% block content %}
+
+    {% if items|length > 0 %}
+            <div class="col-10 offset-1 searchedItems">
+                <div class="col-9">
+                    <div class="col-12 itemRow">
+                        <div class="col-4">
+                            <span>Username</span>
+                        </div>
+                        <div class="status col-3">
+                            <span>In-game status</span>
+                        </div>
+                        <div class="price col-2">
+                            <span>Price</span>
+                        </div>
+                    </div>
+                    {% for item in items %}
+                        <div class="col-12 itemRow">
+                            <div class="dmSellerInput col-9">
+                                <input class="col-12" type="text" value="/w {{ item.user.ingame_name }} Hi {{ item.user.ingame_name }}! I want to buy [{{ item_name }}] for {{ item.platinum }} platinum. Is it still available?">
+                            </div>
+                            <div class="username col-4">
+                                <span>{{ item.user.ingame_name }}</span>
+                            </div>
+                            <div class="status col-3">
+                                <span>{{ item.user.status }}</span>
+                            </div>
+                            <div class="price col-2">
+                                <span>{{ item.platinum }}</span>
+                            </div>
+                            <div class="action col-3">
+                                <button type="button" class="tooltipButton btn btn-outline-primary copyTextToClipboard" data-tooltip-placement="right" data-title="Copy to clipboard">Buy <i class="icon icon-tag"></i></button>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="col-3" id="itemDescription">
+                    <div class="col-12 title">{{ item_name }}</div>
+                    <div class="col-12 picture">
+                        <img src="https://raw.githubusercontent.com/wfcd/warframe-items/master/data/img/{{ wiki_url }}" alt="{{ item_name }}">
+                    </div>
+                    <div class="col-12 description">
+                        {{ item_description }}
+                    </div>
+                </div>
+            </div>
+
+    {% else %}
+        <div class="col-6 offset-3 text-center">
+            <p><h2>Apparently there are no active offers of {{ item_name }}</h2></p>
+        </div>
+    {% endif %}
+
+{% endblock %}
