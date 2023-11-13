@@ -50,7 +50,7 @@ class ItemService
         $item = new Item();
         $itemCurlName = strtolower(preg_replace('/\s+/', '_', $data[ItemInterface::FORM_NAME]));
         $itemWikiUrl = $this->getWikiUrl($itemCurlName, $data[ItemInterface::FORM_TYPE]);
-        $itemImageUrl = $this->getImageUrl($itemCurlName, (string)$data[ItemInterface::FORM_TYPE]);
+        $itemImageUrl = $this->getImageUrl($itemCurlName);
         $item
             ->setLoginId($loginId)
             ->setName($data[ItemInterface::FORM_NAME])
@@ -85,10 +85,7 @@ class ItemService
     }
 
     public function getWikiUrl(string $name, string $type): string {
-        if (
-            str_ends_with($name, ItemInterface::ITEM_NAME_PRIME) ||
-            str_ends_with(strtolower($type), ItemInterface::ITEM_TYPE_MOD)
-        ) {
+        if (str_ends_with($name, ItemInterface::ITEM_NAME_PRIME)) {
 
             return $name;
         }
@@ -105,24 +102,26 @@ class ItemService
         return $newUrl;
     }
 
-    public function getImageUrl(string $name, string $type = null): string {
-        if (
-            str_ends_with($name, ItemInterface::ITEM_NAME_PRIME) ||
-            str_ends_with(strtolower($type), ItemInterface::ITEM_TYPE_MOD)
-        ) {
+    public function getImageUrl(string $name, int $explodeValue = 1): string {
+        if (str_ends_with($name, ItemInterface::ITEM_NAME_PRIME)) {
 
-            return str_replace('_', '-', $name. '.jpg');
+            return $name;
         }
         $exploded = explode('_', $name);
-        unset($exploded[count($exploded) - 1]);
+        unset($exploded[count($exploded) - $explodeValue]);
 
-        return implode('-', $exploded). '.png';
+        return implode('-', $exploded). '.jpg';
     }
 
     public function deleteItem(
-        int $id
+        UserInterface   $user,
+        array           $data
     ): void {
-        $item = $this->itemRepository->find($id);
+        $item = $this->itemRepository->findOneBy([
+            ItemInterface::ENTITY_LOGINID => $user->getId(),
+            ItemInterface::ENTITY_PLATFORMID => (int)$data[ItemInterface::FORM_PLATFORMID],
+            ItemInterface::ENTITY_NAME => $data[ItemInterface::FORM_NAME]
+        ]);
 
         $this->entityManager->remove($item);
         $this->entityManager->flush();

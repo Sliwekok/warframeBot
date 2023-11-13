@@ -12,3 +12,4 @@ require('./bootstrap.js');
 require('./account.js');
 require('./addNew');
 require('./itemFetcher');
+require('./search');

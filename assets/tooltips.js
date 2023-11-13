@@ -91,3 +91,10 @@ function hide(div) {
 
     createdTooltips.splice(createdTooltips.indexOf(div), 1);
 }
+
+export function reloadTooltipValue(div, value) {
+    div = 'tooltipButton_' + div;
+    $('#'+div).html(
+        `<span>${value}</span>`
+    );
+}

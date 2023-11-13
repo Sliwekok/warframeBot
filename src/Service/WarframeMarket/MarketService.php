@@ -17,11 +17,17 @@ class MarketService
         private ItemRepository          $itemRepository
     ) {}
 
-    public function getWarframeMarketData (
+    public function getWarframeMarketData(
         string $itemName
     ): array {
 
-        return $this->warframeMarketApi->fetchList($itemName);
+        $matched = $this->warframeMarketApi->fetchList($itemName);
+        usort($matched, function ($a, $b) {return
+            [$a[WarframeApiInterface::MARKET_USER][WarframeApiInterface::MARKET_USER_STATUS], $a[WarframeApiInterface::MARKET_PLATINUM]]
+            <=>
+            [$b[WarframeApiInterface::MARKET_USER][WarframeApiInterface::MARKET_USER_STATUS], $b[WarframeApiInterface::MARKET_PLATINUM]];});
+
+        return $matched;
     }
 
     public function scanMarket(): array {
@@ -37,8 +43,10 @@ class MarketService
             }
         }
 
-        usort($matched, function ($a, $b) {return $a[WarframeApiInterface::MARKET_PLATINUM] > $b[WarframeApiInterface::MARKET_PLATINUM];});
-
         return $matched;
+    }
+
+    public function getItemData(string $itemName): array {
+        return $this->warframeMarketApi->fetchItemData($itemName);
     }
 }

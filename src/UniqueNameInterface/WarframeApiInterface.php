@@ -12,9 +12,17 @@ class WarframeApiInterface
 
     public const FETCHED_PAYLOAD = 'payload';
     public const FETCHED_PAYLOAD_ORDERS = 'orders';
+    public const FETCHED_INCLUDE = 'include';
+    public const INCLUDE_ITEM = 'item';
+    public const INCLUDE_ITEM_ITEMSINSET = 'items_in_set';
+    public const INCLUDE_ITEM_ITEMSINSET_FIRSTKEY = '0';
+    public const INCLUDE_ITEM_ITEMSINSET_FIRSTKEY_LANG_EN = 'en';
+    public const INCLUDE_ITEM_ITEMSINSET_FIRSTKEY_LANG_EN_DESCRIPTION = 'description';
 
     public const MARKET_PLATINUM = 'platinum';
     public const MARKET_USER = 'user';
     public const MARKET_USER_INGAMENAME = 'ingame_name';
     public const MARKET_USER_STATUS = 'status';
+    public const MARKET_USER_STATUS_ONLINE = 'online';
+    public const MARKET_USER_STATUS_OFFLINE = 'offline';
 }
