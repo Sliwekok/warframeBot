@@ -11,21 +11,26 @@ use App\UniqueNameInterface\WarframeApiInterface;
 use App\UniqueNameInterface\ItemInterface;
 use App\Repository\NotificationsRepository;
 use DateTime;
+use App\Repository\ItemRepository;
 
 class NotificationService
 {
 
     public function __construct(
         private EntityManagerInterface  $entityManager,
-        private NotificationsRepository $notificationsRepository
+        private NotificationsRepository $notificationsRepository,
+        private ItemRepository          $itemRepository
     ) {}
 
     public function handleData(array $data): int {
         $notifications = $this->notificationsRepository->getNotifications();
         $created = 0;
+        $itemIdArr = array_column($notifications, NotificationsInterface::ENTITY_ITEMID);
+        $loginIdArr = array_column($notifications, NotificationsInterface::ENTITY_LOGINID);
+
         foreach ($data as $offerId => $offerData) {
             // check if item already exists
-            if (!$this->notificationExists($notifications, $offerData[ItemInterface::ENTITY_LOGINID], $offerId)) {
+            if ($this->notificationNotExists($offerData[ItemInterface::ENTITY_LOGINID], $offerId, $itemIdArr, $loginIdArr)) {
                 $this->createNotification(
                     $offerData[ItemInterface::ENTITY_LOGINID],
                     $offerId,
@@ -40,23 +45,13 @@ class NotificationService
         return $created;
     }
 
-    public function notificationExists(
-        array $notifications,
-        int $loginId,
-        int $itemId
+    public function notificationNotExists(
+        int     $loginId,
+        int     $itemId,
+        array   $itemIdArr,
+        array   $loginIdArr,
     ): bool {
-        $itemIdArr = array_column($notifications, NotificationsInterface::ENTITY_ITEMID);
-        $loginIdArr = array_column($notifications, NotificationsInterface::ENTITY_LOGINID);
-
-        if (
-            is_null(array_search($loginId, $loginIdArr)) &&
-            is_null(array_search($itemId, $itemIdArr))
-        ) {
-
-            return false;
-        }
-
-        return true;
+        return (is_null(array_search($loginId, $loginIdArr)) && is_null(array_search($itemId, $itemIdArr)));
     }
 
     public function createNotification(
@@ -76,6 +71,30 @@ class NotificationService
         ;
 
         $this->entityManager->persist($notification);
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @param Notifications[] $notifications
+     */
+    public function getRelatedItems(array $notifications): array {
+        foreach ($notifications as &$notification) {
+            $item = $this->itemRepository->find($notification->getItemId());
+            $notification->item = $item;
+        }
+
+        return $notifications;
+    }
+
+    /**
+     * @param Notifications[] $notifications
+     */
+    public function setAsRead(array $notifications): void {
+        foreach ($notifications as $notification) {
+            $notification->setIsRead(true);
+            $this->entityManager->persist($notification);
+        }
+
         $this->entityManager->flush();
     }
 

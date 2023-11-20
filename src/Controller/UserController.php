@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Service\Notification\NotificationService;
 use App\UniqueNameInterface\ItemInterface;
+use App\Repository\NotificationsRepository;
+use App\UniqueNameInterface\NotificationsInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,8 +21,14 @@ class UserController extends AbstractController
 {
     #[Route('/', name: 'user_account')]
     public function index(
+        NotificationsRepository $notificationsRepository,
+        NotificationService     $notificationService
     ): Response {
-        $notifications = [];
+        $notifications = $notificationsRepository->findBy([
+            NotificationsInterface::ENTITY_LOGINID => $this->getUser()->getId(),
+        ]);
+        $notifications = $notificationService->getRelatedItems($notifications);
+        $notificationService->setAsRead($notifications);
 
         return $this->render('user/account.html.twig', [
             'notifications' => $notifications,
