@@ -1,15 +1,7 @@
-{#<div id="userNotifications">        #}
-{#    @foreach ($notifications as $notif)#}
-{#    <div class="col-12 notification">#}
-{#        <div class="col-12">#}
-{#            <p class="itemname"><a href="{{url('/readNotifications/'. $notif->id)}}" target="_blank">{{$notif->data['item']}}</a></p>#}
-{#            <p class="description">{{$notif->data['message']}}</p>#}
-{#            <p class="added">{{$notif->created_at}}</p>#}
-{#            <div class="col-1 offset-11  orderMenagment">#}
-{#                <div class="col-12"><span class="editOrder delete deleteNotificaion tooltipButton" data-notification-id="{{$notif->id}}" data-tooltip-placement="top" data-title="Delete notification"><i class="icon icon-cancel"></i></span></div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{#    @endforeach#}
-{#</div>#}
-{#TODO: REFACTOR NOTIFICATIONS#}
+{% for notification in notifications %}
+    <div class="col-12 notification">
+        <p class="title"><b>{{ notification.item.name }}</b> was found!</p>
+        <p>{{ notification.seller }} posted {{ notification.item.name }} for {{ notification.price }} platinum at {{ notification.date|date("Y-m-d H:i") }}</p>
+    </div>
+
+{% endfor %}

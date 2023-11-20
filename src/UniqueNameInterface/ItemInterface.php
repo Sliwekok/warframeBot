@@ -17,6 +17,7 @@ class ItemInterface
     public const ENTITY_LOGINID = 'login_id';
     public const ENTITY_PRICE = 'price';
     public const ENTITY_PLATFORMID = 'platform_id';
+    public const ENTITY_ID = 'id';
 
     public const ITEM_NAME_PRIME = 'prime';
     public const ITEM_TYPE_WARFRAME = 'warframe';
