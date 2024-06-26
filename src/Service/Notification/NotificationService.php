@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Notification;
 
+use App\Entity\Item;
 use App\Entity\Notifications;
 use App\UniqueNameInterface\NotificationsInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -93,6 +94,22 @@ class NotificationService
         foreach ($notifications as $notification) {
             $notification->setIsRead(true);
             $this->entityManager->persist($notification);
+        }
+
+        $this->entityManager->flush();
+    }
+
+    /**
+     * delete all notifications related to item
+     * @param Item[] $item
+     */
+    public function deleteNotifications(Item $item): void {
+        $notifications = $this->notificationsRepository->findBy([
+            NotificationsInterface::ENTITY_ITEMID => $item->getId()
+        ]);
+
+        foreach ($notifications as $notification) {
+            $this->entityManager->remove($notification);
         }
 
         $this->entityManager->flush();
