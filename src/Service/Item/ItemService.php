@@ -6,6 +6,7 @@ namespace App\Service\Item;
 
 use App\UniqueNameInterface\ItemInterface;
 use App\Repository\ItemRepository;
+use App\UniqueNameInterface\WarframeApiInterface;
 use App\Util\Helper\WarframeMarketApi;
 use App\Entity\Item;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,10 +17,10 @@ class ItemService
 {
 
     public function __construct(
-        private ItemRepository          $itemRepository,
-        private WarframeMarketApi       $warframeMarketApi,
-        private EntityManagerInterface  $entityManager,
-        private NotificationService     $notificationService
+        private ItemRepository           $itemRepository,
+        private WarframeMarketApi        $warframeMarketApi,
+        protected EntityManagerInterface $entityManager,
+        protected NotificationService $notificationService
     ) {}
 
     public function validateData(
@@ -104,15 +105,24 @@ class ItemService
         return $newUrl;
     }
 
-    public function getImageUrl(string $name, int $explodeValue = 1): string {
+    public function getImageUrl(
+        string  $name,
+        int     $explodeValue = 1,
+        bool    $rivenUrl = false
+    ): string {
         if (str_ends_with($name, ItemInterface::ITEM_NAME_PRIME)) {
 
             return $name;
         }
-        $exploded = explode('_', $name);
-        unset($exploded[count($exploded) - $explodeValue]);
 
-        return implode('-', $exploded). '.jpg';
+        $exploded = explode('_', $name);
+
+        if (!$rivenUrl) {
+            unset($exploded[count($exploded) - $explodeValue]);
+
+        }
+
+        return implode('-', $exploded) . '.png';
     }
 
     /**

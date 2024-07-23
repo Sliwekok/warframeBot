@@ -28,15 +28,27 @@ class MarketScannerCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln("Started scanning warframe market");
-        $avaibleItems = $this->marketService->scanMarket();
-        if (0 === count($avaibleItems)) {
-            $output->writeln("No items matched requirements");
+//        $output->writeln("Started scanning warframe market for Items");
+//        $availableItems = $this->marketService->scanMarket();
+//        if (0 === count($availableItems)) {
+//            $output->writeln("No items matched requirements");
+//        } else {
+//            $output->writeln("Found ". count($availableItems). " matched items for users");
+//            $createdNotifications = $this->notificationService->handleData($availableItems);
+//            $output->writeln("Created $createdNotifications notifications");
+//        }
+//        $output->writeln("Ended scanning for Items");
+        $output->writeln("Started scanning warframe market for Rivens");
+        $availableRivens = $this->marketService->scanRivens();
+        if (0 === count($availableRivens)) {
+            $output->writeln("No rivens matched requirements");
         } else {
-            $output->writeln("Found ". count($avaibleItems). " matched items for users");
-            $createdNotifications = $this->notificationService->handleData($avaibleItems);
+            $output->writeln("Found ". count($availableRivens). " matched rivens for users");
+            $createdNotifications = $this->notificationService->handleRiven($availableRivens);
             $output->writeln("Created $createdNotifications notifications");
         }
+
+
         $output->writeln("Ended scanning market");
 
         return OutputInterface::OUTPUT_NORMAL;

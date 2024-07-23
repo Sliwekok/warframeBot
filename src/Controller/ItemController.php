@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Repository\RivenRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,13 +25,16 @@ class ItemController extends AbstractController
     #[Route('/watched', name: 'item_watched')]
     public function watched (
         WatchlistRepository $watchlistRepository,
-        UserInterface       $login
+        UserInterface       $login,
+        RivenRepository     $rivenRepository
     ): Response
     {
         $itemsWatched = $watchlistRepository->findBy(['login_id' => $login->getId()]);
+        $rivensWatched = $rivenRepository->findBy(['login' => $login]);
 
         return $this->render('item/watched.html.twig', [
-            'items_watched' => $itemsWatched,
+            'items_watched'     => $itemsWatched,
+            'rivens_watched'    => $rivensWatched
         ]);
     }
 
@@ -76,10 +80,6 @@ class ItemController extends AbstractController
         ItemService     $itemService,
     ): Response {
         $items = $marketService->getWarframeMarketData($name);
-        $wikiUrl = $itemService->getImageUrl(
-            strtolower(preg_replace('/\s+/', '_', $name)),
-            0
-        );
         $itemData = $marketService->getItemData($name);
         // it's awfully nested array, charming api huh?
         $itemDescription = $itemData[WarframeApiInterface::INCLUDE_ITEM]
@@ -88,6 +88,10 @@ class ItemController extends AbstractController
             [WarframeApiInterface::INCLUDE_ITEM_ITEMSINSET_FIRSTKEY_LANG_EN]
             [WarframeApiInterface::INCLUDE_ITEM_ITEMSINSET_FIRSTKEY_LANG_EN_DESCRIPTION]
         ;
+
+        $wikiUrl = $itemService->getImageUrl(
+            strtolower(preg_replace('/\s+/', '_', $name)),
+        );
 
         return $this->render('item/searchMarket.html.twig', [
             'items'             => array_slice($items, 0, 13),
@@ -103,6 +107,11 @@ class ItemController extends AbstractController
         ItemService $itemService
     ): JsonResponse {
         $data = $request->request->all();
+
+        if ($data[ItemInterface::FORM_ISRIVEN]) {
+            $this->redirectToRoute('riven_delete');
+        }
+
         $statusCode = 200;
         $itemService->deleteItem((int)$data[ItemInterface::FORM_ID]);
         $msg = [

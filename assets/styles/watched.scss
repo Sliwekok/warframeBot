@@ -52,6 +52,7 @@
     width: 26.6%;
     margin-left: 5%;
     margin-top: 3%;
+    height: 22.5vh;
     position: relative;
 
     .itemname{
@@ -68,7 +69,7 @@
         .orderMenagment{
             display: inline-flex !important;
             padding: 0px;
-            margin-top: 10px;
+            margin-top: 40px;
             position: absolute;
             bottom: 15px;
             .editOrder{
@@ -85,6 +86,26 @@
             }
         }
     }
+
+    .attribute {
+        margin-top: 5px;
+        padding: 5px;
+        border-radius: 15px;
+        font-size: 0.7rem;
+        display: inline-block;
+        width: auto;
+    }
+
+    .attrPositive {
+        background-color: rgba(darken($okay, 15%), 0.25);
+        border-style: solid $okay;
+    }
+
+    .attrNegative {
+        background-color: rgba(darken($error, 15%), 0.25);
+        border-style: solid $error;
+    }
+
 }
 .added{
     font-size: 0.85rem;

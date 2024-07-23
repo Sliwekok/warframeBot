@@ -12,7 +12,7 @@
                         <div class="col-12"><p class="platform">Platform: {{item.platformName}}</p></div>
                         <div class="col-12 orderMenagment">
                             <div><span class="col-3 editOrder edit tooltipButton" data-price='{{item.price}}' data-item='{{item.name}}' data-platform='{{item.platformName}}' data-tooltip-placement="bottom" data-title="Edit price of order"><i class="icon icon-pencil"></i></span></div>
-                            <div><span class="col-3 offset-4 editOrder delete deleteWatched tooltipButton" data-id='{{item.id}}' data-tooltip-placement="bottom" data-title="Delete from watchlist"><i class="icon icon-cancel"></i></span></div>
+                            <div><span class="col-3 offset-4 editOrder delete deleteWatched tooltipButton" data-id='{{item.id}}' data-is-riven="false" data-tooltip-placement="bottom" data-title="Delete from watchlist"><i class="icon icon-cancel"></i></span></div>
                         </div>
                     </div>
                     <div class="col-5 picture">
@@ -20,7 +20,33 @@
                     </div>
                 </div>
             {% endfor %}
-        {% else %}
+        {% endif %}
+        {% if rivens_watched|length > 0 %}
+            {% for riven in rivens_watched %}
+                <div class="orderPanel">
+                    <div class="col-7 description">
+                        <div class="col-12"><p class="itemname">{{riven.weaponName}} Riven</p></div>
+                        <div class="col-12"><p class="price">Price: {{riven.price}} platinum</p></div>
+                        <div class="col-12">
+                            <p class="attributes">
+                                {% if riven.getAttrPos1|length > 1 %} <span class="attribute attrPositive">{{riven.getAttrPos1 }}</span> {% endif %}
+                                {% if riven.getAttrPos2|length > 1 %} <span class="attribute attrPositive">{{riven.getAttrPos2 }}</span> {% endif %}
+                                {% if riven.getAttrPos3|length > 1 %} <span class="attribute attrPositive">{{riven.getAttrPos3 }}</span> {% endif %}
+                                {% if riven.getAttrNeg|length > 1 %} <span class="attribute attrNegative">{{riven.getAttrNeg }}</span> {% endif %}
+                            </p>
+                        </div>
+                        <div class="col-12 orderMenagment">
+                            <div><span class="col-3 editOrder edit tooltipButton" data-price='{{riven.price}}' data-item='{{riven.weaponName}}' data-tooltip-placement="bottom" data-title="Edit price of riven"><i class="icon icon-pencil"></i></span></div>
+                            <div><span class="col-3 offset-4 editOrder delete deleteWatched tooltipButton" data-id='{{riven.id}}' data-is-riven="true" data-tooltip-placement="bottom" data-title="Delete from watchlist"><i class="icon icon-cancel"></i></span></div>
+                        </div>
+                    </div>
+                    <div class="col-5 picture">
+                        <img src="https://raw.githubusercontent.com/wfcd/warframe-items/master/data/img/{{ riven.imageUrl }}" alt="{{ riven.weaponName }}">
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% if (rivens_watched|length < 1) or (items_watched|length < 1) %}
             <div class="col-6 offset-3 text-center">
                 <p><h2>Add items to watch-list to start!</h2></p>
             </div>

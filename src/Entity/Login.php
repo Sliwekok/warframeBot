@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\LoginRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -38,6 +40,14 @@ class Login implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\OneToMany(mappedBy: 'login', targetEntity: Riven::class, orphanRemoval: true)]
+    private Collection $rivens;
+
+    public function __construct()
+    {
+        $this->rivens = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -143,6 +153,36 @@ class Login implements UserInterface, PasswordAuthenticatedUserInterface
     public function getEmail(): string
     {
         return $this->email;
+    }
+
+    /**
+     * @return Collection<int, Riven>
+     */
+    public function getRivens(): Collection
+    {
+        return $this->rivens;
+    }
+
+    public function addRiven(Riven $riven): static
+    {
+        if (!$this->rivens->contains($riven)) {
+            $this->rivens->add($riven);
+            $riven->setLogin($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRiven(Riven $riven): static
+    {
+        if ($this->rivens->removeElement($riven)) {
+            // set the owning side to null (unless already changed)
+            if ($riven->getLogin() === $this) {
+                $riven->setLogin(null);
+            }
+        }
+
+        return $this;
     }
 
 }

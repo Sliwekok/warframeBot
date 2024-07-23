@@ -19,7 +19,7 @@ function searchTrigger(query) {
     FetchData("https://api.warframestat.us/items/search/");
     /**
      *  Fetch data from api server given in parameter
-     *  It need to fetch it from 3 different routes:
+     *  It needs to fetch it from 3 different routes:
      *  ITEMS (items like relics), MODS, WARFRAMES (prime warframes parts), WEAPONS
      */
     async function FetchData(api) {

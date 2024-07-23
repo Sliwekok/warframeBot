@@ -57,6 +57,11 @@ export function forceCloseModal(div){
     // clear data before exiting
     // add index since it's jquery selector
     document.querySelector("#formFollow").reset();
+    $("#itemForm").hide();
+    $("#rivenForm").hide();
+    $("#itemOrRivenSelector")
+        .show()
+        .children().show();
     div.fadeOut(100)
         .parents(".modal").fadeOut(100);
 }

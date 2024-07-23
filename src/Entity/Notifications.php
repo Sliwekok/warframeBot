@@ -32,6 +32,9 @@ class Notifications
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
+    #[ORM\ManyToOne(inversedBy: 'notifications')]
+    private ?Riven $riven_id = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +108,18 @@ class Notifications
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getRivenId(): ?Riven
+    {
+        return $this->riven_id;
+    }
+
+    public function setRivenId(?Riven $riven_id): static
+    {
+        $this->riven_id = $riven_id;
 
         return $this;
     }
