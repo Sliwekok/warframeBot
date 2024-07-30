@@ -33,7 +33,7 @@ class RivenAttributeHelper
         string $name
     ): ?int {
         foreach($array as $key => $value){
-            if(is_array($value) && $value[] === $name)
+            if(is_array($value) && $value[WarframeApiInterface::INCLUDE_ITEM][WarframeApiInterface::PAYLOAD_ATTRIBUTES] === $name)
                 return $key;
         }
         return null;
