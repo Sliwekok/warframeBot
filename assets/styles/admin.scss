@@ -1,6 +1,11 @@
 #admin{
+    display: inline-flex !important;
+    flex-wrap: wrap !important;
+
     .title{
-        text-align: center;
+        text-align: center !important;
         font-size: 2rem;
+        padding-bottom: 5rem;
     }
+
 }
