@@ -3,17 +3,19 @@
 {% block content %}
 
     <div id="admin" class="col-12">
-        <div class="col-12 title">
-            Administration tools 2
+        <div class="col-12 title text-center">
+            Administration tools
         </div>
-        <div class="col-4 text-center">
-            2
-        </div>
-        <div class="col-4 text-center">
-            3
-        </div>
-        <div class="col-4 text-center">
-            4
+        <div class="col-4">
+            <p class="col-12 text-center"><label class="col-12" for="version">Server version</label></p>
+            <p class="col-12 note text-center">Caution: This will lead to server maintenance and may cause problems!</p>
+            <div class="col-6 offset-3">
+                <select name="version" id="version" class="form-select">
+                    {% for version in versions %}
+                        <option value="{{ version }}" {% if version == currentVersion %} selected {% endif %}>{{ version }}</option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
     </div>
 

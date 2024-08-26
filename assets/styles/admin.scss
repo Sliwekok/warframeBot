@@ -3,9 +3,11 @@
     flex-wrap: wrap !important;
 
     .title{
-        text-align: center !important;
         font-size: 2rem;
         padding-bottom: 5rem;
     }
 
+    .note{
+        color: darken($font-color, 35%);
+    }
 }

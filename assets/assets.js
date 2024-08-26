@@ -18,7 +18,7 @@ export function showAlert(status, message, header = 'Error occurred'){
         }
         
         // on click on alert close button
-        $(document).on('click', ".btn-close", function(){
+        $(document).on('click', ".btn-close-alert", function(){
             hideMethod();
         });
         
