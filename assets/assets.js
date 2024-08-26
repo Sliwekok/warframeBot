@@ -1,33 +1,65 @@
 // show alert with return message from server
-export function showAlert(status, message, header = 'Error occurred'){
-    let className = (status === 'error') ? "danger" : "success";
+export function showAlert(status, message, header, alertConfirmation = false , isTemporary = true) {
+    switch (status) {
+        case 'success':
+            var className = 'primary';
+            break;
+        case 'error':
+            var className = 'danger';
+            break;
+        case 'warning':
+            var className = 'warning';
+            break;
+        default:
+            var className = 'danger';
+    }
 
-    $(".alert").addClass('alert-'+className).fadeIn(50);
-    $("#alertHeader").text(header);
-    $("#alertContent").text(message);
-    
-    // hide alert by hand, because by default (bootstrap), it's getting deleted
-    (() => {
-        let div = $(".alert");
-        
-        function hideMethod(){
-            div.fadeOut(100);
-            setTimeout(function(){
-                div.removeClass("alert-success alert-danger");
-            }, 100);
-        }
-        
-        // on click on alert close button
-        $(document).on('click', ".btn-close-alert", function(){
-            hideMethod();
-        });
-        
-        // after 10sec hide it automatically
-        setTimeout(function(){
-            hideMethod();
+    let alert = $(".alert"),
+        alertHeader = $("#alertHeader"),
+        alertContent = $("#alertContent"),
+        alertConfirmationDiv = $('#alertConfirmation')
+    ;
+
+    alert.addClass('alert-'+className).fadeIn(100);
+    alertHeader.text(header);
+    alertContent.text(message);
+
+    if (isTemporary) {
+        setTimeout(function() {
+            hideAlertMethod();
         }, 10000)
-        
-    })();
+    }
+
+    if (alertConfirmation) {
+        alertConfirmationDiv.show(0);
+    }
+
+    function hideAlertMethod() {
+        alert.fadeOut(100);
+        setTimeout(function() {
+            alert.removeClass("alert-success alert-danger alert-warning");
+            alertConfirmationDiv.hide(0);
+            alertHeader.text('');
+            alertContent.text('');
+        }, 100);
+    }
+
+    return new Promise((resolve) => {
+        if (alertConfirmation === false) {
+            resolve(true);
+        }
+        $(document).on('click', ".btn-close, #alertNo", function() {
+            hideAlertMethod();
+
+            resolve(false);
+        });
+
+        $(document).on('click', "#alertYes", function() {
+            hideAlertMethod();
+
+            resolve(true);
+        });
+    });
 }
 
 // add ways to exit modal
@@ -78,7 +110,7 @@ export function showModal(div){
 // allow copying text in div
 $.fn.selectText = function(){
     this.find('input').each(function() {
-        if($(this).prev().length == 0 || !$(this).prev().hasClass('p_copy')) { 
+        if($(this).prev().length == 0 || !$(this).prev().hasClass('p_copy')) {
             $('<p class="p_copy" style="position: absolute; z-index: -1;"></p>').insertBefore($(this));
         }
         $(this).prev().html($(this).val());
@@ -89,7 +121,7 @@ $.fn.selectText = function(){
         range.moveToElementText(element);
         range.select();
     } else if (window.getSelection) {
-        var selection = window.getSelection();        
+        var selection = window.getSelection();
         var range = document.createRange();
         range.selectNodeContents(element);
         selection.removeAllRanges();
@@ -109,7 +141,7 @@ export function refreshContainerContent(url, div){
         method: 'get',
         error: function(error){
             console.log("=========");
-            console.log(error); 
+            console.log(error);
             return false;
         },
 
