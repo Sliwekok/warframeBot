@@ -39,7 +39,9 @@ $(document).on("change", "#platformChangeGlobalUser", function(){
 // change to refresh content on watchlist
 $(document).on("submit", "#searchItems", function(e){
     e.preventDefault();
-    var search = $(this).find(".itemNameinput").val();
+    let
+        form = $(this),
+        search = form.find(".itemNameinput").val();
     location.replace('/item/search_market/'+search);
 });
 

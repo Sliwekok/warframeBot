@@ -24,4 +24,5 @@ class ItemInterface
     public const ITEM_TYPE_WEAPON = 'weapon';
     public const ITEM_TYPE_MOD = 'mod';
     public const ITEM_TYPE_ITEM = 'item';
+    public const ITEM_TYPE_WARFRAME_MOD = 'Warframe Mod';
 }

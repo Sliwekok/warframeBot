@@ -10,9 +10,9 @@ $(document).on('submit', '#formFollow', function(e) {
         item = form.find('#itemNameinput').val(),
         price = form.find('#itemPrice').val(),
         platformid = form.find('#platformChangeUser').val(),
-        type = getItemType(item)
+        type = Assets.getItemType(item)
     ;
-    console.log(type);
+
     $.ajax({
         url: '/item/add',
         type: "POST",
@@ -26,8 +26,11 @@ $(document).on('submit', '#formFollow', function(e) {
             Assets.forceCloseModal(form)
             Assets.showAlert(
                 'error',
-                message.responseJSON.message
+                message.responseJSON.message,
+                message.statusText
             );
+            Assets.refreshContainerContent('/item/watched', 'watched');
+
             form.show(200);
 
             return false;
@@ -46,11 +49,3 @@ $(document).on('submit', '#formFollow', function(e) {
         }
     })
 });
-
-function getItemType(item) {
-    let datalist = $("#itemsList"),
-        options = datalist.find('option[value="'+item+'"]')
-    ;
-
-    return options.attr('label');
-}

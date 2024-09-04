@@ -1,5 +1,5 @@
 {% for notification in notifications %}
-    <div class="col-12 notification">
+    <div class="col-12 notification text-center">
         <p class="title"><b>{{ notification.item.name }}</b> was found!</p>
         <p>{{ notification.seller }} posted {{ notification.item.name }} for {{ notification.price }} platinum at {{ notification.date|date("Y-m-d H:i") }}</p>
     </div>

@@ -28,7 +28,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/panel', name: 'admin_panel')]
+    #[Route('/change_version', name: 'admin_change_version')]
     public function changeVersion(
         AdminService    $adminService,
         Request         $request

@@ -76,9 +76,22 @@ class ItemController extends AbstractController
         ItemService     $itemService,
     ): Response {
         $items = $marketService->getWarframeMarketData($name);
-        $wikiUrl = $itemService->getImageUrl(
+        $type = $marketService->getItemData($name)[WarframeApiInterface::INCLUDE_ITEM]
+            [WarframeApiInterface::INCLUDE_ITEM_ITEMSINSET]
+            [WarframeApiInterface::INCLUDE_ITEM_ITEMSINSET_FIRSTKEY]
+            [WarframeApiInterface::INCLUDE_ITEM_ITEMSINSET_TAGS]
+            [WarframeApiInterface::INCLUDE_ITEM_ITEMSINSET_TAGS_FIRST];
+
+        if (in_array($type, [ItemInterface::ITEM_TYPE_MOD, ItemInterface::ITEM_TYPE_WARFRAME_MOD])) {
+            $explodedValue = 0;
+        } else {
+            $explodedValue = 1;
+        }
+
+        $imgUrl = $itemService->getImageUrl(
             strtolower(preg_replace('/\s+/', '_', $name)),
-            0
+            $type,
+            $explodedValue
         );
         $itemData = $marketService->getItemData($name);
         // it's awfully nested array, charming api huh?
@@ -92,7 +105,7 @@ class ItemController extends AbstractController
         return $this->render('item/searchMarket.html.twig', [
             'items'             => array_slice($items, 0, 13),
             'item_name'         => $name,
-            'wiki_url'          => $wikiUrl,
+            'img_url'           => $imgUrl,
             'item_description'  => $itemDescription
         ]);
     }
@@ -104,7 +117,8 @@ class ItemController extends AbstractController
     ): JsonResponse {
         $data = $request->request->all();
         $statusCode = 200;
-        $itemService->deleteItem((int)$data[ItemInterface::FORM_ID]);
+        $login = $this->getUser();
+        $itemService->deleteItem($login, (int)$data[ItemInterface::FORM_ID]);
         $msg = [
             JsonResponseInterface::MESSAGE => 'Successfully deleted item from watch-list'
         ];

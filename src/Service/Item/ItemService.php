@@ -10,6 +10,7 @@ use App\Util\Helper\WarframeMarketApi;
 use App\Entity\Item;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Service\Notification\NotificationService;
 
 class ItemService
 {
@@ -17,7 +18,8 @@ class ItemService
     public function __construct(
         private ItemRepository          $itemRepository,
         private WarframeMarketApi       $warframeMarketApi,
-        private EntityManagerInterface  $entityManager
+        private EntityManagerInterface  $entityManager,
+        private NotificationService     $notificationService
     ) {}
 
     public function validateData(
@@ -50,7 +52,12 @@ class ItemService
         $item = new Item();
         $itemCurlName = strtolower(preg_replace('/\s+/', '_', $data[ItemInterface::FORM_NAME]));
         $itemWikiUrl = $this->getWikiUrl($itemCurlName, $data[ItemInterface::FORM_TYPE]);
-        $itemImageUrl = $this->getImageUrl($itemCurlName);
+        if (str_contains(strtolower($data[ItemInterface::FORM_TYPE]), ItemInterface::ITEM_TYPE_MOD)) {
+            $exploded = 0;
+        } else {
+            $exploded = 1;
+        }
+        $itemImageUrl = $this->getImageUrl($itemCurlName, $data[ItemInterface::FORM_TYPE], $exploded);
         $item
             ->setLoginId($loginId)
             ->setName($data[ItemInterface::FORM_NAME])
@@ -89,8 +96,15 @@ class ItemService
 
             return $name;
         }
+
         $exploded = explode('_', $name);
-        unset($exploded[count($exploded) - 1]);
+
+        if (str_contains(strtolower($type), ItemInterface::ITEM_TYPE_MOD)) {
+            $wordsToExplode = 0;
+        } else {
+            $wordsToExplode = 1;
+        }
+        unset($exploded[count($exploded) - $wordsToExplode]);
 
         // warframe wiki has different ways to create urls for warframes somehow
         if (ItemInterface::ITEM_TYPE_WARFRAME === strtolower($type)) {
@@ -99,29 +113,52 @@ class ItemService
             $newUrl = implode('_', array_map('ucfirst', $exploded));
         }
 
+        if (
+            str_contains(strtolower($type), ItemInterface::ITEM_TYPE_MOD) ||
+            ItemInterface::ITEM_TYPE_ITEM === strtolower($type)
+        ) {
+            $newUrl = implode('_', array_map('ucfirst', $exploded));
+        }
+
         return $newUrl;
     }
 
-    public function getImageUrl(string $name, int $explodeValue = 1): string {
+    public function getImageUrl(
+        string  $name,
+        string  $type,
+        int     $explodeValue = 1,
+        bool    $rivenUrl = false
+    ): string {
         if (str_ends_with($name, ItemInterface::ITEM_NAME_PRIME)) {
 
             return $name;
         }
-        $exploded = explode('_', $name);
-        unset($exploded[count($exploded) - $explodeValue]);
 
-        return implode('-', $exploded). '.jpg';
+        if (str_contains(strtolower($type), ItemInterface::ITEM_TYPE_MOD)) {
+            $extension = '.jpg';
+        } else {
+            $extension = '.png';
+        }
+
+        $exploded = explode('_', $name);
+
+        if (!$rivenUrl) {
+            unset($exploded[count($exploded) - $explodeValue]);
+        }
+
+        return implode('-', $exploded). $extension;
     }
 
     public function deleteItem(
         UserInterface   $user,
-        array           $data
+        int             $itemId
     ): void {
         $item = $this->itemRepository->findOneBy([
             ItemInterface::ENTITY_LOGINID => $user->getId(),
-            ItemInterface::ENTITY_PLATFORMID => (int)$data[ItemInterface::FORM_PLATFORMID],
-            ItemInterface::ENTITY_NAME => $data[ItemInterface::FORM_NAME]
+            ItemInterface::ENTITY_ID => $itemId
         ]);
+
+        $this->notificationService->deleteNotifications($item);
 
         $this->entityManager->remove($item);
         $this->entityManager->flush();

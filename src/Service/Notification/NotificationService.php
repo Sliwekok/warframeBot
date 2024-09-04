@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Notification;
 
+use App\Entity\Item;
 use App\Entity\Notifications;
 use App\UniqueNameInterface\NotificationsInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,7 +31,7 @@ class NotificationService
 
         foreach ($data as $offerId => $offerData) {
             // check if item already exists
-            if ($this->notificationNotExists($offerData[ItemInterface::ENTITY_LOGINID], $offerId, $itemIdArr, $loginIdArr)) {
+            if (!$this->notificationNotExists($offerData[ItemInterface::ENTITY_LOGINID], $offerId, $itemIdArr, $loginIdArr)) {
                 $this->createNotification(
                     $offerData[ItemInterface::ENTITY_LOGINID],
                     $offerId,
@@ -96,6 +97,28 @@ class NotificationService
         }
 
         $this->entityManager->flush();
+    }
+
+    /**
+     * Delete item related notifications
+     *
+     * @param Item $item
+     * @return void
+     */
+    public function deleteNotifications(
+        Item    $item
+    ): void {
+        $notifications = $this->notificationsRepository->findBy([
+            NotificationsInterface::ENTITY_ITEMID => $item->getId()
+        ]);
+
+        foreach ($notifications as $notification) {
+            $this->entityManager->remove($notification);
+        }
+
+        $this->entityManager->flush();
+
+        return;
     }
 
 }

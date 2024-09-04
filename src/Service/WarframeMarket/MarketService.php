@@ -20,7 +20,6 @@ class MarketService
     public function getWarframeMarketData(
         string $itemName
     ): array {
-
         $matched = $this->warframeMarketApi->fetchList($itemName);
         usort($matched, function ($a, $b) {return
             [$a[WarframeApiInterface::MARKET_USER][WarframeApiInterface::MARKET_USER_STATUS], $a[WarframeApiInterface::MARKET_PLATINUM]]

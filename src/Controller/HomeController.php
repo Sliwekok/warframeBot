@@ -16,7 +16,7 @@ class HomeController extends AbstractController
         if ($this->getUser()) {
             return $this->redirectToRoute('item_watched');
         } else {
-            return $this->redirectToRoute('app_login');
+            return $this->render('index.html.twig');
         }
     }
 }
