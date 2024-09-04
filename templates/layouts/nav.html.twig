@@ -8,9 +8,12 @@
                 <input list="itemsList" name="name" type="text" value="{{item_name ?? ''}}" class="col-12 itemNameinput" placeholder="Search for desired item">
             </form>
         </div>
-        <div class="col-5 menu-items">
+        <div class="col-4 offset-1 menu-items">
             <div class="col-4"><button class="btn btn-outline-primary col-12 tooltipButton" id="addFollow" data-tooltip-placement="bottom" data-title="Add new item to follow prices">Follow new</button></div>
             <div class="col-4"><a href="{{ url('user_account') }}"><button class="btn btn-outline-primary col-12">Account <span class="notificationCounter ringAnimated"></span></button></a></div>
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="col-4"><a href="{{ url('admin_panel') }}"><button class="btn btn-outline-primary col-12">Administration tools</button></a></div>
+            {% endif %}
         </div>
     {% endif %}
 </nav>

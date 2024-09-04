@@ -91,7 +91,7 @@ a.special {
   display: none;
   z-index: 100;
 }
-.alert .btn-close {
+.alert .btn-close-alert {
   color: red;
   background-color: transparent;
   border: 0px;

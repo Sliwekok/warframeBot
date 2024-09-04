@@ -1,0 +1,13 @@
+#admin{
+    display: inline-flex !important;
+    flex-wrap: wrap !important;
+
+    .title{
+        font-size: 2rem;
+        padding-bottom: 5rem;
+    }
+
+    .note{
+        color: darken($font-color, 35%);
+    }
+}

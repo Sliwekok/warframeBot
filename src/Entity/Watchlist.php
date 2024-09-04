@@ -31,6 +31,9 @@ class Watchlist
     #[ORM\Column(length: 255)]
     private ?string $image_url = null;
 
+    #[ORM\Column(length: 255)]
+    private ?int $platform_id = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -64,5 +67,10 @@ class Watchlist
     public function getImageUrl(): ?string
     {
         return $this->image_url;
+    }
+
+    public function getPlatformId(): ?int
+    {
+        return $this->platform_id;
     }
 }
