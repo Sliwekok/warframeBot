@@ -22,7 +22,7 @@ class NotificationsRepository extends ServiceEntityRepository
         parent::__construct($registry, Notifications::class);
     }
 
-    public function getNotifications(): array {
+    public function getItemNotifications(): array {
         $isRead = NotificationsInterface::ENTITY_ISREAD;
         $id = NotificationsInterface::ENTITY_ID;
         $loginId = NotificationsInterface::ENTITY_LOGINID;
@@ -36,6 +36,22 @@ class NotificationsRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getArrayResult()
             ;
+    }
+
+    public function getRivenNotifications(): array {
+        $isRead = NotificationsInterface::ENTITY_ISREAD;
+        $id = NotificationsInterface::ENTITY_ID;
+        $loginId = NotificationsInterface::ENTITY_LOGINID;
+        $rivenId = NotificationsInterface::ENTITY_RIVENID;
+
+        return $this->createQueryBuilder('n')
+            ->select("n.$id as $id")
+            ->addSelect("n.$loginId as $loginId")
+            ->addSelect("n.$rivenId as $rivenId")
+            ->where("n.$isRead = 0")
+            ->getQuery()
+            ->getArrayResult()
+        ;
     }
 
 }

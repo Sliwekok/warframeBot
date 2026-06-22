@@ -4,35 +4,43 @@ $(document).on('click', '.deleteWatched', function(){
     const   text = "Are you sure you want to delete item from you watchlist?";
     // if confirmed delete - send ajax request
     if(confirm(text) === true){
-        var id = $(this).data('id');
-        $.ajax({
-            url: "delete",
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            method: 'delete',
-            data: {
-                id: id
-            },
-            error: function(message){
-                Assets.showAlert(
-                    'error',
-                    message.responseJSON.message
-                );
-                return false;
-            },
-            success: function(message){
-                Assets.showAlert(
-                    'success',
-                    message.message,
-                    'Item has been deleted');
-                Assets.refreshContainerContent('/item/watched', 'watched');
+        let id = $(this).data('id'),
+            isRiven = $(this).data('is-riven');
+        deleteItem(id, isRiven);
 
-                return true;
-            }
-        });
     }
 })
+
+function deleteItem (id, isRiven) {
+    $.ajax({
+        url: "delete",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        method: 'delete',
+        data: {
+            id: id,
+            isRiven: isRiven
+        },
+        error: function(message){
+            Assets.showAlert(
+                'error',
+                message.responseJSON.message
+            );
+            return false;
+        },
+        success: function(message){
+            Assets.showAlert(
+                'success',
+                message.message,
+                'Item has been deleted');
+            Assets.refreshContainerContent('/item/watched', 'watched');
+
+            return true;
+        }
+    });
+}
+
 $(document).on('click', '.edit', function(){
     var item = $(this).data('item'),
         price = $(this).data('price'), 

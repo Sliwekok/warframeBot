@@ -14,3 +14,5 @@ require('./addNew');
 require('./itemFetcher');
 require('./search');
 require('./admin');
+
+require('./rivenFetcher');

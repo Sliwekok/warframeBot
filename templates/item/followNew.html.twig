@@ -12,10 +12,90 @@
                                 </div>
                             </div>
                             <div class="row col-12" id="content">
-                                <div class="col-12">
+                                <div class="col-12" id="itemOrRivenSelector">
+                                    <div class="col-5 icon" id="selectItemForm">
+                                        <div class="col-12">
+                                            <p>Item form</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-5 offset-2 icon" id="selectRivenForm">
+                                        <div class="col-12">
+                                            <p>Riven form</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12" id="rivenForm">
+                                    {# it's called as ajax request #}
+                                    <form action="{{ url('riven_add') }}" method="post" id="rivenFollow" class="col-12" autocomplete="off">
+                                        <div class="form-group col-12">
+                                            <span><label for="rivenWeaponName">Search for weapon</label></span><br>
+                                            <input list="itemsList" type="text" class="col-12 rivenList" id="rivenWeaponName" name="name" placeholder="Search..." required>
+                                        </div>
+                                        <div class="form-group col-12">
+                                            <span><label for="rivenAttr">Riven Attributes (optional)</label></span><br>
+
+                                            <div class="col-12 d-inline-flex"><p class="col-3"><label for="rivenAttrPositive1">Positive Attribute</label></p><input list="rivenAttributesList" id="rivenAttrPositive1" type="text" name="rivenAttrPositive1" class="col-6 offset-3"></div>
+                                            <div class="col-12 d-inline-flex"><p class="col-3"><label for="rivenAttrPositive2">Positive Attribute</label></p><input list="rivenAttributesList" id="rivenAttrPositive2" type="text" name="rivenAttrPositive2" class="col-6 offset-3"></div>
+                                            <div class="col-12 d-inline-flex"><p class="col-3"><label for="rivenAttrPositive3">Positive Attribute</label></p><input list="rivenAttributesList" id="rivenAttrPositive3" type="text" name="rivenAttrPositive3" class="col-6 offset-3"></div>
+                                            <div class="col-12 d-inline-flex"><p class="col-3"><label for="rivenAttrNegative">Negative Attribute</label></p><input list="rivenAttributesList" id="rivenAttrNegative" type="text" name="rivenAttrNegative" class="col-6 offset-3"></div>
+                                        </div>
+                                        <div class="form-group col-12">
+                                            <span><label for="rivenPrice">Price</label></span><br>
+                                            <input type="number" name="price" placeholder="Price for item" id="rivenPrice" required>
+                                        </div>
+                                        <div class="col-12" id="buttons">
+                                            <div class="col-4">
+                                                <button class="btn btn-outline-secondary closeButton" data-title="Cancel adding">Cancel</button>
+                                            </div>
+                                            <div class="col-2 offset-6">
+                                                <button type="submit" class="btn btn-outline-primary submit" data-title="Add to watchlist">Create</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-none">
+                                            <datalist id="rivenAttributesList">
+                                                <option label="Ammo Maximum" value="Ammo Maximum">Ammo Maximum</option>
+                                                <option label="Damage to Corpus" value="Damage to Corpus">Damage to Corpus</option>
+                                                <option label="Damage to Grineer" value="Damage to Grineer">Damage to Grineer</option>
+                                                <option label="Damage to Infested" value="Damage to Infested">Damage to Infested</option>
+                                                <option label="Cold" value="Cold">Cold</option>
+                                                <option label="Initial combo" value="Initial combo">Initial combo</option>
+                                                <option label="Heavy Attack Efficiency" value="Heavy Attack Efficiency">Heavy Attack Efficiency</option>
+                                                <option label="Combo Duration" value="Combo Duration">Combo Duration</option>
+                                                <option label="Critical Chance" value="Critical Chance">Critical Chance</option>
+                                                <option label="Critical Chance for Slide Attack" value="Critical Chance for Slide Attack">Critical Chance for Slide Attack</option>
+                                                <option label="Critical Damage" value="Critical Damage">Critical Damage</option>
+                                                <option label="Damage" value="Damage">Damage</option>
+                                                <option label="Electricity" value="Electricity">Electricity</option>
+                                                <option label="Heat" value="Heat">Heat</option>
+                                                <option label="Finisher Damage" value="Finisher Damage">Finisher Damage</option>
+                                                <option label="Fire Rate / Attack Speed" value="Fire Rate / Attack Speed">Fire Rate / Attack Speed</option>
+                                                <option label="Projectile speed" value="Projectile speed">Projectile speed</option>
+                                                <option label="Impact" value="Impact">Impact</option>
+                                                <option label="Magazine Capaciyt" value="Magazine Capaciyt">Magazine Capaciyt</option>
+                                                <option label="Multishot" value="Multishot">Multishot</option>
+                                                <option label="Toxin" value="Toxin">Toxin</option>
+                                                <option label="Punch Through" value="Punch Through">Punch Through</option>
+                                                <option label="Puncture" value="Puncture">Puncture</option>
+                                                <option label="Reload Speed" value="Reload Speed">Reload Speed</option>
+                                                <option label="Range" value="Range">Range</option>
+                                                <option label="Slash" value="Slash">Slash</option>
+                                                <option label="Status Chance" value="Status Chance">Status Chance</option>
+                                                <option label="Status Duration" value="Status Duration">Status Duration</option>
+                                                <option label="Weapon Recoil" value="Weapon Recoil">Weapon Recoil</option>
+                                                <option label="Zoom" value="Zoom">Zoom</option>
+                                                <option label="Additional Combo Count Chance" value="Additional Combo Count Chance">Additional Combo Count Chance</option>
+                                                <option label="Chance to Gain Combo Count" value="Chance to Gain Combo Count">Chance to Gain Combo Count</option>
+                                            </datalist>
+                                        </div>
+
+                                    </form>
+                                </div>
+
+                                <div class="col-12" id="itemForm">
                                     {# it's called as ajax request #}
                                     <form action="{{ url('item_add') }}" method="post" id="formFollow" class="col-12" autocomplete="off">
-{#TODO: ADD CSRF#}
                                         <div class="form-group col-12">
                                             <span><label for="itemNameinput">Search for item part</label></span><br>
                                             <input list="itemsList" type="text" class="col-12 itemNameinput" id="itemNameinput" name="name" placeholder="Search...">
@@ -35,10 +115,10 @@
                                         </div>
                                         <div class="col-12" id="buttons">
                                             <div class="col-4">
-                                                <button class="btn btn-outline-secondary closeButton" data-title="Close uploader">Cancel</button>
+                                                <button class="btn btn-outline-secondary closeButton" data-title="Cancel adding">Cancel</button>
                                             </div>
                                             <div class="col-2 offset-6">
-                                                <button type="submit" class="btn btn-outline-primary submit" data-title="Rename file">Create</button>
+                                                <button type="submit" class="btn btn-outline-primary submit" data-title="Add to watchlist">Create</button>
                                             </div>
                                         </div>
                                     </form>

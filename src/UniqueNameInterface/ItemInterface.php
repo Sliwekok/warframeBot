@@ -11,6 +11,7 @@ class ItemInterface
     public const FORM_PLATFORMID = 'platformId';
     public const FORM_TYPE = 'type';
     public const FORM_ID = 'id';
+    public const FORM_ISRIVEN = 'isRiven';
 
     public const ENTITY_NAME = 'name';
     public const ENTITY_NAMECURL = 'nameCurl';
@@ -24,4 +25,10 @@ class ItemInterface
     public const ITEM_TYPE_WEAPON = 'weapon';
     public const ITEM_TYPE_MOD = 'mod';
     public const ITEM_TYPE_ITEM = 'item';
+
+    public const FORM_RIVEN_ATTR = 'attributes';
+    public const FORM_RIVEN_ATTR_POSITIVE_1 = 'attrPositive1';
+    public const FORM_RIVEN_ATTR_POSITIVE_2 = 'attrPositive2';
+    public const FORM_RIVEN_ATTR_POSITIVE_3 = 'attrPositive3';
+    public const FORM_RIVEN_ATTR_NEGATIVE = 'attrNegative';
 }

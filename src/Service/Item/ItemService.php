@@ -6,18 +6,21 @@ namespace App\Service\Item;
 
 use App\UniqueNameInterface\ItemInterface;
 use App\Repository\ItemRepository;
+use App\UniqueNameInterface\WarframeApiInterface;
 use App\Util\Helper\WarframeMarketApi;
 use App\Entity\Item;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Service\Notification\NotificationService;
 
 class ItemService
 {
 
     public function __construct(
-        private ItemRepository          $itemRepository,
-        private WarframeMarketApi       $warframeMarketApi,
-        private EntityManagerInterface  $entityManager
+        private ItemRepository           $itemRepository,
+        private WarframeMarketApi        $warframeMarketApi,
+        protected EntityManagerInterface $entityManager,
+        protected NotificationService $notificationService
     ) {}
 
     public function validateData(
@@ -102,27 +105,37 @@ class ItemService
         return $newUrl;
     }
 
-    public function getImageUrl(string $name, int $explodeValue = 1): string {
+    public function getImageUrl(
+        string  $name,
+        int     $explodeValue = 1,
+        bool    $rivenUrl = false
+    ): string {
         if (str_ends_with($name, ItemInterface::ITEM_NAME_PRIME)) {
 
             return $name;
         }
-        $exploded = explode('_', $name);
-        unset($exploded[count($exploded) - $explodeValue]);
 
-        return implode('-', $exploded). '.jpg';
+        $exploded = explode('_', $name);
+
+        if (!$rivenUrl) {
+            unset($exploded[count($exploded) - $explodeValue]);
+
+        }
+
+        return implode('-', $exploded) . '.png';
     }
 
+    /**
+     * delete Item and related notifications
+     *
+     * @param int $id
+     */
     public function deleteItem(
-        UserInterface   $user,
-        array           $data
+        int             $id
     ): void {
-        $item = $this->itemRepository->findOneBy([
-            ItemInterface::ENTITY_LOGINID => $user->getId(),
-            ItemInterface::ENTITY_PLATFORMID => (int)$data[ItemInterface::FORM_PLATFORMID],
-            ItemInterface::ENTITY_NAME => $data[ItemInterface::FORM_NAME]
-        ]);
+        $item = $this->itemRepository->find($id);
 
+        $this->notificationService->deleteNotifications($item);
         $this->entityManager->remove($item);
         $this->entityManager->flush();
     }
