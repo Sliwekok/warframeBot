@@ -18,10 +18,14 @@ class WarframeApiInterface
     public const PAYLOAD_AUCTIONS = 'auctions';
     public const PAYLOAD_ATTRIBUTES = 'attributes';
     public const INCLUDE_ITEM = 'item';
+    public const INCLUDE_ITEM_ORDERTYPE = 'order_type';
+    public const INCLUDE_ITEM_ORDERTYPE_BUY = 'buy';
     public const INCLUDE_ITEM_ITEMSINSET = 'items_in_set';
     public const INCLUDE_ITEM_ITEMSINSET_FIRSTKEY = '0';
     public const INCLUDE_ITEM_ITEMSINSET_FIRSTKEY_LANG_EN = 'en';
     public const INCLUDE_ITEM_ITEMSINSET_FIRSTKEY_LANG_EN_DESCRIPTION = 'description';
+    public const INCLUDE_ITEM_ITEMSINSET_TAGS = 'tags';
+    public const INCLUDE_ITEM_ITEMSINSET_TAGS_FIRST = '0';
 
     public const MARKET_PLATINUM = 'platinum';
     public const MARKET_USER = 'user';

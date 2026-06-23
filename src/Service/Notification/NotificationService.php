@@ -55,7 +55,7 @@ class NotificationService
 
         foreach ($data as $offerId => $offerData) {
             // check if item already exists
-            if ($this->notificationNotExists($offerData[ItemInterface::ENTITY_LOGINID], $offerId, $itemIdArr, $loginIdArr)) {
+            if (!$this->notificationNotExists($offerData[ItemInterface::ENTITY_LOGINID], $offerId, $itemIdArr, $loginIdArr)) {
                 $this->createNotification(
                     $offerData[ItemInterface::ENTITY_LOGINID],
                     $offerId,
@@ -149,5 +149,4 @@ class NotificationService
 
         $this->entityManager->flush();
     }
-
 }

@@ -87,7 +87,7 @@ class MarketService
                  */
                 if ($riven->hasAnyAttribute()) {
                     foreach ($value[WarframeApiInterface::AUCTION_ITEM][WarframeApiInterface::AUCTION_ITEM_ATTRIBUTES] as $attributes) {
-                        
+
                     }
                 }
 

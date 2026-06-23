@@ -20,6 +20,8 @@ export function showAlert(status, message, header, alertConfirmation = false , i
         alertConfirmationDiv = $('#alertConfirmation')
     ;
 
+    closeModal(alert);
+
     alert.addClass('alert-'+className).fadeIn(100);
     alertHeader.text(header);
     alertContent.text(message);
@@ -66,7 +68,7 @@ export function showAlert(status, message, header, alertConfirmation = false , i
 // clicking esc, click outside of modal, click on exit button or on cancel button
 export function closeModal(container){
     // on click on exit button leave upload form
-    $(document).on('click', '.closeButton', function(e){
+    $(document).on('click', '.btn-close-alert, .icon-cancel', function(e){
         e.preventDefault();
         forceCloseModal(container);
     });
@@ -157,4 +159,15 @@ export function refreshContainerContent(url, div){
             return true;
         }
     });
+}
+
+export function getItemType(item) {
+    let datalist = $(document).find(("#itemsList")),
+        options = datalist.find('option[value="'+item+'"]')
+    ;
+
+    console.log(item, options.attr('label'))
+    console.log(options.attr('label'));
+
+    return options.attr('label');
 }

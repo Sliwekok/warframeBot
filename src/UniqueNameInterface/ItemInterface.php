@@ -31,4 +31,5 @@ class ItemInterface
     public const FORM_RIVEN_ATTR_POSITIVE_2 = 'attrPositive2';
     public const FORM_RIVEN_ATTR_POSITIVE_3 = 'attrPositive3';
     public const FORM_RIVEN_ATTR_NEGATIVE = 'attrNegative';
+    public const ITEM_TYPE_WARFRAME_MOD = 'Warframe Mod';
 }
