@@ -22,16 +22,29 @@ class MarketService
     ) {}
 
     public function getWarframeMarketData(
-        string $itemName
+        string $slug,
+        string $type = ''
     ): array {
 
-        $matched = $this->warframeMarketApi->fetchList($itemName);
+        $matched = $this->warframeMarketApi->fetchList($slug);
         // sorting by price
         usort($matched, function ($a, $b) { return
             [$a[WarframeApiInterface::MARKET_USER][WarframeApiInterface::MARKET_USER_STATUS], $a[WarframeApiInterface::MARKET_PLATINUM]]
             <=>
             [$b[WarframeApiInterface::MARKET_USER][WarframeApiInterface::MARKET_USER_STATUS], $b[WarframeApiInterface::MARKET_PLATINUM]];
         });
+
+        foreach ($matched as $key => $item) {
+            if ($item[WarframeApiInterface::MARKET_USER_VISISBLE] === false) {
+                unset($matched[$key]);
+            }
+
+            if (!empty($type)) {
+                if ($item[WarframeApiInterface::ITEM_TYPE] !== $type) {
+                    unset($matched[$key]);
+                }
+            }
+        }
 
         return $matched;
     }
@@ -96,6 +109,11 @@ class MarketService
         }
 
         return $matched;
+    }
+
+    public function getAllItems (): array
+    {
+        return $this->warframeMarketApi->fetchItems();
     }
 
     public function getItemData(string $itemName): array {

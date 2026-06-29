@@ -8,23 +8,31 @@ use App\UniqueNameInterface\WarframeApiInterface;
 
 class WarframeMarketApi
 {
+    private array $headers = [
+        'Language' => 'en',
+        'Crossplay' => true,
+        'Content-Type' => 'application/json',
+    ];
+
+    private array $requestTimes = [];
+
     public function itemExists(string $name): bool
     {
         $item = strtolower(preg_replace('/\s+/', '_', $name));
-        $url = WarframeApiInterface::URL. WarframeApiInterface::URL_ITEMS. $item. WarframeApiInterface::URL_ORDER;
+        $url = WarframeApiInterface::URL. WarframeApiInterface::URL_ITEM. $item. WarframeApiInterface::URL_ORDER;
         $data = file_get_contents($url);
         if (str_ends_with($item, "set") && str_starts_with($data, '<!DOCTYPE')) {
             $item = str_replace('_set', '', $item);
-            $url = WarframeApiInterface::URL. WarframeApiInterface::URL_ITEMS. $item. WarframeApiInterface::URL_ORDER;
+            $url = WarframeApiInterface::URL. WarframeApiInterface::URL_ITEM. $item. WarframeApiInterface::URL_ORDER;
             $data = file_get_contents($url);
         }
         elseif (str_starts_with($data, '<!DOCTYPE') && str_starts_with($data, '<!DOCTYPE')) {
             $item = $item . '_blueprint';
-            $url = WarframeApiInterface::URL. WarframeApiInterface::URL_ITEMS. $item. WarframeApiInterface::URL_ORDER;
+            $url = WarframeApiInterface::URL. WarframeApiInterface::URL_ITEM. $item. WarframeApiInterface::URL_ORDER;
             $data = file_get_contents($url);
         }
         $dataArr = json_decode($data, true);
-        $dataPayload = $dataArr[WarframeApiInterface::FETCHED_PAYLOAD][WarframeApiInterface::FETCHED_PAYLOAD_ORDERS];
+        $dataPayload = $dataArr[WarframeApiInterface::FETCHED_PAYLOAD][WarframeApiInterface::PAYLOAD_ORDERS];
         if (($key = array_search(WarframeApiInterface::INCLUDE_ITEM_ORDERTYPE_BUY, $dataPayload)) !== false) {
             unset($dataPayload[$key]);
         }
@@ -32,37 +40,27 @@ class WarframeMarketApi
         return (null === $dataPayload) ? false : true;
     }
 
-    public function fetchList(string $name): array
+    public function fetchList(string $slug): array
     {
-        $item = strtolower(preg_replace('/\s+/', '_', $name));
-        $url = WarframeApiInterface::URL. WarframeApiInterface::URL_ITEMS. $item. WarframeApiInterface::URL_ORDER;
-        $data = file_get_contents($url);
-        if (str_ends_with($item, "set") && str_starts_with($data, '<!DOCTYPE')) {
-            $item = str_replace('_set', '', $item);
-            $url = WarframeApiInterface::URL. WarframeApiInterface::URL_ITEMS. $item. WarframeApiInterface::URL_ORDER;
-            $data = file_get_contents($url);
-        }
-        elseif (str_starts_with($data, '<!DOCTYPE') && str_starts_with($data, '<!DOCTYPE')) {
-            $item = $item . '_blueprint';
-            $url = WarframeApiInterface::URL. WarframeApiInterface::URL_ITEMS. $item. WarframeApiInterface::URL_ORDER;
-            $data = file_get_contents($url);
-        }
-        $dataArr = json_decode($data, true);
-        $dataPayload = $dataArr[WarframeApiInterface::FETCHED_PAYLOAD][WarframeApiInterface::FETCHED_PAYLOAD_ORDERS];
-        if (($key = array_search(WarframeApiInterface::INCLUDE_ITEM_ORDERTYPE_BUY, $dataPayload)) !== false) {
-            unset($dataPayload[$key]);
-        }
+        $item = strtolower(preg_replace('/\s+/', '_', $slug));
+        $url = WarframeApiInterface::URL. WarframeApiInterface::URL_ITEM_ORDER. $item;
+        $data = $this->_curlRequest($url, []);
+//        if (str_ends_with($item, "set")) {
+//            $item = str_replace('_set', '', $item);
+//            $url = WarframeApiInterface::URL. WarframeApiInterface::URL_ITEMS. $item. WarframeApiInterface::URL_ORDER;
+//            $data = file_get_contents($url);
+//        }
 
-        return json_decode(file_get_contents($url, true), true)[WarframeApiInterface::FETCHED_PAYLOAD][WarframeApiInterface::PAYLOAD_ORDERS];
-        return $dataPayload;
+        return $data[WarframeApiInterface::DATA];
     }
 
     public function fetchItemData(string $name): array
     {
         $item = strtolower(preg_replace('/\s+/', '_', $name));
-        $url = WarframeApiInterface::URL . WarframeApiInterface::URL_ITEMS . $item . WarframeApiInterface::URL_ORDER;
+        $url = WarframeApiInterface::URL . WarframeApiInterface::URL_ITEM . $item;
+        $data = $this->_curlRequest($url, []);
 
-        return json_decode(file_get_contents($url, true), true)[WarframeApiInterface::PAYLOAD_INCLUDE];
+        return $data[WarframeApiInterface::DATA];
     }
 
     public function fetchRiven(string $name): array {
@@ -76,7 +74,85 @@ class WarframeMarketApi
     public function fetchRivenAttributes(): array {
         $url = WarframeApiInterface::URL . WarframeApiInterface::URL_ATTRIBUTES;
 
-        return json_decode(file_get_contents($url), true)[WarframeApiInterface::FETCHED_PAYLOAD][WarframeApiInterface::PAYLOAD_ATTRIBUTES];
+        return json_decode(file_get_contents($url), true)[WarframeApiInterface::DATA];
 
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function _curlRequest ($url, $headers = [], $method = 'GET')
+    {
+        $this->waitForRateLimit();
+        $curl = curl_init();
+        $headers = array_merge($this->headers, $headers);
+        $curlHeaders = [];
+        foreach ($headers as $name => $value) {
+            $curlHeaders[] = sprintf('%s: %s', $name, $value);
+        }
+
+        curl_setopt($curl, CURLOPT_URL, $url);
+        if ($method == 'POST') {
+            curl_setopt($curl, CURLOPT_POST, 1);
+        }
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $curlHeaders);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+//        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+//        curl_setopt($curl, CURLOPT_USERPWD, "$this->username:$this->password");
+
+        $result = json_decode(curl_exec($curl), true);
+        curl_close($curl);
+
+        if (
+            (isset($result['error']) && !empty($result['error']))
+            || !isset($result['data'])
+        ) {
+            $curlInfo = curl_getinfo($curl);
+            if ($curlInfo['http_code'] != 200) {
+                throw new \Exception('Unexpected exception occurred during cURL request: ' . $curlInfo['http_code']);
+            }
+
+            if (!empty($result['error'])) {
+                throw new \Exception('Error:'. $result['error']);
+            }
+        }
+
+        return $result;
+    }
+
+    public function fetchItems (): array
+    {
+        $url = WarframeApiInterface::URL . WarframeApiInterface::URL_ITEMS;
+        $data = $this->_curlRequest($url, []);
+
+        return $data[WarframeApiInterface::DATA];
+    }
+
+    private function waitForRateLimit(): void
+    {
+        $now = microtime(true);
+
+        // Remove requests older than 1 second
+        while (
+            !empty($this->requestTimes)
+            && $this->requestTimes[0] <= $now - 1
+        ) {
+            array_shift($this->requestTimes);
+        }
+
+        // Already made 3 requests during the last second?
+        if (count($this->requestTimes) >= 3) {
+            $sleep = ($this->requestTimes[0] + 1) - $now;
+
+            if ($sleep > 0) {
+                usleep((int)($sleep * 1_000_000));
+            }
+
+            // Start over after sleeping
+            $this->waitForRateLimit();
+            return;
+        }
+
+        $this->requestTimes[] = microtime(true);
     }
 }

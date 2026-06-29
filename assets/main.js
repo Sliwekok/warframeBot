@@ -35,16 +35,6 @@ $(document).on("change", "#platformChangeGlobalUser", function(){
     });
 })
 
-// on submiting main nav search query replace page
-// change to refresh content on watchlist
-$(document).on("submit", "#searchItems", function(e){
-    e.preventDefault();
-    let
-        form = $(this),
-        search = form.find(".itemNameinput").val();
-    location.replace('/item/search_market/'+search);
-});
-
 // allow editing item on watchlist
 $(document).on("click", "#addNewItem", function(){
     var div = $('#follow');

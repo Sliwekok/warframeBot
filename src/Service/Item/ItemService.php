@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service\Item;
 
+use App\Repository\ItemTradableRepository;
+use App\Service\WarframeMarket\MarketService;
 use App\UniqueNameInterface\ItemInterface;
 use App\Repository\ItemRepository;
 use App\UniqueNameInterface\WarframeApiInterface;
@@ -20,7 +22,9 @@ class ItemService
         private ItemRepository          $itemRepository,
         private WarframeMarketApi       $warframeMarketApi,
         private EntityManagerInterface  $entityManager,
-        private NotificationService     $notificationService
+        private NotificationService     $notificationService,
+        private MarketService           $marketService,
+        private ItemTradableRepository  $itemTradableRepository,
     ) {}
 
     public function validateData(
@@ -180,5 +184,12 @@ class ItemService
 
         $item->setPrice((int)$data[ItemInterface::FORM_PRICE]);
         $this->entityManager->flush();
+    }
+
+    public function getAllItems ()
+    {
+        $items = $this->itemTradableRepository->getList([]);
+
+        return json_encode(['item' =>$items]);
     }
 }

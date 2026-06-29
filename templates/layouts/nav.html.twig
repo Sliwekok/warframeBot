@@ -4,7 +4,7 @@
     </div>
     {% if app.user %}
         <div class="col-4 search">
-            <form class="form-search col-12" id="searchItems">
+            <form class="form-search col-12" id="searchItems" data-items="{{ ItemService.getAllItems }}">
                 <input list="itemsList" name="name" type="text" value="{{item_name ?? ''}}" class="col-12 itemNameinput" placeholder="Search for desired item">
             </form>
         </div>

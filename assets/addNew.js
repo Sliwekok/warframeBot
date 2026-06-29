@@ -1,5 +1,15 @@
 import * as Assets from './assets.js';
 
+$(document).on('click', '#selectItemForm', function() {
+    $('#itemForm').show(0);
+    $('#itemOrRivenSelector').hide(0);
+})
+
+$(document).on('click', '#selectRivenForm', function() {
+    $('#rivenForm').show(0);
+    $('#itemOrRivenSelector').hide(0);
+})
+
 /**
  * make ajax call
  */

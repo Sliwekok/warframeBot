@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\frontend;
 
-use App\Entity\Login;
+use App\Controller\BaseController;
 use App\Form\LoginFormType;
 use App\Repository\LoginRepository;
 use App\Security\LoginAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use Symfony\Component\HttpFoundation\Request;
 
-class LoginController extends AbstractController
+class LoginController extends BaseController
 {
     #[Route(path: '/login', name: 'app_login')]
     public function login(

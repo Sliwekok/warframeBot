@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\frontend;
 
+use App\Controller\BaseController;
 use App\Service\Item\RivenService;
 use App\UniqueNameInterface\ItemInterface;
 use App\UniqueNameInterface\JsonResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/riven')]
 
-class RivenController extends AbstractController
+class RivenController extends BaseController
 {
     #[Route('/add', name: 'riven_add')]
     public function addNew(

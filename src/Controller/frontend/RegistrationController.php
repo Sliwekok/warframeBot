@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\frontend;
 
+use App\Controller\BaseController;
 use App\Entity\Login;
 use App\Form\RegistrationFormType;
 use App\Security\LoginAuthenticator;
@@ -15,7 +16,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
-class RegistrationController extends AbstractController
+class RegistrationController extends BaseController
 {
     #[Route('/register', name: 'app_register')]
     public function register

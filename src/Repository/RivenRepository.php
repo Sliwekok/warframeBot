@@ -3,18 +3,17 @@
 namespace App\Repository;
 
 use App\Entity\Riven;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Riven>
+ * @extends BaseRepository<Riven>
  *
  * @method Riven|null find($id, $lockMode = null, $lockVersion = null)
  * @method Riven|null findOneBy(array $criteria, array $orderBy = null)
  * @method Riven[]    findAll()
  * @method Riven[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class RivenRepository extends ServiceEntityRepository
+class RivenRepository extends BaseRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

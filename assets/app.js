@@ -1,4 +1,3 @@
-import './stimulus_bootstrap.js';
 // import scss
 import './styles/app.scss';
 
@@ -15,5 +14,4 @@ require('./addNew');
 require('./itemFetcher');
 require('./search');
 require('./admin');
-
 require('./rivenFetcher');

@@ -2,22 +2,23 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\frontend;
 
-use App\Service\Notification\NotificationService;
-use App\UniqueNameInterface\ItemInterface;
+use App\Controller\BaseController;
 use App\Repository\NotificationsRepository;
+use App\Service\Notification\NotificationService;
+use App\Service\User\UserService;
+use App\UniqueNameInterface\ItemInterface;
+use App\UniqueNameInterface\JsonResponseInterface;
 use App\UniqueNameInterface\NotificationsInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\HttpFoundation\Request;
-use App\Service\User\UserService;
-use App\UniqueNameInterface\JsonResponseInterface;
 
 #[Route('/user')]
-class UserController extends AbstractController
+class UserController extends BaseController
 {
     #[Route('/', name: 'user_account')]
     public function index(

@@ -2,32 +2,32 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\frontend;
 
+use App\Controller\BaseController;
+use App\Repository\ItemTradableRepository;
 use App\Repository\RivenRepository;
+use App\Repository\WatchlistRepository;
+use App\Service\Item\ItemService;
+use App\Service\WarframeMarket\MarketService;
+use App\UniqueNameInterface\ItemInterface;
+use App\UniqueNameInterface\JsonResponseInterface;
+use App\UniqueNameInterface\WarframeApiInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
-use App\Repository\WatchlistRepository;
-use App\Service\Item\ItemService;
-use App\UniqueNameInterface\JsonResponseInterface;
-use App\Service\WarframeMarket\MarketService;
-use App\UniqueNameInterface\ItemInterface;
-use App\UniqueNameInterface\WarframeApiInterface;
 
 #[Route('/item')]
-class ItemController extends AbstractController
+class ItemController extends BaseController
 {
     #[Route('/watched', name: 'item_watched')]
     public function watched (
         WatchlistRepository $watchlistRepository,
         UserInterface       $login,
-        RivenRepository     $rivenRepository
-
+        RivenRepository     $rivenRepository,
     ): Response
     {
         $itemsWatched = $watchlistRepository->findBy(['login_id' => $login->getId()]);
@@ -76,46 +76,22 @@ class ItemController extends AbstractController
 
     #[Route('/search_market/{name}', name: 'item_search_market', methods: ['GET'])]
     public function searchMarket (
-        string          $name,
-        MarketService   $marketService,
-        ItemService     $itemService,
+        string                  $name,
+        MarketService           $marketService,
+        ItemTradableRepository  $itemTradableRepository
     ): Response {
+        $itemSelected = $itemTradableRepository->getSingle(['slug' => $name]);
         $items = $marketService->getWarframeMarketData($name);
-        $type = $marketService->getItemData($name)[WarframeApiInterface::INCLUDE_ITEM]
-            [WarframeApiInterface::INCLUDE_ITEM_ITEMSINSET]
-            [WarframeApiInterface::INCLUDE_ITEM_ITEMSINSET_FIRSTKEY]
-            [WarframeApiInterface::INCLUDE_ITEM_ITEMSINSET_TAGS]
-            [WarframeApiInterface::INCLUDE_ITEM_ITEMSINSET_TAGS_FIRST];
 
-        if (in_array($type, [ItemInterface::ITEM_TYPE_MOD, ItemInterface::ITEM_TYPE_WARFRAME_MOD])) {
-            $explodedValue = 0;
-        } else {
-            $explodedValue = 1;
+        foreach ($items as $key => $item) {
+            if ($item[WarframeApiInterface::ITEM_SELLTYPE] !== WarframeApiInterface::ITEM_SELLTYPE_SELL) {
+                unset($items[$key]);
+            }
         }
 
-        $imgUrl = $itemService->getImageUrl(
-            strtolower(preg_replace('/\s+/', '_', $name)),
-            $type,
-            $explodedValue
-        );
-        $itemData = $marketService->getItemData($name);
-        // it's awfully nested array, charming api huh?
-        $itemDescription = $itemData[WarframeApiInterface::INCLUDE_ITEM]
-            [WarframeApiInterface::INCLUDE_ITEM_ITEMSINSET]
-            [WarframeApiInterface::INCLUDE_ITEM_ITEMSINSET_FIRSTKEY]
-            [WarframeApiInterface::INCLUDE_ITEM_ITEMSINSET_FIRSTKEY_LANG_EN]
-            [WarframeApiInterface::INCLUDE_ITEM_ITEMSINSET_FIRSTKEY_LANG_EN_DESCRIPTION]
-        ;
-
-        $wikiUrl = $itemService->getImageUrl(
-            strtolower(preg_replace('/\s+/', '_', $name)),
-        );
-
         return $this->render('item/searchMarket.html.twig', [
-            'items'             => array_slice($items, 0, 13),
-            'item_name'         => $name,
-            'img_url'           => $imgUrl,
-            'item_description'  => $itemDescription
+            'market'            => array_slice($items, 0, 13),
+            'item'              => $itemSelected,
         ]);
     }
 
