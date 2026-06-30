@@ -135,11 +135,11 @@ class NotificationService
     public function deleteNotifications(Item|Riven $item): void {
         if (Item::class === get_class($item)) {
             $notifications = $this->notificationsRepository->findBy([
-                NotificationsInterface::ENTITY_ITEMID => $item->getId()
+                NotificationsInterface::ENTITY_ITEMID => $item->id
             ]);
         } else {
             $notifications = $this->notificationsRepository->findBy([
-                NotificationsInterface::ENTITY_RIVENID => $item->getId(),
+                NotificationsInterface::ENTITY_RIVENID => $item->id,
             ]);
         }
 

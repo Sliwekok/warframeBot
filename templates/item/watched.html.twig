@@ -5,9 +5,9 @@
     <div id="watched" class="col-12">
         {% if items_watched|length > 0 %}
             {% for item in items_watched %}
-                <div class="orderPanel">
+                <div class="orderPanel col-4">
                     <div class="col-7 description">
-                        <div class="col-12"><p class="itemname"><a href="https://warframe.fandom.com/wiki/{{ item.wikiUrl }}" class="tooltipButton" data-tooltip-placement="top" data-title="Go to Warframe wiki">{{item.name}}</a></p></div>
+                        <div class="col-12"><p class="itemname"><a href="{{ item.wikiLink }}" class="tooltipButton" data-tooltip-placement="top" data-title="Go to Warframe wiki">{{item.name}}</a></p></div>
                         <div class="col-12"><p class="price">Price: {{item.price}} platinum</p></div>
                         <div class="col-12"><p class="platform">Platform: {{item.platformName}}</p></div>
                         <div class="col-12 orderMenagment">
@@ -16,14 +16,14 @@
                         </div>
                     </div>
                     <div class="col-4 picture">
-                        <img src="https://raw.githubusercontent.com/wfcd/warframe-items/master/data/img/{{ item.imageUrl }}" alt="{{ item.name }}">
+                        <img src="{{ item.icon }}" alt="{{ item.name }}">
                     </div>
                 </div>
             {% endfor %}
         {% endif %}
         {% if rivens_watched|length > 0 %}
             {% for riven in rivens_watched %}
-                <div class="orderPanel">
+                <div class="orderPanel col-4">
                     <div class="col-7 description">
                         <div class="col-12"><p class="itemname">{{riven.weaponName}} Riven</p></div>
                         <div class="col-12"><p class="price">Price: {{riven.price}} platinum</p></div>

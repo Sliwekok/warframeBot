@@ -4,7 +4,7 @@ $(document).on("keydown", '.itemNameinput', function() {
 });
 
 const allAvailableItems = $('#searchItems').data('items').item;
-let itemMap = {};
+export let itemMap = {};
 function searchTrigger(query) {
     let datalist = $("#itemsList"),
         maxItems = 5; // max number of suggestions

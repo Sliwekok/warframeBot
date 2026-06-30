@@ -93,6 +93,7 @@ export function forceCloseModal(div){
     document.querySelector("#formFollow").reset();
     $("#itemForm").hide();
     $("#rivenForm").hide();
+    $('#formFollow').show(0);
     $("#itemOrRivenSelector")
         .show()
         .children().show();
@@ -165,9 +166,6 @@ export function getItemType(item) {
     let datalist = $(document).find(("#itemsList")),
         options = datalist.find('option[value="'+item+'"]')
     ;
-
-    console.log(item, options.attr('label'))
-    console.log(options.attr('label'));
 
     return options.attr('label');
 }

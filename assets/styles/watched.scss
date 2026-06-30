@@ -47,25 +47,25 @@
 
 .orderPanel{
     background-color: rgba(darken($body-bg, 15%), .85);
-    padding-top: 15px;
     display: inline-flex;
-    width: 26.6%;
     margin-left: 5%;
     margin-top: 3%;
-    height: 22.5vh;
     position: relative;
+    padding: 15px 10px;
+    max-height: 27.5vh;
 
     .itemname{
         font-size: 1.15rem;
     }
     .picture{
         margin-bottom: 15px !important;
+        align-items: center;
+        display: inline-flex;
+        justify-content: right;
     }
     .picture img{
-        width: 100%;
         height: 100%;
         margin-bottom: 15px !important;
-
     }
     .description{
         height: 100%;
@@ -74,8 +74,6 @@
         .orderMenagment{
             display: inline-flex !important;
             padding: 0px;
-            margin-top: 40px;
-            position: absolute;
             bottom: 15px;
             .editOrder{
                 padding: 15px;

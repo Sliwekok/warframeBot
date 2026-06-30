@@ -1,4 +1,5 @@
 import * as Assets from './assets.js';
+import {itemMap} from "./itemFetcher";
 
 $(document).on('click', '#selectItemForm', function() {
     $('#itemForm').show(0);
@@ -22,12 +23,12 @@ $(document).on('submit', '#formFollow', function(e) {
         platformid = form.find('#platformChangeUser').val(),
         type = Assets.getItemType(item)
     ;
-
+console.log(itemMap[item], itemMap, item);
     $.ajax({
         url: '/item/add',
         type: "POST",
         data: {
-            'name': item,
+            'name': itemMap[item],
             'price': price,
             'platformId': platformid,
             'type': type
@@ -37,11 +38,11 @@ $(document).on('submit', '#formFollow', function(e) {
             Assets.showAlert(
                 'error',
                 message.responseJSON.message,
-                message.statusText
+                'Error'
             );
-            Assets.refreshContainerContent('/item/watched', 'watched');
-
             form.show(200);
+
+            Assets.refreshContainerContent('/item/watched', 'watched');
 
             return false;
         },
@@ -52,8 +53,8 @@ $(document).on('submit', '#formFollow', function(e) {
                 message.message,
                 'Added item'
             );
-            Assets.refreshContainerContent('/item/watched', 'watched');
             form.show(200);
+            Assets.refreshContainerContent('/item/watched', 'watched');
 
             return true;
         }

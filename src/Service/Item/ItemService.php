@@ -55,23 +55,14 @@ class ItemService
         int     $loginId
     ): void {
         $item = new Item();
-        $itemCurlName = strtolower(preg_replace('/\s+/', '_', $data[ItemInterface::FORM_NAME]));
-        $itemWikiUrl = $this->getWikiUrl($itemCurlName, $data[ItemInterface::FORM_TYPE]);
-        if (str_contains(strtolower($data[ItemInterface::FORM_TYPE]), ItemInterface::ITEM_TYPE_MOD)) {
-            $exploded = 0;
-        } else {
-            $exploded = 1;
-        }
-        $itemImageUrl = $this->getImageUrl($itemCurlName, $data[ItemInterface::FORM_TYPE], $exploded);
+        $itemSelected = $this->itemTradableRepository->getSingle([ItemInterface::ENTITY_SLUG => $data[WarframeApiInterface::ITEM_NAME]]);
         $item
             ->setLoginId($loginId)
-            ->setName($data[ItemInterface::FORM_NAME])
             ->setPlatformId((int)$data[ItemInterface::FORM_PLATFORMID])
             ->setPrice((int)$data[ItemInterface::FORM_PRICE])
             ->setType((string)$data[ItemInterface::FORM_TYPE])
-            ->setNameCurl($itemCurlName)
-            ->setWikiUrl($itemWikiUrl)
-            ->setImageUrl($itemImageUrl)
+            ->setStatus(ItemInterface::ITEM_STATUS_PLACED)
+            ->setItem($itemSelected);
         ;
         $this->entityManager->persist($item);
         $this->entityManager->flush();
@@ -81,11 +72,11 @@ class ItemService
     (
         int     $loginId,
         int     $platformId,
-        string  $name
+        int     $itemId
     ): bool
     {
         return (bool) $this->itemRepository->findOneBy([
-            ItemInterface::ENTITY_NAME => $name,
+            ItemInterface::ENTITY_ITEM_ID => $itemId,
             ItemInterface::ENTITY_LOGINID => $loginId,
             ItemInterface::ENTITY_PLATFORMID => $platformId
         ]);
@@ -93,38 +84,7 @@ class ItemService
 
     public function itemExistsInApi(string $name): bool
     {
-        return $this->warframeMarketApi->itemExists($name);
-    }
-
-    public function getWikiUrl(string $name, string $type): string {
-        if (str_ends_with($name, ItemInterface::ITEM_NAME_PRIME)) {
-
-            return $name;
-        }
-        $exploded = explode('_', $name);
-
-        if (str_contains(strtolower($type), ItemInterface::ITEM_TYPE_MOD)) {
-            $wordsToExplode = 0;
-        } else {
-            $wordsToExplode = 1;
-        }
-        unset($exploded[count($exploded) - $wordsToExplode]);
-
-        // warframe wiki has different ways to create urls for warframes somehow
-        if (ItemInterface::ITEM_TYPE_WARFRAME === strtolower($type)) {
-            $newUrl = implode('/', array_map('ucfirst', $exploded));
-        } else {
-            $newUrl = implode('_', array_map('ucfirst', $exploded));
-        }
-
-        if (
-            str_contains(strtolower($type), ItemInterface::ITEM_TYPE_MOD) ||
-            ItemInterface::ITEM_TYPE_ITEM === strtolower($type)
-        ) {
-            $newUrl = implode('_', array_map('ucfirst', $exploded));
-        }
-
-        return $newUrl;
+        return (!empty($this->warframeMarketApi->fetchItemData($name)));
     }
 
     public function getImageUrl(

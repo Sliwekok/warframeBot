@@ -26,10 +26,10 @@ class Watchlist
     private ?string $platform_name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $wiki_url = null;
+    private ?string $wiki_link = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $image_url = null;
+    private ?string $icon = null;
 
     #[ORM\Column(length: 255)]
     private ?int $platform_id = null;
@@ -59,14 +59,14 @@ class Watchlist
         return $this->platform_name;
     }
 
-    public function getWikiUrl(): ?string
+    public function getWikiLink(): ?string
     {
-        return $this->wiki_url;
+        return $this->wiki_link;
     }
 
-    public function getImageUrl(): ?string
+    public function getIcon(): ?string
     {
-        return $this->image_url;
+        return $this->icon;
     }
 
     public function getPlatformId(): ?int

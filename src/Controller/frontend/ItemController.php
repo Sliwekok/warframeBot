@@ -41,18 +41,27 @@ class ItemController extends BaseController
 
     #[Route('/add', name: 'item_add')]
     public function add (
-        Request         $request,
-        ItemService     $itemService
-    ): JsonResponse|RedirectResponse
+        Request                 $request,
+        ItemService             $itemService,
+        ItemTradableRepository  $itemTradableRepository,
+    ): JsonResponse
     {
         $loginId = $this->getUser()->getId();
         $data = $request->request->all();
         $statusCode = 200;
         $validator = $itemService->validateData($data);
-
-        if ($itemService->checkIfAlreadyWatched($loginId, (int)$data[ItemInterface::FORM_PLATFORMID], $data[ItemInterface::ENTITY_NAME])) {
-
-            return $this->redirectToRoute('item_edit', $data);
+        $itemData = $itemTradableRepository->getSingle([WarframeApiInterface::ITEM_SLUG => $data[ItemInterface::FORM_NAME]]);
+        if (empty($itemData)) {
+            $msg = [
+                JsonResponseInterface::MESSAGE => "Item you requested doesn't exists"
+            ];
+            $statusCode = 400;
+        }
+        elseif ($itemService->checkIfAlreadyWatched($loginId, (int)$data[ItemInterface::FORM_PLATFORMID], $itemData->getId())) {
+            $msg = [
+                JsonResponseInterface::MESSAGE => 'Item you requested already exists on watchlist'
+            ];
+            $statusCode = 400;
         }
         elseif (!$itemService->itemExistsInApi($data[ItemInterface::FORM_NAME])) {
             $msg = [
@@ -65,6 +74,7 @@ class ItemController extends BaseController
             $statusCode = 400;
         }
         else {
+            $data[WarframeApiInterface::ITEM_TYPE] = ItemInterface::ITEM_FOUNDRY;
             $itemService->addItemToWatchlist($data, $loginId);
             $msg = [
                 JsonResponseInterface::MESSAGE => 'Successfully added item to watch-list'

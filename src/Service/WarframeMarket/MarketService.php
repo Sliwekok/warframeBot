@@ -71,8 +71,8 @@ class MarketService
             $scannedMarket = $this->getWarframeMarketData($item->getName())[0];
 
             if ($scannedMarket[WarframeApiInterface::MARKET_PLATINUM] <= $item->getPrice()) {
-                $matched[$item->getId()] = $scannedMarket;
-                $matched[$item->getId()][ItemInterface::ENTITY_LOGINID] = $item->getLoginId();
+                $matched[$item->id] = $scannedMarket;
+                $matched[$item->id][ItemInterface::ENTITY_LOGINID] = $item->getLoginId();
             }
         }
 
