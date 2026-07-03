@@ -26,7 +26,7 @@ class WarframeApiInterface
 
     public const MARKET_PLATINUM = 'platinum';
     public const MARKET_USER = 'user';
-    public const MARKET_USER_INGAMENAME = 'ingame_name';
+    public const MARKET_USER_INGAMENAME = 'ingameName';
     public const MARKET_USER_STATUS = 'status';
     public const MARKET_USER_VISISBLE = 'visible';
 
@@ -52,4 +52,5 @@ class WarframeApiInterface
     public const ITEM_SELLTYPE = 'type';
     public const ITEM_SELLTYPE_BUY = 'buy';
     public const ITEM_SELLTYPE_SELL = 'sell';
+    public const ITEM_PLATFORM = 'platform';
 }

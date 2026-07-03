@@ -48,6 +48,12 @@ inner join items_tradable it on it.id = i.item_id
 
 SQL
             );
+
+            $this->addSql(<<<SQL
+ALTER TABLE "dbo"."notifications"
+	ADD "riven_id" INT NULL;
+SQL
+            );
         }
 
         public function down(Schema $schema): void

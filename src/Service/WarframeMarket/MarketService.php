@@ -64,15 +64,27 @@ class MarketService
     }
 
     public function scanMarket(): array {
-        $items = $this->itemRepository->findAll();
+        $items = $this->itemRepository->getList([
+            ItemInterface::FORM_TYPE => ItemInterface::ITEM_FOUNDRY,
+            ItemInterface::ITEM_STATUS => ItemInterface::ITEM_STATUS_PLACED
+        ]);
         $matched = [];
         foreach ($items as $item) {
             // we want only first array key since we seek for lowest price
-            $scannedMarket = $this->getWarframeMarketData($item->getName())[0];
+            $scannedMarket = $this->getWarframeMarketData($item->getItem()->getSlug(), WarframeApiInterface::ITEM_SELLTYPE_SELL);
+            if (!empty($scannedMarket)) {
+                $arrayFirstKey = array_key_first($scannedMarket);
+                $buyable = $scannedMarket[$arrayFirstKey];
+                if ($buyable[WarframeApiInterface::MARKET_PLATINUM] <= $item->getPrice()) {
+                    $sellerData = [
+                        WarframeApiInterface::MARKET_USER_INGAMENAME => $buyable[WarframeApiInterface::MARKET_USER][WarframeApiInterface::MARKET_USER_INGAMENAME],
+                        WarframeApiInterface::MARKET_PLATINUM => $buyable[WarframeApiInterface::MARKET_PLATINUM],
+                        WarframeApiInterface::ITEM_PLATFORM => $buyable[WarframeApiInterface::MARKET_USER][WarframeApiInterface::ITEM_PLATFORM],
+                        ItemInterface::ENTITY_LOGINID => $item->getLoginId()
+                    ];
 
-            if ($scannedMarket[WarframeApiInterface::MARKET_PLATINUM] <= $item->getPrice()) {
-                $matched[$item->id] = $scannedMarket;
-                $matched[$item->id][ItemInterface::ENTITY_LOGINID] = $item->getLoginId();
+                    $matched[$item->getId()] = $sellerData;
+                }
             }
         }
 

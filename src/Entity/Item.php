@@ -18,11 +18,7 @@
         #[ORM\Id]
         #[ORM\GeneratedValue]
         #[ORM\Column]
-        public ?int $id = null {
-            get {
-                return $this->id;
-            }
-        }
+        public ?int $id = null;
 
         #[ORM\Column]
         private ?int $login_id = null;
@@ -49,6 +45,10 @@
         #[ORM\Column]
         private ?\DateTimeImmutable $updatedAt = null;
 
+        public function getId(): ?int
+        {
+            return $this->id;
+        }
         public function getLoginId(): ?int
         {
             return $this->login_id;

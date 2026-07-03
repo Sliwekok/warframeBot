@@ -33,7 +33,7 @@ class Notifications
     private ?\DateTimeInterface $date = null;
 
     #[ORM\ManyToOne(inversedBy: 'notifications')]
-    private ?Riven $riven_id = null;
+    private ?Riven $riven = null;
 
     public function getId(): ?int
     {
@@ -112,14 +112,14 @@ class Notifications
         return $this;
     }
 
-    public function getRivenId(): ?Riven
+    public function getRiven(): ?Riven
     {
-        return $this->riven_id;
+        return $this->riven;
     }
 
-    public function setRivenId(?Riven $riven_id): static
+    public function setRiven(?Riven $riven): static
     {
-        $this->riven_id = $riven_id;
+        $this->riven = $riven;
 
         return $this;
     }

@@ -5,6 +5,7 @@ $(document).on('click', '.copyTextToClipboard', function () {
     $(this).attr('data-title', newValue);
     reloadTooltipValue($(this).attr('id'), newValue);
     // show input and copy text to paste in game
+    console.log($(this).parents('.itemRow').html());
     let item = $(this).parents('.itemRow'),
         sellerDiv = item.find('.dmSellerInput'),
         sellerInput = sellerDiv.find('input')

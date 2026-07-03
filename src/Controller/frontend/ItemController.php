@@ -91,13 +91,7 @@ class ItemController extends BaseController
         ItemTradableRepository  $itemTradableRepository
     ): Response {
         $itemSelected = $itemTradableRepository->getSingle(['slug' => $name]);
-        $items = $marketService->getWarframeMarketData($name);
-
-        foreach ($items as $key => $item) {
-            if ($item[WarframeApiInterface::ITEM_SELLTYPE] !== WarframeApiInterface::ITEM_SELLTYPE_SELL) {
-                unset($items[$key]);
-            }
-        }
+        $items = $marketService->getWarframeMarketData($name, WarframeApiInterface::ITEM_SELLTYPE_SELL);
 
         return $this->render('item/searchMarket.html.twig', [
             'market'            => array_slice($items, 0, 13),

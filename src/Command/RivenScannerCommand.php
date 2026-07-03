@@ -4,22 +4,20 @@ namespace App\Command;
 
 use App\Service\Notification\NotificationService;
 use App\Service\WarframeMarket\MarketService;
-use App\UniqueNameInterface\ItemInterface;
-use App\UniqueNameInterface\WarframeApiInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
-    name: 'notification:scan_market_item',
-    description: 'Scans warframe market and add notification to user if matched requirements',
+    name: 'notification:scan_market_riven',
+    description: 'Scans warframe market for rivens and add notification to user if matched requirements',
     aliases: ['notification:scan-market'],
     hidden: false
 )]
-class MarketScannerCommand extends Command
+class RivenScannerCommand extends Command
 {
-    protected static $defaultDescription = 'Scans warframe market and add notification to user if matched requirements';
+    protected static $defaultDescription = 'Scans warframe for rivens market and add notification to user if matched requirements';
 
     public function __construct(
         private NotificationService $notificationService,
@@ -40,33 +38,16 @@ class MarketScannerCommand extends Command
 //            $output->writeln("Created $createdNotifications notifications");
 //        }
 //        $output->writeln("Ended scanning for Items");
-        $output->writeln("Started scanning warframe market for Items");
-        $availableItems = $this->marketService->scanMarket();
-        if (0 === count($availableItems)) {
-            $output->writeln("No Items matched requirements");
+        $output->writeln("Started scanning warframe market for Rivens");
+        $availableRivens = $this->marketService->scanRivens();
+        if (0 === count($availableRivens)) {
+            $output->writeln("No rivens matched requirements");
         } else {
-            $output->writeln("Found ". count($availableItems). " matched items for users");
-            foreach ($availableItems as $itemId => $item) {
-                $notificationExists = $this->notificationService->notificationExists(
-                    $item[ItemInterface::ENTITY_LOGINID],
-                    $itemId,
-                    $item[WarframeApiInterface::MARKET_USER_INGAMENAME],
-                    $item[WarframeApiInterface::MARKET_PLATINUM]
-                );
-
-                if ($notificationExists) {
-                    continue;
-                }
-
-                $this->notificationService->createNotification(
-                    $item[ItemInterface::ENTITY_LOGINID],
-                    $itemId,
-                    $item[WarframeApiInterface::MARKET_USER_INGAMENAME],
-                    $item[WarframeApiInterface::MARKET_PLATINUM]
-                );
-            }
-
+            $output->writeln("Found ". count($availableRivens). " matched rivens for users");
+            $createdNotifications = $this->notificationService->handleRiven($availableRivens);
+            $output->writeln("Created $createdNotifications notifications");
         }
+
 
         $output->writeln("Ended scanning market");
 

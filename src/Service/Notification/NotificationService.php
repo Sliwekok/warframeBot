@@ -24,59 +24,20 @@ class NotificationService
         private ItemRepository          $itemRepository
     ) {}
 
-    public function handleData(array $data): int {
-        $notifications = $this->notificationsRepository->getItemNotifications();
-        $created = 0;
-        $itemIdArr = array_column($notifications, NotificationsInterface::ENTITY_ITEMID);
-        $loginIdArr = array_column($notifications, NotificationsInterface::ENTITY_LOGINID);
-
-        foreach ($data as $offerId => $offerData) {
-            // check if item already exists
-            if ($this->notificationNotExists($offerData[ItemInterface::ENTITY_LOGINID], $offerId, $itemIdArr, $loginIdArr)) {
-                $this->createNotification(
-                    $offerData[ItemInterface::ENTITY_LOGINID],
-                    $offerId,
-                    $offerData[WarframeApiInterface::MARKET_USER][WarframeApiInterface::MARKET_USER_INGAMENAME],
-                    $offerData[WarframeApiInterface::MARKET_PLATINUM]
-                );
-
-                $created++;
-            }
-        }
-
-        return $created;
-    }
-
-    public function handleRiven(array $data): int {
-        $notifications = $this->notificationsRepository->getRivenNotifications();
-        $created = 0;
-        $itemIdArr = array_column($notifications, NotificationsInterface::ENTITY_ITEMID);
-        $loginIdArr = array_column($notifications, NotificationsInterface::ENTITY_LOGINID);
-
-        foreach ($data as $offerId => $offerData) {
-            // check if item already exists
-            if (!$this->notificationNotExists($offerData[ItemInterface::ENTITY_LOGINID], $offerId, $itemIdArr, $loginIdArr)) {
-                $this->createNotification(
-                    $offerData[ItemInterface::ENTITY_LOGINID],
-                    $offerId,
-                    $offerData[WarframeApiInterface::MARKET_USER][WarframeApiInterface::MARKET_USER_INGAMENAME],
-                    $offerData[WarframeApiInterface::MARKET_PLATINUM]
-                );
-
-                $created++;
-            }
-        }
-
-        return $created;
-    }
-
-    public function notificationNotExists(
+    public function notificationExists(
         int     $loginId,
         int     $itemId,
-        array   $itemIdArr,
-        array   $loginIdArr,
+        string  $seller,
+        int     $price,
     ): bool {
-        return (is_null(array_search($loginId, $loginIdArr)) && is_null(array_search($itemId, $itemIdArr)));
+        $notification = $this->notificationsRepository->getSingle([
+            NotificationsInterface::ENTITY_LOGINID => $loginId,
+            NotificationsInterface::ENTITY_ITEMID => $itemId,
+            NotificationsInterface::ENTITY_SELLER => $seller,
+            NotificationsInterface::ENTITY_PRICE => $price,
+                                                                  ]);
+
+        return !empty($notification);
     }
 
     public function createNotification(
@@ -104,10 +65,10 @@ class NotificationService
      */
     public function getRelatedItems(array $notifications): array {
         foreach ($notifications as &$notification) {
-            if ($notification->getRivenId() === null) {
+            if ($notification->getRiven() === null) {
                 $id = $notification->getItemId();
             } else {
-                $id = $notification->getRivenId();
+                $id = $notification->getRiven()->getId();
             }
             $item = $this->itemRepository->find($id);
             $notification->item = $item;
