@@ -13,5 +13,5 @@ class NotificationsInterface
     public const ENTITY_RIVENID = 'riven_id';
     public const ENTITY_SELLER = 'seller';
     public const ENTITY_PRICE = 'price';
-    public const ENTITY_CREATED_AT = 'created_at';
+    public const ENTITY_CREATED_AT = 'date';
 }

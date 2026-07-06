@@ -30,14 +30,15 @@ class NotificationsRepository extends BaseRepository
         $today = (new \DateTime())->format('Y-m-d H:i:s');
 
         return $this->createQueryBuilder('n')
-                ->select("n.$id as $id")
-                ->addSelect("n.$loginId as $loginId")
-                ->addSelect("n.$itemId as $itemId")
-                ->where("n.$isRead = 0")
-                ->orWhere("$createdAt >= ". $today)
-                ->getQuery()
-                ->getArrayResult()
-            ;
+            ->select("n.$id AS $id")
+            ->addSelect("n.$loginId AS $loginId")
+            ->addSelect("n.$itemId AS $itemId")
+            ->where("n.$isRead = :isRead")
+            ->orWhere("n.$createdAt > :today")
+            ->setParameter('isRead', 0)
+            ->setParameter('today', $today)
+            ->getQuery()
+            ->getArrayResult();
     }
 
     public function getRivenNotifications(): array {

@@ -7,6 +7,7 @@ namespace App\Service\Notification;
 use App\Entity\Item;
 use App\Entity\Notifications;
 use App\Entity\Riven;
+use App\Repository\RivenRepository;
 use App\UniqueNameInterface\NotificationsInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\UniqueNameInterface\WarframeApiInterface;
@@ -21,7 +22,8 @@ class NotificationService
     public function __construct(
         private EntityManagerInterface  $entityManager,
         private NotificationsRepository $notificationsRepository,
-        private ItemRepository          $itemRepository
+        private ItemRepository          $itemRepository,
+        private RivenRepository         $rivenRepository
     ) {}
 
     public function notificationExists(
@@ -65,13 +67,17 @@ class NotificationService
      */
     public function getRelatedItems(array $notifications): array {
         foreach ($notifications as &$notification) {
-            if ($notification[] === null) {
-                $id = $notification->getItemId();
+            if (isset($notification[NotificationsInterface::ENTITY_RIVENID]) && $notification[NotificationsInterface::ENTITY_RIVENID] === null) {
+                $riven = $this->rivenRepository->getSingle([
+                    ItemInterface::ENTITY_ID => $notification[NotificationsInterface::ENTITY_RIVENID]
+                ]);
+                $notification[NotificationsInterface::ENTITY_ITEMID] = $riven;
             } else {
-                $id = $notification->getRiven()->getId();
+                $item = $this->itemRepository->getSingle([
+                    ItemInterface::ENTITY_ID => $notification[NotificationsInterface::ENTITY_ITEMID]
+                                                           ]);
+                $notification[NotificationsInterface::ENTITY_ITEMID] = $item;
             }
-            $item = $this->itemRepository->find($id);
-            $notification->item = $item;
         }
 
         return $notifications;
@@ -82,8 +88,10 @@ class NotificationService
      */
     public function setAsRead(array $notifications): void {
         foreach ($notifications as $notification) {
-            $notification->setIsRead(true);
-            $this->entityManager->persist($notification);
+            $object = $this->notificationsRepository->getSingle([
+                NotificationsInterface::ENTITY_ID => $notification[NotificationsInterface::ENTITY_ID]
+            ])->setIsRead(true);
+            $this->entityManager->persist($object);
         }
 
         $this->entityManager->flush();
