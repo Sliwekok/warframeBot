@@ -5,7 +5,6 @@ $(document).on('click', '.copyTextToClipboard', function () {
     $(this).attr('data-title', newValue);
     reloadTooltipValue($(this).attr('id'), newValue);
     // show input and copy text to paste in game
-    console.log($(this).parents('.itemRow').html());
     let item = $(this).parents('.itemRow'),
         sellerDiv = item.find('.dmSellerInput'),
         sellerInput = sellerDiv.find('input')
@@ -15,4 +14,8 @@ $(document).on('click', '.copyTextToClipboard', function () {
         .select()
     ;
     navigator.clipboard.writeText(sellerInput.val());
+
+    if (sellerDiv.hasClass('hide-after-copy')) {
+        sellerDiv.hide(0);
+    }
 })

@@ -2,13 +2,13 @@
     <div class="col-12 notification text-center">
         <p class="title"><b>{{ notification.item.item.name }}</b> was found!</p>
         <p>{{ notification.seller }} posted {{ notification.item.item.name }} for {{ notification.price }} platinum at {{ notification.date|date("Y-m-d H:i:s") }}</p>
-        <div class="col-12 itemRow d-none">
-            <div class="dmSellerInput col-9">
-                <input class="col-8" type="text" value="/w {{ notification.seller }} Hi {{ notification.seller }}! I want to buy [{{ notification.item.item.name }}] for {{ notification.price }} platinum. Is it still available?">
+        <div class="col-12 itemRow">
+            <div class="dmSellerInput col-10 offset-1 hide-after-copy  d-none">
+                <input class="col-12" type="text" value="/w {{ notification.seller }} Hi {{ notification.seller }}! I want to buy [{{ notification.item.item.name }}] for {{ notification.price }} platinum. Is it still available?">
             </div>
-        </div>
-        <div class="action col-3">
-            <button type="button" class="tooltipButton btn btn-outline-primary copyTextToClipboard" data-tooltip-placement="right" data-title="Copy to clipboard">Buy <i class="icon icon-tag"></i></button>
+            <div class="action col-3">
+                <button type="button" id="notification-id-{{ notification.id }}" class="tooltipButton btn btn-outline-primary copyTextToClipboard" data-tooltip-placement="right" data-title="Copy to clipboard">Buy <i class="icon icon-tag"></i></button>
+            </div>
         </div>
     </div>
 
