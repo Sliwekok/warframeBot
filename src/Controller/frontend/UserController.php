@@ -25,9 +25,7 @@ class UserController extends BaseController
         NotificationsRepository $notificationsRepository,
         NotificationService     $notificationService
     ): Response {
-        $notifications = $notificationsRepository->findBy([
-            NotificationsInterface::ENTITY_LOGINID => $this->getUser()->getId(),
-        ]);
+        $notifications = $notificationsRepository->getItemNotifications();
         $notifications = $notificationService->getRelatedItems($notifications);
         $notificationService->setAsRead($notifications);
 

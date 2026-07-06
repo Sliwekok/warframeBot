@@ -51,7 +51,7 @@ class RivenScannerCommand extends Command
 
         $output->writeln("Ended scanning market");
 
-        return OutputInterface::OUTPUT_NORMAL;
+        return Command::SUCCESS;
     }
 
     protected function configure(): void

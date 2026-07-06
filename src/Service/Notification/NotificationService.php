@@ -65,7 +65,7 @@ class NotificationService
      */
     public function getRelatedItems(array $notifications): array {
         foreach ($notifications as &$notification) {
-            if ($notification->getRiven() === null) {
+            if ($notification[] === null) {
                 $id = $notification->getItemId();
             } else {
                 $id = $notification->getRiven()->getId();

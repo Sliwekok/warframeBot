@@ -26,12 +26,15 @@ class NotificationsRepository extends BaseRepository
         $id = NotificationsInterface::ENTITY_ID;
         $loginId = NotificationsInterface::ENTITY_LOGINID;
         $itemId = NotificationsInterface::ENTITY_ITEMID;
+        $createdAt = NotificationsInterface::ENTITY_CREATED_AT;
+        $today = (new \DateTime())->format('Y-m-d H:i:s');
 
         return $this->createQueryBuilder('n')
                 ->select("n.$id as $id")
                 ->addSelect("n.$loginId as $loginId")
                 ->addSelect("n.$itemId as $itemId")
                 ->where("n.$isRead = 0")
+                ->orWhere("$createdAt >= ". $today)
                 ->getQuery()
                 ->getArrayResult()
             ;
@@ -42,12 +45,15 @@ class NotificationsRepository extends BaseRepository
         $id = NotificationsInterface::ENTITY_ID;
         $loginId = NotificationsInterface::ENTITY_LOGINID;
         $rivenId = NotificationsInterface::ENTITY_RIVENID;
+        $createdAt = NotificationsInterface::ENTITY_CREATED_AT;
+        $today = (new \DateTime())->format('Y-m-d H:i:s');
 
         return $this->createQueryBuilder('n')
             ->select("n.$id as $id")
             ->addSelect("n.$loginId as $loginId")
             ->addSelect("n.$rivenId as $rivenId")
             ->where("n.$isRead = 0")
+            ->orWhere("$createdAt >= ". $today)
             ->getQuery()
             ->getArrayResult()
         ;

@@ -10,7 +10,9 @@
         "babdev/pagerfanta-bundle": "^4.5",
         "doctrine/dbal": "^3",
         "doctrine/doctrine-bundle": "^2.13",
+        "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^3.3",
+        "dragonmantank/cron-expression": "*",
         "knplabs/knp-time-bundle": "^2.2",
         "pagerfanta/doctrine-orm-adapter": "^4.7",
         "phpdocumentor/reflection-docblock": "^5.3",
@@ -28,19 +30,19 @@
         "symfony/property-access": "7.4.*",
         "symfony/property-info": "7.4.*",
         "symfony/runtime": "7.4.*",
+        "symfony/scheduler": "7.4.*",
+        "symfony/security-bundle": "7.4.*",
         "symfony/security-csrf": "7.4.*",
         "symfony/serializer": "7.4.*",
         "symfony/stimulus-bundle": "^2.13",
         "symfony/twig-bundle": "7.4.*",
         "symfony/ux-turbo": "^2.13",
         "symfony/validator": "7.4.*",
+        "symfony/webpack-encore-bundle": "^2.0",
         "symfony/yaml": "7.4.*",
         "symfonycasts/tailwind-bundle": "^0.9.0",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0",
-        "symfony/security-bundle": "7.4.*",
-        "doctrine/doctrine-migrations-bundle": "^3.2",
-        "symfony/webpack-encore-bundle": "^2.0"
+        "twig/twig": "^2.12|^3.0"
     },
     "config": {
         "platform": {
