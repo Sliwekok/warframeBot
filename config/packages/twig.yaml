@@ -3,6 +3,7 @@ twig:
     cache: false
     globals:
         ItemService: '@App\Service\Item\ItemService'
+        RivenService: '@App\Service\Item\RivenService'
 
 when@test:
     twig:

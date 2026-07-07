@@ -56,4 +56,9 @@ class RivenController extends BaseController
         return new JsonResponse($msg, $statusCode);
     }
 
+    #[Route('/test', name: 'item_test')]
+    public function test (RivenService $rivenService)
+    {
+        dd($rivenService->getAttributeList());
+    }
 }

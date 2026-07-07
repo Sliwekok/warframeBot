@@ -19,28 +19,28 @@ class RivenAttributeExternal
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    public ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    public ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $slug = null;
+    public ?string $slug = null;
 
     #[ORM\Column(type: Types::ARRAY)]
-    private array $exclusive_to = [];
+    public array $exclusive_to = [];
 
     #[ORM\Column(nullable: true)]
-    private ?bool $positiveIsNegative = null;
+    public ?bool $positiveIsNegative = null;
 
     #[ORM\Column(nullable: true)]
-    private ?bool $positiveOnly = null;
+    public ?bool $positiveOnly = null;
 
     #[ORM\Column(nullable: true)]
-    private ?bool $negativeOnly = null;
+    public ?bool $negativeOnly = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $unit = null;
+    public ?string $unit = null;
 
     #[ORM\Column(length: 255)]
     private ?string $external_id = null;

@@ -68,7 +68,7 @@ export function showAlert(status, message, header, alertConfirmation = false , i
 // clicking esc, click outside of modal, click on exit button or on cancel button
 export function closeModal(container){
     // on click on exit button leave upload form
-    $(document).on('click', '.btn-close-alert, .icon-cancel', function(e){
+    $(document).on('click', '.btn-close-alert, .icon-cancel, .closeButton', function(e){
         e.preventDefault();
         forceCloseModal(container);
     });
